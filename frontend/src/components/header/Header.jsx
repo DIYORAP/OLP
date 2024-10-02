@@ -2,7 +2,7 @@ import React from 'react';
 
 const Header = () => {
     return (
-        <header class='flex bg-white border-b py-4 sm:px-8 px-6 font-[sans-serif] min-h-[80px] tracking-wide relative z-50'>
+        <header class='flex  bg-white border-b py-4 sm:px-8 px-6 font-[sans-serif] min-h-[80px] tracking-wide relative z-50'>
             <div class='flex flex-wrap items-center lg:gap-y-2 gap-4 '>
                 <h2 className="font-bold text-2xl">SkillIQ</h2>
 
