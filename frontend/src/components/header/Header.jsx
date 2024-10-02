@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import SignUp from '../signup/signup';
+import Login from '../login/login';
 
 const Header = () => {
-
+    const [showloginModel, setloginModel] = useState(false);
     const [showModel, setShowModel] = useState(false);
     return (
         <header class='flex  bg-white border-b py-4 sm:px-8 px-6 font-[sans-serif] min-h-[80px] tracking-wide relative z-50'>
@@ -45,9 +46,10 @@ const Header = () => {
                         </svg>
                         <span class="absolute left-auto -ml-1 top-0 rounded-full bg-red-500 px-1 py-0 text-xs text-white">0</span>
                     </span> */}
-                    <button
+                    <button onClick={() => setloginModel(true)}
                         class='ml-3 mr-3 px-5 py-2 text-sm rounded-full text-white border-2 border-[#000000] bg-[#070707] hover:bg-[#000000]'>Login
                     </button>
+                    {showloginModel && <Login oncon={() => setloginModel(false)} />}
 
                     <button onClick={() => setShowModel(true)}
                         class='px-5 py-2 text-sm rounded-full text-white border-2 border-[#000000] bg-[#000000] hover:bg-[#004bff]'>Sign
