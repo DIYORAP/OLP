@@ -1,8 +1,8 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from './components/header/Header';
-import Footer from './components/footer/Footer';
-import SignUp from './components/signup/signup';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import SignUp from './pages/signup/SignUp';
 
 function App() {
   return (
