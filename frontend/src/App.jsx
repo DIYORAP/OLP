@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Test from './pages/test';
+import Sidebar from './pages/sidebar/Sidebar';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <main className="flex-grow">
           <Routes>
             <Route path='/test' element={<Test />} />
+            <Route path='/side' element={<Sidebar />} />
           </Routes>
         </main>
         <Footer />
