@@ -26,6 +26,8 @@ export default function Sidebaritem({ icon: Icon, label, href }) {
         <Icon size={22} className={cn("text-slate-500", isActive && "text-sky-700")} />
         {label}
       </div>
+      <div className={cn("ml-auto opacity-0 border-2 border-black h-full transition-all", isActive && "opacity-100")} />
+
     </button>
   );
 }
