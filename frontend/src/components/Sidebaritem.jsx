@@ -6,7 +6,6 @@ export default function Sidebaritem({ icon: Icon, label, href }) {
   const location = useLocation(); // Get current pathname
   const navigate = useNavigate(); // Use navigate for routing
 
-  // Determine if the link is active
   const isActive = location.pathname === href || location.pathname.startsWith(`${href}/`);
 
   const onClick = () => {

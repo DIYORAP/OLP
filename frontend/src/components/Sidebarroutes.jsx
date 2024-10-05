@@ -6,7 +6,7 @@ const guestRoutes = [
     {
         icon: Layout,
         label: "Dashboard",
-        href: "/",
+        href: "/side",
     },
     {
         icon: Compass,
