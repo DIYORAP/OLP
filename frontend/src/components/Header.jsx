@@ -5,6 +5,7 @@ import Login from '../pages/login/Login';
 const Header = () => {
     const [showloginModel, setloginModel] = useState(false);
     const [showModel, setShowModel] = useState(false);
+
     return (
         <header class='flex  bg-white border-b py-4 sm:px-8 px-6 font-[sans-serif] min-h-[80px] tracking-wide relative z-50'>
             <div class='flex flex-wrap items-center lg:gap-y-2 gap-4 '>
@@ -22,9 +23,7 @@ const Header = () => {
                 </svg>
             </div>
             <div class="flex items-center ml-auto">
-                <ul
-                    class='lg:flex lg:gap-x-3 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
-
+                <ul className='flex font-bold'>
                     <li class='max-lg:border-b max-lg:py-3 px-3'><a href='javascript:void(0)'
                         class='text-[#000000] hover:text-[#0b0b0c] text-[15px] block font-semibold'>Tech on SkillIQ</a></li>
 

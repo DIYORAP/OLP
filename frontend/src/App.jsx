@@ -5,24 +5,23 @@ import Footer from './components/Footer';
 import Test from './pages/test';
 import Sidebar from './pages/sidebar/Sidebar';
 import Search from './components/Search';
+import Home from './pages/Home';
+import HeroHeader from './pages/instuctor/InsruHero';
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="flex flex-col min-h-screen">
-        <Header />
-        <main className="flex-grow flex">
-          <Sidebar /> {/* Sidebar remains fixed for routes that need it */}
-          <div className="flex-grow">
-            <Routes>
-              <Route path="/test" element={<Test />} />
-              <Route path="/search" element={<Search />} />
-            </Routes>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    </BrowserRouter>
+      <Header />
+      <Routes>
+
+        <Route path='/' element={<Home />} />
+        <Route path='/instructor' element={<HeroHeader />} />
+
+        <Route path="/test" element={<Test />} />
+        <Route path="/search" element={<Search />} />
+      </Routes>
+      {/* <Footer /> */}
+    </BrowserRouter >
   );
 }
 
