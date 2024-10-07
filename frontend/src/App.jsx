@@ -5,10 +5,10 @@ import Footer from './components/Footer';
 import Search from './components/Search';
 import Home from './pages/Home';
 import HeroHeader from './pages/instuctor/InsruHero'; // renamed for clarity
-import LayoutWithSidebar from './components/LayoutWithSidebar'; // the layout component
-import Sidebar from './components/Sidebar';
 import SidebarLayout from './components/SidebarLayout';
 import Mess from './components/Mess';
+import Courses from './pages/Courses';
+import StudSidebarLayout from './components/studSidebarLayout';
 
 function App() {
   return (
@@ -23,7 +23,12 @@ function App() {
         {/* Routes with Sidebar */}
         <Route element={<SidebarLayout />}>
           <Route path="/instructor" element={<HeroHeader />} />
-          <Route path="/sidebar" element={<Sidebar />} />
+          <Route path="/mess" element={<Mess />} />
+
+        </Route>
+
+        <Route element={<StudSidebarLayout />}>
+          <Route path="/student/courses" element={<Courses />} />
           <Route path="/mess" element={<Mess />} />
 
         </Route>

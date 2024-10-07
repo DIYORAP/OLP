@@ -1,5 +1,5 @@
 import React from "react";
-import { BarChart4, MonitorPlay } from "lucide-react";
+import { BarChart4, MonitorPlay, Users } from "lucide-react";
 import { Link, useLocation } from "react-router-dom"; // Using React Router
 
 const Sidebar = () => {
@@ -9,10 +9,12 @@ const Sidebar = () => {
     const sidebarRoutes = [
         { icon: <MonitorPlay />, label: "Courses", path: "/mess" },
         { icon: <BarChart4 />, label: "Performance", path: "/instructor" },
+        { icon: <Users />, label: "Students", path: "#" },
+
     ];
 
     return (
-        <div className="flex flex-col w-64 border-r shadow-md px-3 my-4 gap-4 text-sm font-medium">
+        <div className="flex flex-col w-64 border-r px-3 my-4 gap-4 text-sm font-medium">
             {sidebarRoutes.map((route) => (
                 <Link
                     to={route.path}

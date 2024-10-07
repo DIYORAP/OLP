@@ -1,13 +1,13 @@
 import React from "react";
-import Sidebar from './InsruSidebar'; // Make sure the path is correct
 import { Outlet } from "react-router-dom"; // Import Outlet to render child routes
+import StudSidebar from "./StudSidebar";
 
-const SidebarLayout = () => {
+const StudSidebarLayout = () => {
     return (
         <div className="flex min-h-screen">
             {/* Sidebar - fixed width */}
             <div className="w-64 bg-gray-200">
-                <Sidebar />
+                <StudSidebar />
             </div>
 
             {/* Main content - flex-grow to take remaining space */}
@@ -18,4 +18,5 @@ const SidebarLayout = () => {
     );
 };
 
-export default SidebarLayout;
+export default StudSidebarLayout;
+
