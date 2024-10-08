@@ -1,5 +1,5 @@
 import React from "react";
-import { BarChart4, MonitorPlay, Users } from "lucide-react";
+import { BarChart4, MonitorPlay, Radio, Users } from "lucide-react";
 import { Link, useLocation } from "react-router-dom"; // Using React Router
 
 const Sidebar = () => {
@@ -10,6 +10,8 @@ const Sidebar = () => {
         { icon: <MonitorPlay />, label: "Courses", path: "/mess" },
         { icon: <BarChart4 />, label: "Performance", path: "/instructor" },
         { icon: <Users />, label: "Students", path: "#" },
+        { icon: <Radio />, label: "CreateSession", path: "#" },
+
 
     ];
 

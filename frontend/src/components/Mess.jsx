@@ -4,7 +4,7 @@ export default function Mess() {
     return (
         <div>
 
-            <h1>nvkrjnfksdnkndfkngksgriudsfnkjdsbgfskngkjsdgknasdodbgkjsdbgnsdklnl</h1>
+            <h1>this are messaege components</h1>
         </div>
     )
 }
