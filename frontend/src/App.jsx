@@ -5,10 +5,13 @@ import Footer from './components/Footer';
 import Search from './components/Search';
 import Home from './pages/Home';
 import HeroHeader from './pages/instuctor/InsruHero'; // renamed for clarity
-import SidebarLayout from './components/SidebarLayout';
+import SidebarLayout from './components/insructor/SidebarLayout';
 import Mess from './components/Mess';
 import Courses from './pages/Courses';
-import StudSidebarLayout from './components/studSidebarLayout';
+import StudSidebarLayout from './components/student/studSidebarLayout';
+import Purchases from './pages/student/Purchases';
+import Session from './pages/student/Session';
+import Setting from './pages/student/Setting';
 
 function App() {
   return (
@@ -29,7 +32,11 @@ function App() {
 
         <Route element={<StudSidebarLayout />}>
           <Route path="/student/courses" element={<Courses />} />
-          <Route path="/mess" element={<Mess />} />
+          <Route path="/student/purchase" element={<Purchases />} />
+          <Route path="/student/session" element={<Session />} />
+          <Route path="/student/setting" element={<Setting />} />
+
+
 
         </Route>
       </Routes>

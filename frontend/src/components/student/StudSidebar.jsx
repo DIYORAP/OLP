@@ -8,9 +8,9 @@ const StudSidebar = () => {
     // Define sidebar routes
     const sidebarRoutes = [
         { icon: <LayoutDashboard />, label: "Dashboard", path: "/student/courses" },
-        { icon: <HardDriveDownload />, label: "Purchases", path: "#" },
-        { icon: <Radio />, label: "liveSession", path: "#" },
-        { icon: <Cog />, label: "Settings", path: "#" },
+        { icon: <HardDriveDownload />, label: "Purchases", path: "/student/purchase" },
+        { icon: <Radio />, label: "liveSession", path: "student/session" },
+        { icon: <Cog />, label: "Settings", path: "student/setting" },
         { icon: <LogOut />, label: "Logout", path: "#" },
 
 
