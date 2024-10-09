@@ -5,7 +5,7 @@ export default function InsruCourses() {
   return (
     <div>
       <div className='p-6'>
-        <Link to="/instructor/createcource">
+        <Link to="/instructor/createcourse">
           <Button>
             New Course
           </Button>

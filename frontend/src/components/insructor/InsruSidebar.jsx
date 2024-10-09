@@ -7,8 +7,8 @@ const Sidebar = () => {
 
     // Define sidebar routes
     const sidebarRoutes = [
-        { icon: <MonitorPlay />, label: "Courses", path: "/instructor/cource" },
-        { icon: <BarChart4 />, label: "Performance", path: "/instructor" },
+        { icon: <MonitorPlay />, label: "Courses", path: "/instructor/courses" },
+        { icon: <BarChart4 />, label: "Performance", path: "#" },
         { icon: <Users />, label: "Students", path: "#" },
         { icon: <Radio />, label: "CreateSession", path: "#" },
 
@@ -22,7 +22,7 @@ const Sidebar = () => {
                     to={route.path}
                     key={route.path}
                     className={`flex items-center gap-4 p-3 rounded-lg hover:bg-[#FFF8EB] 
-            ${location.pathname.startsWith(route.path) && "bg-[#FDAB04] hover:bg-[#FDAB04]/80"}`}
+            ${location.pathname.startsWith(route.path) && "bg-[#e7e5e3] hover:bg-[#000000]/80"}`}
                 >
                     {route.icon} {route.label}
                 </Link>

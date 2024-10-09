@@ -12,9 +12,7 @@ import Purchases from './pages/student/Purchases';
 import Session from './pages/student/Session';
 import Setting from './pages/student/Setting';
 import InsruCourses from './pages/instuctor/InsruCourses';
-import CreateCourse from './pages/instuctor/CreateCourse';
-import CreatePage from './pages/instuctor/CreateCourse';
-import toasterprovider from './components/providers/toaster-provider';
+import CreatePage from './pages/instuctor/CreatePage';
 import Toasterprovider from './components/providers/toaster-provider';
 function App() {
   return (
@@ -29,9 +27,9 @@ function App() {
 
           {/* Routes with Sidebar */}
           <Route element={<SidebarLayout />}>
-            <Route path="/instructor/cource" element={<InsruCourses />} />
-            <Route path="/mess" element={<Mess />} />
-            <Route path="/instructor/createcource" element={<CreatePage />} />
+            <Route path="/instructor/courses" element={<InsruCourses />} />
+            <Route path="/instructor/createcourse" element={<CreatePage />} />
+            <Route path="/instructor/createcourse/:id" element={<CreatePage />} />
 
           </Route>
 
