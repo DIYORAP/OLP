@@ -14,6 +14,9 @@ import Setting from './pages/student/Setting';
 import InsruCourses from './pages/instuctor/InsruCourses';
 import CreatePage from './pages/instuctor/CreatePage';
 import Toasterprovider from './components/providers/toaster-provider';
+import SignUp from './pages/signup/SignUp';
+import Login from './pages/login/Login';
+import InsruSignUp from './pages/signup/InsruSignUp';
 function App() {
   return (
     <>
@@ -24,6 +27,10 @@ function App() {
           {/* Routes without Sidebar */}
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/instructor/signup" element={<InsruSignUp />} />
+
 
           {/* Routes with Sidebar */}
           <Route element={<SidebarLayout />}>
