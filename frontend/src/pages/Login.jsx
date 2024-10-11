@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
 import { useDispatch, useSelector } from "react-redux";
-import { signInFailure, signInStart, signInSuccess } from '@/redux/user/userSlice';
+import { signInFailure, signInStart, signInSuccess } from "../redux/user/userSlice.js";
 import { useNavigate } from 'react-router-dom';
 function Login({ oncon }) {
     const [formData, setFormData] = useState({});
-    const { loading, error } = useSelector((state) => state.user);
+    const { loading } = useSelector((state) => state.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 

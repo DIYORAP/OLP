@@ -15,7 +15,7 @@ import InsruCourses from './pages/instuctor/InsruCourses';
 import CreatePage from './pages/instuctor/CreatePage';
 import Toasterprovider from './components/providers/toaster-provider';
 import SignUp from './pages/signup/SignUp';
-import Login from './pages/login/Login';
+import Login from './pages/Login';
 import InsruSignUp from './pages/signup/InsruSignUp';
 function App() {
   return (
