@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SignUp from '../pages/signup/SignUp';
-import Login from '../pages/Login';
+import Login from '../pages/login/Login';
 
 const Header = () => {
     const [showloginModel, setloginModel] = useState(false);

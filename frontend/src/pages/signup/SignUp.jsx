@@ -3,7 +3,7 @@ import { IoCloseSharp } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 
 const SignUp = ({ onClose }) => {
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({ role: "student" });
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -34,7 +34,7 @@ const SignUp = ({ onClose }) => {
             }
             setLoading(false);
             setError(null);
-            navigate('/sign-in');
+            navigate('/');
         } catch (error) {
             setLoading(false);
             setError(error.message);

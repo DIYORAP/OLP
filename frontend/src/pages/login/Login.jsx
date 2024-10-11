@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
 import { useDispatch, useSelector } from "react-redux";
-import { signInFailure, signInStart, signInSuccess } from "../redux/user/userSlice.js";
+import { signInFailure, signInStart, signInSuccess } from "../../redux/user/userSlice.js";
 import { useNavigate } from 'react-router-dom';
+
 function Login({ oncon }) {
-    const [formData, setFormData] = useState({});
-    const { loading } = useSelector((state) => state.user);
+    const [formData, setFormData] = useState({ role: "student" });
+    const { loading, currentUser, error } = useSelector((state) => state.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    // after login  then redurce features baki che]
 
     const handleChange = (e) => {
         setFormData({
@@ -18,8 +21,7 @@ function Login({ oncon }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(signInStart()); // Correctly dispatch the action
-
+        dispatch(signInStart());
         try {
             const res = await fetch("/api/auth/signin", {
                 method: "POST",
@@ -29,16 +31,16 @@ function Login({ oncon }) {
                 body: JSON.stringify(formData),
             });
 
-            const data = await res.json(); // Await the JSON response
-
+            const data = await res.json();
             if (!data.success) {
                 dispatch(signInFailure(data.message));
                 return;
             }
+
             dispatch(signInSuccess(data));
-            navigate('/');
+            navigate('/student/courses');
         } catch (error) {
-            dispatch(signInFailure(error.message)); // Improved error handling
+            dispatch(signInFailure(error.message));
         }
     };
 
