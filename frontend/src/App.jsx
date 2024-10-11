@@ -17,6 +17,8 @@ import Toasterprovider from './components/providers/toaster-provider';
 import SignUp from './pages/signup/SignUp';
 import Login from './pages/login/Login';
 import InsruSignUp from './pages/signup/InsruSignUp';
+import PrivateRoute from './components/PrivateRoute';
+import Profile from './pages/Profile';
 function App() {
   return (
     <>
@@ -30,9 +32,12 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/instructor/signup" element={<InsruSignUp />} />
+          <Route element={<PrivateRoute />}>
+            <Route path='/profile' element={<Profile />} />
+          </Route>
 
 
-          {/* Routes with Sidebar */}
+
           <Route element={<SidebarLayout />}>
             <Route path="/instructor/courses" element={<InsruCourses />} />
             <Route path="/instructor/createcourse" element={<CreatePage />} />

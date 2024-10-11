@@ -113,6 +113,8 @@ function Login() {
                             >
                                 {loading ? 'Loading...' : 'Sign In'}
                             </button>
+
+
                             <p className="text-sm font-light text-gray-400">
                                 Don't have an account?{' '}
                                 <a href="/signup" className="font-medium text-primary-600 hover:underline">
@@ -121,7 +123,11 @@ function Login() {
                             </p>
                         </form>
                     </div>
+                    <p className='text-red-500 text-sm'>
+                        {error ? error.message || "somthing went wrong" : " "}
+                    </p>
                 </div>
+
             </div>
         </section>
     );

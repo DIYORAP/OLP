@@ -50,32 +50,33 @@ const Header = () => {
                     </span> */}
 
                     {/* //this error solve latter */}
-                    {currentUser ? (
-                        <img
-                            className='rounded-full h-7 w-7 object-cover'
-                            src={currentUser.profilePic}
-                            alt='profile'
-                        />
-                    ) : (
-                        <>
-                            <Link to="/login">
+                    <Link to='/profile'>
+                        {currentUser ? (
+                            <img
+                                className='rounded-full h-8 w-8 object-cover mt-2 border-green-700 border-2'
+                                src={currentUser.profilePic}
+                                alt='profile'
+                            />
+                        ) : (
+                            <>
+                                <Link to="/login">
 
-                                <button
-                                    className='ml-3 mr-3 px-5 py-2 text-sm rounded-full text-white border-2 border-[#000000] bg-[#070707] hover:bg-[#000000]'
-                                >
-                                    Login
-                                </button>
-                            </Link>
-                            <Link to="/signup">
-                                <button
-                                    className='px-5 py-2 text-sm rounded-full text-white border-2 border-[#000000] bg-[#000000] hover:bg-[#004bff]'
-                                >
-                                    Sign Up
-                                </button>
-                            </Link>
-                        </>
-                    )}
-
+                                    <button
+                                        className='ml-3 mr-3 px-5 py-2 text-sm rounded-full text-white border-2 border-[#000000] bg-[#070707] hover:bg-[#000000]'
+                                    >
+                                        Login
+                                    </button>
+                                </Link>
+                                <Link to="/signup">
+                                    <button
+                                        className='px-5 py-2 text-sm rounded-full text-white border-2 border-[#000000] bg-[#000000] hover:bg-[#004bff]'
+                                    >
+                                        Sign Up
+                                    </button>
+                                </Link>
+                            </>
+                        )}
+                    </Link>
                     <button id="toggleOpen" class='lg:hidden'>
                         <svg class="w-7 h-7" fill="#333" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
