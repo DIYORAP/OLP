@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
-const SignUp = ({ onClose }) => {
+const SignUp = () => {
     const [formData, setFormData] = useState({ role: "student" });
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -43,13 +43,14 @@ const SignUp = ({ onClose }) => {
 
 
     return (
-        <section className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm">
+        <section className="fixed inset-0 mt-5 bg-black bg-opacity-40 backdrop-blur-sm">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <div className="relative w-full rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 bg-black border-gray-700">
-                    <button onClick={onClose} className="absolute top-4 right-4 text-white">
-                        <IoCloseSharp className="text-white" size={30} />
-                    </button>
-
+                    <Link to="/">
+                        <button className="absolute top-4 right-4 text-white">
+                            <IoCloseSharp className="text-white" size={30} />
+                        </button>
+                    </Link>
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl text-white">
                             Create an account
@@ -98,19 +99,7 @@ const SignUp = ({ onClose }) => {
                                     onChange={handleChange}
                                 />
                             </div>
-                            <div>
-                                <label htmlFor="confirm-password" className="block mb-2 text-sm font-medium  text-white">
-                                    Confirm password
-                                </label>
-                                <input
-                                    type="password"
-                                    name="confirm-password"
-                                    id="confirm-password"
-                                    placeholder="••••••••"
-                                    className="bg-gray-700 border border-gray-30 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                                    required
-                                />
-                            </div>
+
                             <div className="flex items-start">
                                 <div className="flex items-center h-5">
                                     <input

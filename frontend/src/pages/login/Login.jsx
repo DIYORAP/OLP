@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
 import { useDispatch, useSelector } from "react-redux";
 import { signInFailure, signInStart, signInSuccess } from "../../redux/user/userSlice.js";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-function Login({ oncon }) {
+function Login() {
     const [formData, setFormData] = useState({ role: "student" });
-    const { loading, currentUser, error } = useSelector((state) => state.user);
+    const { loading, error } = useSelector((state) => state.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-    // after login  then redurce features baki che
 
     const handleChange = (e) => {
         setFormData({
@@ -18,10 +16,12 @@ function Login({ oncon }) {
             [e.target.id]: e.target.value,
         });
     };
-
+    //console.log(currentUser);
     const handleSubmit = async (e) => {
         e.preventDefault();
         dispatch(signInStart());
+        console.log("Form Data Submitted:", formData); // Check form data
+
         try {
             const res = await fetch("/api/auth/signin", {
                 method: "POST",
@@ -32,15 +32,17 @@ function Login({ oncon }) {
             });
 
             const data = await res.json();
-            if (!data.success) {
-                dispatch(signInFailure(data.message));
+            console.log("API Response:", data); // Check API response
+
+            if (data.success === false) {
+                dispatch(signInFailure(data));
                 return;
             }
 
-            dispatch(signInSuccess(data));
+            dispatch(signInSuccess(data)); // Ensure you are passing the right data
             navigate('/student/courses');
         } catch (error) {
-            dispatch(signInFailure(error.message));
+            dispatch(signInFailure(error));
         }
     };
 
@@ -48,10 +50,11 @@ function Login({ oncon }) {
         <section className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <div className="relative w-full rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 bg-black border-gray-700">
-                    <button onClick={oncon} className="absolute top-4 right-4 text-white">
-                        <IoCloseSharp className="text-white" size={30} />
-                    </button>
-
+                    <Link to="/">
+                        <button className="absolute top-4 right-4 text-white">
+                            <IoCloseSharp className="text-white" size={30} />
+                        </button>
+                    </Link>
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-2xl font-bold leading-tight tracking-tight md:text-2xl text-white">
                             Welcome to SkillIQ
@@ -112,7 +115,7 @@ function Login({ oncon }) {
                             </button>
                             <p className="text-sm font-light text-gray-400">
                                 Don't have an account?{' '}
-                                <a href="#" className="font-medium text-primary-600 hover:underline">
+                                <a href="/signup" className="font-medium text-primary-600 hover:underline">
                                     Sign up here
                                 </a>
                             </p>

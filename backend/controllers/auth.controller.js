@@ -43,7 +43,7 @@ export const signin = async (req, res, next) => {
     const validPassword = bcryptjs.compareSync(password, validUser.password);
     if (!validPassword) return next(errorHandler(401, 'Wrong credentials!'));
 
-    if (validUser.role !== role) {
+    if (validUser.role !== role) {   
       return next(errorHandler(403, 'Unauthorized role!'));
     }
  
@@ -51,7 +51,7 @@ export const signin = async (req, res, next) => {
 
     const { password: pass, ...rest } = validUser._doc;
 
-    res
+    res 
       .cookie('access_token', token, { httpOnly: true })
       .status(200)
       .json(rest);

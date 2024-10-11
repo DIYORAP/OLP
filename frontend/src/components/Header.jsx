@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import SignUp from '../pages/signup/SignUp';
 import Login from '../pages/login/Login';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
-    const [showLoginModel, setLoginModel] = useState(false);
-    const [showModel, setShowModel] = useState(false);
+
     const { currentUser } = useSelector((state) => state.user);
     const navigate = useNavigate();
-
+    console.log(currentUser);
     return (
         <header class='flex  bg-white border-b py-4 sm:px-8 px-6 font-[sans-serif] min-h-[80px] tracking-wide relative z-50'>
             <div class='flex flex-wrap items-center lg:gap-y-2 gap-4 '>
@@ -51,7 +50,7 @@ const Header = () => {
                     </span> */}
 
                     {/* //this error solve latter */}
-                    {!currentUser ? (
+                    {currentUser ? (
                         <img
                             className='rounded-full h-7 w-7 object-cover'
                             src={currentUser.profilePic}
@@ -59,21 +58,21 @@ const Header = () => {
                         />
                     ) : (
                         <>
-                            <button
-                                onClick={() => setLoginModel(true)}
-                                className='ml-3 mr-3 px-5 py-2 text-sm rounded-full text-white border-2 border-[#000000] bg-[#070707] hover:bg-[#000000]'
-                            >
-                                Login
-                            </button>
-                            {showLoginModel && <Login onClose={() => setLoginModel(false)} />}
+                            <Link to="/login">
 
-                            <button
-                                onClick={() => setShowModel(true)}
-                                className='px-5 py-2 text-sm rounded-full text-white border-2 border-[#000000] bg-[#000000] hover:bg-[#004bff]'
-                            >
-                                Sign Up
-                            </button>
-                            {showModel && <SignUp onClose={() => setShowModel(false)} />}
+                                <button
+                                    className='ml-3 mr-3 px-5 py-2 text-sm rounded-full text-white border-2 border-[#000000] bg-[#070707] hover:bg-[#000000]'
+                                >
+                                    Login
+                                </button>
+                            </Link>
+                            <Link to="/signup">
+                                <button
+                                    className='px-5 py-2 text-sm rounded-full text-white border-2 border-[#000000] bg-[#000000] hover:bg-[#004bff]'
+                                >
+                                    Sign Up
+                                </button>
+                            </Link>
                         </>
                     )}
 
