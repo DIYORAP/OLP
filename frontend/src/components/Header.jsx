@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import SignUp from '../pages/signup/SignUp';
 import Login from '../pages/login/Login';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
-    const [showloginModel, setloginModel] = useState(false);
+    const [showLoginModel, setLoginModel] = useState(false);
     const [showModel, setShowModel] = useState(false);
+    const { currentUser } = useSelector((state) => state.user);
+    const navigate = useNavigate();
 
     return (
         <header class='flex  bg-white border-b py-4 sm:px-8 px-6 font-[sans-serif] min-h-[80px] tracking-wide relative z-50'>
@@ -45,15 +49,33 @@ const Header = () => {
                         </svg>
                         <span class="absolute left-auto -ml-1 top-0 rounded-full bg-red-500 px-1 py-0 text-xs text-white">0</span>
                     </span> */}
-                    <button onClick={() => setloginModel(true)}
-                        class='ml-3 mr-3 px-5 py-2 text-sm rounded-full text-white border-2 border-[#000000] bg-[#070707] hover:bg-[#000000]'>Login
-                    </button>
-                    {showloginModel && <Login oncon={() => setloginModel(false)} />}
 
-                    <button onClick={() => setShowModel(true)}
-                        class='px-5 py-2 text-sm rounded-full text-white border-2 border-[#000000] bg-[#000000] hover:bg-[#004bff]'>Sign
-                        In</button>
-                    {showModel && <SignUp onClose={() => setShowModel(false)} />}
+                    {/* //this error solve latter */}
+                    {!currentUser ? (
+                        <img
+                            className='rounded-full h-7 w-7 object-cover'
+                            src={currentUser.profilePic}
+                            alt='profile'
+                        />
+                    ) : (
+                        <>
+                            <button
+                                onClick={() => setLoginModel(true)}
+                                className='ml-3 mr-3 px-5 py-2 text-sm rounded-full text-white border-2 border-[#000000] bg-[#070707] hover:bg-[#000000]'
+                            >
+                                Login
+                            </button>
+                            {showLoginModel && <Login onClose={() => setLoginModel(false)} />}
+
+                            <button
+                                onClick={() => setShowModel(true)}
+                                className='px-5 py-2 text-sm rounded-full text-white border-2 border-[#000000] bg-[#000000] hover:bg-[#004bff]'
+                            >
+                                Sign Up
+                            </button>
+                            {showModel && <SignUp onClose={() => setShowModel(false)} />}
+                        </>
+                    )}
 
                     <button id="toggleOpen" class='lg:hidden'>
                         <svg class="w-7 h-7" fill="#333" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

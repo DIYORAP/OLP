@@ -10,7 +10,7 @@ function Login({ oncon }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    // after login  then redurce features baki che]
+    // after login  then redurce features baki che
 
     const handleChange = (e) => {
         setFormData({
