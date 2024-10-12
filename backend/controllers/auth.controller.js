@@ -1,12 +1,32 @@
 import User from "../model/User.model.js"
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken";
-
+import Profile from "../model/Profile.model.js"
 
 export const signup=async (req,res,next)=> {
     const {username,email,password,role}=req.body;
     const hashedPassword = bcryptjs.hashSync(password, 10);
-    const newUser = new User({ username, email, password: hashedPassword,role });
+
+
+    const existingUser=await User.findOne({email});
+
+    if (existingUser) {
+			return res.status(400).json({
+				success: false,
+				message: "User already exists. Please sign in to continue.",
+			});
+		}
+
+
+
+    const profileDetails=await Profile.create({
+      gender:null,
+      dateOfBirth:null,
+      about:null,
+      contactNumber: null,
+    });
+
+    const newUser = new User({ username, email, password: hashedPassword,role,additionalDetails:profileDetails });
     try {
       await newUser.save();
       res.status(201).json('User created successfully!');
@@ -35,7 +55,12 @@ export const signin = async (req, res, next) => {
   const { email, password, role } = req.body; 
 
   try {
-  
+    if (!email || !password) {
+			return res.status(400).json({
+				success: false,
+				message: `Please Fill up All the Required Fields`,
+			});
+		}
     const validUser = await User.findOne({ email });
     if (!validUser) return next(errorHandler(404, 'User not found!'));
 
@@ -47,7 +72,7 @@ export const signin = async (req, res, next) => {
       return next(errorHandler(403, 'Unauthorized role!'));
     }
  
-    const token = jwt.sign({ id: validUser._id, role: validUser.role }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: validUser._id, role: validUser.role }, process.env.JWT_SECRET,{expiresIn:"24h"});
 
     const { password: pass, ...rest } = validUser._doc;
 
