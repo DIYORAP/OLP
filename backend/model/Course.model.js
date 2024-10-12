@@ -11,9 +11,7 @@ const courseSchema = new mongoose.Schema({
     },
   category: {                                         //category: { 
     type: String,
-   },                                              //     type: mongoose.Schema.Types.ObjectId, 
-                                                   //     ref: "Category", // Reference the Category collection
-                                                  //     required: true                                              //   }
+   },                                              //     type: mongoose.Schema.Types.ObjectId,                                              //   }
   instructorId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User', required: true
