@@ -1,43 +1,90 @@
-import mongoose from mongoose;
+import mongoose from "mongoose"
 
-const courseSchema = new mongoose.Schema({
-  title: { 
-    type: String, 
-    required: true 
+const courseSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+      trim: true,
     },
-  description: { 
-    type: String,
-    required: true
+    description: {
+      type: String,
+      required: true,
+      trim: true,
     },
-  category: {                                         //category: { 
-    type: String,
-   },                                              //     type: mongoose.Schema.Types.ObjectId,                                              //   }
-  instructorId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', required: true
+    whatYouWillLearn: {
+      type: String,
+      required: true,
+      trim: true,
     },
-  imageUrl:{
-    type:String,
-    required:true
+    instructor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    tags: {
+      type: [String],
+      required: true,
+      trim: true,
+    },
+    thumbnail: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
+      required: true,
+    },
+    averageRating: {
+      type: Number,
+      default: 0,
+    },
+    numberOfEnrolledStudents: {
+      type: Number,
+      default: 0,
+    },
+    sections: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Section',
+      },
+    ],
+
+    totalDuration: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    reviews: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Review',
+      },
+    ],
+    studentsEnrolled: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+        default: [],
+      },
+    ],
+    instructions: [String],
+    status: {
+      type: String,
+      enum: ['Draft', 'Published'],
+      default: 'Draft',
+    },
+
   },
-  price: { 
-    type: Number,
-    required: true 
-    },
-  language: { 
-    type: String,
-    default: 'English'
-    },
-  isPublished:{
-    type:Boolean,
-    default:false
-  },
-  content: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Module' }],
-  ratings: [{ userId: mongoose.Schema.Types.ObjectId, rating: Number }],
-  reviews: [{ userId: mongoose.Schema.Types.ObjectId, reviewText: String }],
-  studentsEnrolled: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
-});
+  {
+    timestamps: true
+  }
+);
 
 module.exports = mongoose.model('Course', courseSchema);
