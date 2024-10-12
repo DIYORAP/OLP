@@ -16,9 +16,18 @@ const userSchema = new mongoose.Schema({
      },
   role: { 
      type: String,
-      enum: ['student', 'instructor'],
+      enum: ['student', 'instructor','admin'],
       default: 'student'
      },
+  active:{
+    type:Boolean,
+    default:true,
+  },
+  additionalDetails: {
+    type: mongoose.Schema.Types.ObjectId,
+    // required: true,
+    ref: "Profile",
+  },
   profilePic: { 
     type: String ,
     default:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
@@ -28,9 +37,13 @@ const userSchema = new mongoose.Schema({
      },
   coursesEnrolled: [{type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
   coursesCreated: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
-});
+  courseProgress: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "courseProgress",
+    },
+  ],
+},{timestamps:true});
 
 const User = mongoose.model('User', userSchema);
 export default User;
