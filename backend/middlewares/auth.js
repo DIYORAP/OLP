@@ -1,6 +1,6 @@
 import ErrorResponse from "../utils/ErrorResponse";
 import jwt from "jsonwebtoken";
-import clgDev from "../utils/clgDev";
+//import clgDev from "../utils/clgDev";
 
 export const protect=async(req,res,next)=>{
     try {
