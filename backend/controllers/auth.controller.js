@@ -19,12 +19,7 @@ export const signup=async (req,res,next)=> {
 
 
 
-    const profileDetails=await Profile.create({
-      gender:null,
-      dateOfBirth:null,
-      about:null,
-      contactNumber: null,
-    });
+    const profileDetails=await Profile.create({ });
 
     const newUser = new User({ username, email, password: hashedPassword,role,additionalDetails:profileDetails });
     try {
