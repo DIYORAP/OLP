@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser"
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
 import authRouter from "./routes/auth.router.js"
+import courseRoute from "./routes/Course.route.js"
 dotenv.config();
 
 mongoose
@@ -29,3 +30,4 @@ app.listen(8000, () => {
 
 
 app.use('/api/auth', authRouter);
+app.use('/api/courses',courseRoute)

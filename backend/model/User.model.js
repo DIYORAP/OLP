@@ -16,12 +16,16 @@ const userSchema = new mongoose.Schema({
      },
   role: { 
      type: String,
-      enum: ['student', 'instructor','admin'],
-      default: 'student'
+      enum: ['Student', 'Instructor','Admin'],
+      default: 'Student'
      },
   active:{
     type:Boolean,
     default:true,
+  },
+  approved: {
+    type: Boolean,
+    default: true,
   },
   additionalDetails: {
     type: mongoose.Schema.Types.ObjectId,
@@ -35,8 +39,15 @@ const userSchema = new mongoose.Schema({
   bio: { 
     type: String
      },
-  coursesEnrolled: [{type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
-  coursesCreated: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
+  token: {
+			type: String,
+		},
+   courses: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Course",
+			},
+		],
   courseProgress: [
     {
       type: mongoose.Schema.Types.ObjectId,

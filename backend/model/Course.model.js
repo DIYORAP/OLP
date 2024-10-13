@@ -38,7 +38,7 @@ const courseSchema = new mongoose.Schema(
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category',
-      required: true,
+     // required: true,
     },
     averageRating: {
       type: Number,
@@ -87,4 +87,5 @@ const courseSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model('Course', courseSchema);
+const Course = mongoose.model('Course', courseSchema);
+export default Course; 

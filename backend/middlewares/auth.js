@@ -1,10 +1,10 @@
-import ErrorResponse from "../utils/ErrorResponse";
+import ErrorResponse from "../utils/ErrorResponse.js";
 import jwt from "jsonwebtoken";
 //import clgDev from "../utils/clgDev";
 
 export const protect=async(req,res,next)=>{
     try {
-        const token = req.cookies?.access_token || req.headers?.authorization?.replace('Bearer ', '');
+        const token = req.cookies.access_token ;
         if (!token) {
             return next(new ErrorResponse('User not authorized to access this route', 401));
           }

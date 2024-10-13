@@ -1,103 +1,97 @@
 import Course from "../model/Course.model.js";
 import Category from "../model/Category.model.js";
 import User from "../model/User.model.js";
-import cloudUploader from '../utils/cloudUploader.js';
+import uploadImageToCloudinary from "../utils/cloudUploader.js"
 import ErrorResponse from "../utils/ErrorResponse.js";
 import Section from "../model/Section.model.js";
 
 export const createCourse = async (req, res, next) => {
   try {
     const instructorId = req.user.id;
-    const { title, description, whatYouWillLearn, price, category } = req.body;
-    const tags = req.body?.tags ? JSON.parse(req.body?.tags) : null;
-    const instructions = req.body?.instructions ? JSON.parse(req.body?.instructions) : null;
-    const thumbnail = req.files?.thumbnail;
+    const { title, description, whatYouWillLearn,tags, price, category,status,instructions } = req.body;
+   
+   // const thumbnail = req.files.thumbnail;
 
     // Check for missing fields
-    if (!(instructorId && title && description && whatYouWillLearn && price && category && tags && instructions && thumbnail)) {
+    if (!(instructorId && title && description && whatYouWillLearn && price && category && tags && instructions)) {
       return next(new ErrorResponse('All fields are mandatory', 400));
     }
 
-    // Validate thumbnail size
-    if (thumbnail.size > process.env.THUMBNAIL_MAX_SIZE) {
-      return next(new ErrorResponse(`Please upload an image less than ${process.env.THUMBNAIL_MAX_SIZE / 1024} KB`, 400));
-    }
+    if (!status || status === undefined) {
+			status = "Draft";
+		}
+    	
+    // Check if the user is an instructor
+    const instructorDetails = await User.findById(instructorId, {
+			role: "Instructor",
+		});
 
-    // Validate thumbnail type
-    if (!thumbnail.mimetype.startsWith('image')) {
-      return next(new ErrorResponse('Please upload an image file', 400));
-    }
+    if (!instructorDetails) {
+			return res.status(404).json({
+				success: false,
+				message: "Instructor Details Not Found",
+			});
+		}
 
-    const allowedFileTypes = ['jpeg', 'jpg', 'png'];
-    const thumbnailType = thumbnail.mimetype.split('/')[1];
+  	// Upload the Thumbnail to Cloudinary
+    // const thumbnailImage = await uploadImageToCloudinary(
+		// 	thumbnail,
+		// 	process.env.FOLDER_NAME
+		// );
+		// console.log(thumbnailImage);
 
-    if (!allowedFileTypes.includes(thumbnailType)) {
-      return next(new ErrorResponse('Please upload a valid image file (jpeg, jpg, png)', 400));
-    }
+    
+    // Create a new course with the given details
+		const newCourse = await Course.create({
+			title,
+			description,
+			instructor: instructorDetails._id,
+			whatYouWillLearn: whatYouWillLearn,
+			price,
+			tags: tags,
+			//category:categoryDetails._id,
+			thumbnail:"https://link_to_uploaded_thumbnail.com/image.jpg",                                            //thumbnailImage.secure_url,
+			status: status,
+			instructions: instructions,
+		});
 
-    // Upload the thumbnail
-    try {
-      thumbnail.name = `thumbnail_${instructorId}_${Date.now()}`;
-      const image = await cloudUploader(thumbnail, process.env.THUMBNAIL_FOLDER_NAME, 200, 80);
+  
 
-      // Create course
-      const courseDetails = await Course.create({
-        title,
-        description,
-        instructor: instructorId,
-        whatYouWillLearn,
-        price,
-        category,
-        instructions,
-        thumbnail: image.secure_url,
-        tags,
-      });
+      await User.findByIdAndUpdate(
+        {
+          _id: instructorDetails._id,
+        },
+        {
+          $push: {
+            courses: newCourse._id,
+          },
+        },
+        { new: true }
+      );
+      // Add the new course to the Categories
+      // await Category.findByIdAndUpdate(
+      //   { _id: category },
+      //   {
+      //     $push: {
+      //       course: newCourse._id,
+      //     },
+      //   },
+      //   { new: true }
+      // );
 
-      // Update user with the new course
-      try {
-        await User.findByIdAndUpdate(
-          instructorId,
-          { $push: { courses: courseDetails._id } },
-          { new: true }
-        );
-      } catch (userUpdateError) {
-        return next(new ErrorResponse('Failed to update user with the new course', 500));
-      }
-
-      // Update category with the new course
-      try {
-        await Category.findByIdAndUpdate(
-          category,
-          { $push: { courses: courseDetails._id } },
-          { new: true }
-        );
-      } catch (categoryUpdateError) {
-        return next(new ErrorResponse('Failed to update category with the new course', 500));
-      }
-
-      // Get full course details with population
-      const courseFullDetails = await Course.findById(courseDetails._id)
-        .populate({
-          path: 'instructor',
-          populate: { path: 'profile' },
-        })
-        .populate('category')
-        .populate('reviews')
-        .populate({
-          path: 'sections',
-          populate: { path: 'subSections' },
-        })
-        .exec();
-
-      // Send response
-      res.status(201).json({
+      res.status(200).json({
         success: true,
-        data: courseFullDetails,
+        data: newCourse,
+        message: "Course Created Successfully",
       });
-    } catch (uploadError) {
-      return next(new ErrorResponse('Thumbnail upload failed', 500));
-    }
+  
   } catch (error) {
+    console.error(error);
+		res.status(500).json({
+			success: false,
+			message: "Failed to create course",
+			error: error.message,
+		});
     next(new ErrorResponse('Failed to create course', 500));
   }
 };

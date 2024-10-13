@@ -1,6 +1,6 @@
 import cloudinary from 'cloudinary';
 
-const cloudUploader = async (file, folder, height, quality) => {
+const uploadImageToCloudinary = async (file, folder, height, quality) => {
   const options = {
     folder,
     public_id: file.name,
@@ -17,4 +17,5 @@ const cloudUploader = async (file, folder, height, quality) => {
   }
 };
 
-module.exports = cloudUploader;
+// Correct export syntax
+export default uploadImageToCloudinary;
