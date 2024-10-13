@@ -258,3 +258,56 @@ export const deleteCourse=async (req, res) => {
 	  })
 	}
   }
+
+  //mark lecture as completed
+exports.markLectureAsComplete = async (req, res) => {
+	const { courseId, subSectionId, userId } = req.body
+	if (!courseId || !subSectionId || !userId) {
+	  return res.status(400).json({
+		success: false,
+		message: "Missing required fields",
+	  })
+	}
+	try {
+	progressAlreadyExists = await CourseProgress.findOne({
+				  userID: userId,
+				  courseID: courseId,
+				})
+	  const completedVideos = progressAlreadyExists.completedVideos
+	  if (!completedVideos.includes(subSectionId)) {
+		await CourseProgress.findOneAndUpdate(
+		  {
+			userID: userId,
+			courseID: courseId,
+		  },
+		  {
+			$push: { completedVideos: subSectionId },
+		  }
+		)
+	  }else{
+		return res.status(400).json({
+			success: false,
+			message: "Lecture already marked as complete",
+		  })
+	  }
+	  await CourseProgress.findOneAndUpdate(
+		{
+		  userId: userId,
+		  courseID: courseId,
+		},
+		{
+		  completedVideos: completedVideos,
+		}
+	  )
+	return res.status(200).json({
+	  success: true,
+	  message: "Lecture marked as complete",
+	})
+	} catch (error) {
+	  return res.status(500).json({
+		success: false,
+		message: error.message,
+	  })
+	}
+
+}
