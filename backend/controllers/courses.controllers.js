@@ -95,3 +95,30 @@ export const createCourse = async (req, res, next) => {
     next(new ErrorResponse('Failed to create course', 500));
   }
 };
+
+
+export const getAllCourses=async(req,res,next)=>{
+  try {
+       const allCourses=await Course.find({},{
+        title:true,
+        price:true,
+        thumbnail:true,
+        instructor:true,
+        ratingAndReviews: true,
+				studentsEnroled: true,
+       }).populate("instructor").exec();
+
+
+       return res.status(200).json({
+        success:true,
+        data:allCourses
+       });
+  } catch (error) {
+     console.log(error);
+     return res.status(404).json({
+      success:false,
+      message:"Cant fetch course data",
+      error:error.message,
+     });
+  }
+};
