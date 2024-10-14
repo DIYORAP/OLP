@@ -2,7 +2,7 @@ import React from "react";
 import { LayoutDashboard, HardDriveDownload, Cog, Radio, LogOut } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { signOut } from "../../redux/user/userSlice.js";
+import { signOut } from "../../redux/Slice/userSlice.js";
 
 const StudSidebar = () => {
     const location = useLocation();

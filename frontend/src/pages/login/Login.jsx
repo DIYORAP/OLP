@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
 import { useDispatch, useSelector } from "react-redux";
-import { signInFailure, signInStart, signInSuccess } from "../../redux/user/userSlice.js";
+import { signInFailure, signInStart, signInSuccess } from "../../redux/Slice/userSlice.js";
 import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
