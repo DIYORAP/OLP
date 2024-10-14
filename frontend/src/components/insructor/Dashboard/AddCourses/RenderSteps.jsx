@@ -1,4 +1,3 @@
-//import { title } from 'process';
 import React from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
@@ -7,15 +6,10 @@ import CourseBuliderForm from './CourseBulider/CourseBuliderForm';
 import PublishCourse from './PublishCoures/PublishCourse';
 
 
-
-
-
-
-
 const RenderSteps = () => {
 
 
-    const { step } = [1, 2, 3]// useSelector((state) => state.course);
+    const { step } = useSelector((state) => state.course);
 
     const steps = [
         {

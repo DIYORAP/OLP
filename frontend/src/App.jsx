@@ -20,6 +20,8 @@ import InsruSignUp from './pages/signup/InsruSignUp';
 import PrivateRoute from './components/PrivateRoute';
 import Profile from './pages/Profile';
 import AddCourse from './components/insructor/Dashboard/AddCourses';
+import "./App.css";
+
 function App() {
   return (
     <>
