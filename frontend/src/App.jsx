@@ -11,8 +11,8 @@ import StudSidebarLayout from './components/student/studSidebarLayout';
 import Purchases from './pages/student/Purchases';
 import Session from './pages/student/Session';
 import Setting from './pages/student/Setting';
-import InsruCourses from './pages/instuctor/InsruCourses';
-import CreatePage from './pages/instuctor/CreatePage';
+//import InsruCourses from './pages/instuctor/InsruCourses';
+//simport CreatePage from './pages/instuctor/CreatePage';
 import Toasterprovider from './components/providers/toaster-provider';
 import SignUp from './pages/signup/SignUp';
 import Login from './pages/login/Login';
@@ -39,9 +39,8 @@ function App() {
 
 
           <Route element={<SidebarLayout />}>
-            <Route path="/instructor/courses" element={<InsruCourses />} />
-            <Route path="/instructor/createcourse" element={<CreatePage />} />
-            <Route path="/instructor/createcourse/:id" element={<CreatePage />} />
+            {/* <Route path="/instructor/createcourse" element={<CreatePage />} />
+            <Route path="/instructor/createcourse/:id" element={<CreatePage />} /> */}
 
           </Route>
 

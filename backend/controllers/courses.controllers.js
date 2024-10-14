@@ -260,7 +260,7 @@ export const deleteCourse=async (req, res) => {
   }
 
   //mark lecture as completed
-exports.markLectureAsComplete = async (req, res) => {
+export const markLectureAsComplete = async (req, res) => {
 	const { courseId, subSectionId, userId } = req.body
 	if (!courseId || !subSectionId || !userId) {
 	  return res.status(400).json({
