@@ -19,6 +19,7 @@ import Login from './pages/login/Login';
 import InsruSignUp from './pages/signup/InsruSignUp';
 import PrivateRoute from './components/PrivateRoute';
 import Profile from './pages/Profile';
+import AddCourse from './components/insructor/Dashboard/AddCourses';
 function App() {
   return (
     <>
@@ -39,6 +40,9 @@ function App() {
 
 
           <Route element={<SidebarLayout />}>
+
+            <Route path="dashboard/addcourse" element={<AddCourse />} />
+
             {/* <Route path="/instructor/createcourse" element={<CreatePage />} />
             <Route path="/instructor/createcourse/:id" element={<CreatePage />} /> */}
 
