@@ -5,7 +5,7 @@ import { createCourse } from "../controllers/Courses.controllers.js";
  
 const router=express.Router();
 
-router.post('/create', protect, createCourse);
+router.post('/create',protect, createCourse);
 
 export default router;
 

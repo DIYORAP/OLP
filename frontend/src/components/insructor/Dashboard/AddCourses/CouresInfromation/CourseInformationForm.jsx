@@ -6,7 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TbCurrencyRupee } from "react-icons/tb";
 //import RequirementField from './RequirementField';
 import { Button } from '@/components/ui/button';
+import toast from 'react-hot-toast';
+import axios from 'axios';
 
+import { setStep, setCourse, setEditCourse } from '@/redux/Slice/courseSlice';
 const CourseInformationForm = () => {
 
     const {
@@ -32,6 +35,41 @@ const CourseInformationForm = () => {
     const { course, editCourse } = useSelector((state) => state.course);
     const [loading, setLoading] = useState(false);
     const [courseCategories, setCourseCategories] = useState([]);
+
+
+
+    const addCourseDetails = async (data, token) => {
+        const toastId = toast.loading("Loading...");
+
+        try {
+            const response = await axios.post('/api/courses/create', data, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log("CREATE COURSE API RESPONSE............", response);
+
+            if (!response?.data?.success) {
+                throw new Error("Could Not Add Course Details");
+            }
+
+            toast.success("Course Details Added Successfully");
+
+            return response?.data?.data;
+
+        } catch (error) {
+            console.log("CREATE COURSE API ERROR............", error);
+            // Show error message to the user
+            toast.error(error.response?.data?.message || "An error occurred");
+        } finally {
+            toast.dismiss(toastId);
+        }
+
+        // Return null if there's an error
+        return null;
+    };
+
 
     useEffect(() => {
 
@@ -116,20 +154,19 @@ const CourseInformationForm = () => {
 
         //create a new course
         const formData = new FormData();
-        formData.append("courseName", data.courseTitle);
-        formData.append("courseDescription", data.courseShortDesc);
+        formData.append("title", data.courseTitle);
+        formData.append("description", data.courseShortDesc);
         formData.append("price", data.coursePrice);
         formData.append("whatYouWillLearn", data.courseBenefits);
         formData.append("category", data.courseCategory);
-        // formData.append("instructions", JSON.stringify(data.courseRequirements));
-        formData.append("status", COURSE_STATUS.DRAFT);
+        //  formData.append("status", COURSE_STATUS.DRAFT);
         formData.append("tag", JSON.stringify(data.courseTags));
         formData.append("thumbnailImage", data.courseImage);
 
         setLoading(true);
         console.log("BEFORE add course API call");
         console.log("PRINTING FORMDATA", formData);
-        const result = await addCourseDetails(formData, token);
+        const result = await addCourseDetails(formData, user);
         if (result) {
             dispatch(setStep(2));
             dispatch(setCourse(result));

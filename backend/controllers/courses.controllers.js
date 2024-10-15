@@ -8,12 +8,13 @@ import Section from "../model/Section.model.js";
 export const createCourse = async (req, res, next) => {
   try {
     const instructorId = req.user.id;
-    const { title, description, whatYouWillLearn,tags, price, category,status,instructions } = req.body;
-   
-   // const thumbnail = req.files.thumbnail;
-
+	console.log(instructorId)
+    let { title, description, whatYouWillLearn,tag, price, category,status,instructions } = req.body;
+	
+	const thumbnail = req.files?.thumbnailImage;
+    console.log("image",thumbnail)
     // Check for missing fields
-    if (!(instructorId && title && description && whatYouWillLearn && price && category && tags && instructions)) {
+    if (!(instructorId || title || description || whatYouWillLearn || price || category || tag )) {
       return next(new ErrorResponse('All fields are mandatory', 400));
     }
 
@@ -23,7 +24,7 @@ export const createCourse = async (req, res, next) => {
     	
     // Check if the user is an instructor
     const instructorDetails = await User.findById(instructorId, {
-			role: "Instructor",
+			role: "Student",
 		});
 
     if (!instructorDetails) {
@@ -34,11 +35,11 @@ export const createCourse = async (req, res, next) => {
 		}
 
   	// Upload the Thumbnail to Cloudinary
-    // const thumbnailImage = await uploadImageToCloudinary(
-		// 	thumbnail,
-		// 	process.env.FOLDER_NAME
-		// );
-		// console.log(thumbnailImage);
+    const thumbnailImage = await uploadImageToCloudinary(
+			thumbnail,
+			process.env.FOLDER_NAME
+		);
+		console.log(thumbnailImage);
 
     
     // Create a new course with the given details
@@ -48,9 +49,9 @@ export const createCourse = async (req, res, next) => {
 			instructor: instructorDetails._id,
 			whatYouWillLearn: whatYouWillLearn,
 			price,
-			tags: tags,
-			//category:categoryDetails._id,
-			thumbnail:"https://link_to_uploaded_thumbnail.com/image.jpg",                                            //thumbnailImage.secure_url,
+			tags: tag,
+			category,
+			thumbnail:thumbnailImage.secure_url,
 			status: status,
 			instructions: instructions,
 		});

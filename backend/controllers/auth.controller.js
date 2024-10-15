@@ -48,7 +48,7 @@ export const signup=async (req,res,next)=> {
 
 export const signin = async (req, res, next) => {
   const { email, password, role } = req.body; 
-
+ 
   try {
     if (!email || !password) {
 			return res.status(400).json({
@@ -56,23 +56,24 @@ export const signin = async (req, res, next) => {
 				message: `Please Fill up All the Required Fields`,
 			});
 		}
-    const validUser = await User.findOne({ email });
-    if (!validUser) return next(errorHandler(404, 'User not found!'));
+    const user = await User.findOne({ email });
+    if (!user) return next(errorHandler(404, 'User not found!'));
 
-    
-    const validPassword = bcryptjs.compareSync(password, validUser.password);
+     
+    const validPassword = bcryptjs.compareSync(password, user.password);
     if (!validPassword) return next(errorHandler(401, 'Wrong credentials!'));
 
-    if (validUser.role !== role) {   
+    if (user.role !== role) {   
       return next(errorHandler(403, 'Unauthorized role!'));
     }
  
-    const token = jwt.sign({ id: validUser._id, role: validUser.role }, process.env.JWT_SECRET,{expiresIn:"24h"});
-
-    const { password: pass, ...rest } = validUser._doc;
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET,{expiresIn:"24h"});
+    user.token = token;
+    user.password = undefined;
+    const { password: pass, ...rest } = user._doc;
 
     res 
-      .cookie('access_token', token, { httpOnly: true })
+      .cookie('token', token, { httpOnly: true })
       .status(200)
       .json(rest);
 

@@ -68,7 +68,7 @@ const Upload = ({ name, label, register, errors, setValue }) => {
                             </div>
                         </label>
                         {
-                            errors.courseImage && (<span className='ml-2 text-xs tracking-wide text-pink-200'>
+                            errors.courseImage && (<span className='ml-2 text-xs tracking-wide text-red-500'>
                                 Course Image is required**
                             </span>)
                         }

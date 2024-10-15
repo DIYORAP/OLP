@@ -43,7 +43,7 @@ function App() {
 
           <Route element={<SidebarLayout />}>
 
-            <Route path="dashboard/addcourse" element={<AddCourse />} />
+            <Route path="/dashboard/addcourse" element={<AddCourse />} />
 
             {/* <Route path="/instructor/createcourse" element={<CreatePage />} />
             <Route path="/instructor/createcourse/:id" element={<CreatePage />} /> */}

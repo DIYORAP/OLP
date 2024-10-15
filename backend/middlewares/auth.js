@@ -4,7 +4,10 @@ import jwt from "jsonwebtoken";
 
 export const protect=async(req,res,next)=>{
     try {
-        const token = req.cookies.access_token ;
+        const token = req.cookies.token 
+        || req.body.token 
+        || req.header("Authorisation").replace("Bearer ", "");    
+            console.log(token);
         if (!token) {
             return next(new ErrorResponse('User not authorized to access this route', 401));
           }
@@ -16,7 +19,7 @@ export const protect=async(req,res,next)=>{
            return next(new ErrorResponse("User not authorized to access this route",401));
 
           }
-    } catch (error) {
+    } catch (error) { 
          next(new ErrorResponse('Something went wrong while validating user', 500));   
     }
 };

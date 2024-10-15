@@ -36,9 +36,10 @@ const courseSchema = new mongoose.Schema(
       required: true,
     },
     category: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category',
-     // required: true,
+                                                //   type: mongoose.Schema.Types.ObjectId,
+                                                type: String,
+                                                required: true,                                         //   ref: 'Category',
+                                                //  // required: true,
     },
     averageRating: {
       type: Number,
