@@ -21,6 +21,8 @@ import PrivateRoute from './components/PrivateRoute';
 import Profile from './pages/Profile';
 import AddCourse from './components/insructor/Dashboard/AddCourses';
 import "./App.css";
+import InstuLogin from './pages/login/InstuLogin';
+import HeroHeader from './pages/instuctor/InsruHero';
 
 function App() {
   return (
@@ -34,7 +36,10 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/instructor" element={<HeroHeader />} />
+
           <Route path="/instructor/signup" element={<InsruSignUp />} />
+          <Route path="/instructor/login" element={<InstuLogin />} />
           <Route element={<PrivateRoute />}>
             <Route path='/profile' element={<Profile />} />
           </Route>
@@ -42,11 +47,11 @@ function App() {
 
 
           <Route element={<SidebarLayout />}>
+            <Route path="/instructor/courses" element={<Mess />} />
 
             <Route path="/dashboard/addcourse" element={<AddCourse />} />
 
-            {/* <Route path="/instructor/createcourse" element={<CreatePage />} />
-            <Route path="/instructor/createcourse/:id" element={<CreatePage />} /> */}
+
 
           </Route>
 

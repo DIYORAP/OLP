@@ -35,15 +35,15 @@ const RenderSteps = () => {
                             <div key={item.id} className=' flex w-full justify-between'>
                                 <div className='flex flex-col items-center'>
                                     <div className={`grid cursor-default aspect-square w-[34px] place-items-center rounded-full border-[1px] ${step === item.id
-                                        ? "bg-yellow-900 border-black text-yellow-50"
-                                        : "border-richblack-700 bg-richblack-800 text-richblack-300"}`}>
+                                        ? "bg-black border-black text-white"
+                                        : "border-black bg-white text-richblack-300"}`}>
                                         {
                                             step > item.id ? (<FaCheck />) : (item.id)
                                         }
                                     </div>
                                 </div>
                                 {item.id < 3 && (
-                                    <div className={`h-[calc(34px/2)] w-[100%]  border-dashed border-b-2 ${step > item.id ? "border-yellow-50" : "border-richblack-700"}
+                                    <div className={`h-[calc(34px/2)] w-[100%]  border-dashed border-b-2 ${step > item.id ? "border-green-700" : "border-black"}
                     }`}></div>
                                 )}
                             </div>

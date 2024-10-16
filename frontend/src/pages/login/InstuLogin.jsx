@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { signInFailure, signInStart, signInSuccess } from "../../redux/Slice/userSlice.js";
 import { Link, useNavigate } from 'react-router-dom';
 
-function Login() {
-    const [formData, setFormData] = useState({ role: "Student" });
+function InstuLogin() {
+    const [formData, setFormData] = useState({ role: "Instructor" });
     const { loading, error } = useSelector((state) => state.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -40,7 +40,7 @@ function Login() {
             }
 
             dispatch(signInSuccess(data)); // Ensure you are passing the right data
-            navigate('/student/courses');
+            navigate('/instructor/courses');
         } catch (error) {
             dispatch(signInFailure(error));
         }
@@ -133,4 +133,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default InstuLogin;

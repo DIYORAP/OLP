@@ -27,9 +27,10 @@ const Header = () => {
             </div>
             <div class="flex items-center ml-auto">
                 <ul className='flex font-bold'>
-                    <li class='max-lg:border-b max-lg:py-3 px-3'><a href='javascript:void(0)'
-                        class='text-[#000000] hover:text-[#0b0b0c] text-[15px] block font-semibold'>Tech on SkillIQ</a></li>
-
+                    <Link to="/instructor">
+                        <li class='max-lg:border-b max-lg:py-3 px-3'><a href=''
+                            class='text-[#000000] hover:text-[#0b0b0c] text-[15px] block font-semibold'>Tech on SkillIQ</a></li>
+                    </Link>
                     <li class='max-lg:border-b max-lg:py-3 px-3'><a href='javascript:void(0)'
                         class='text-[#000] hover:text-[#040404] text-[15px] block font-semibold'>Courses</a></li>
                 </ul>

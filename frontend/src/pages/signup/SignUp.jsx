@@ -3,7 +3,7 @@ import { IoCloseSharp } from 'react-icons/io5';
 import { useNavigate, Link } from 'react-router-dom';
 
 const SignUp = () => {
-    const [formData, setFormData] = useState({ role: "student" });
+    const [formData, setFormData] = useState({ role: "Student" });
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
