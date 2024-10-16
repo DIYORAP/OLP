@@ -4,13 +4,12 @@ import { VscAdd, VscEdit } from 'react-icons/vsc';
 import { VscTrash } from 'react-icons/vsc';
 import { VscTriangleDown } from 'react-icons/vsc';
 import { useState } from 'react';
-
 import SubSectionModal from './SubsectionModal';
-//import { deleteSection, deleteSubSection } from '../../../../../services/operations/courseDetailsAPI';
-//import { setCourse } from '../../../../../slices/courseSlice';
 import { RxDropdownMenu } from 'react-icons/rx'
 import ConfirmationModal from '@/components/common/ConfirmationModal';
 import { setCourse } from '@/redux/Slice/courseSlice';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const NestedView = ({ handelChangeEditSectionName }) => {
     const { user } = useSelector(state => state.user);
@@ -23,6 +22,54 @@ const NestedView = ({ handelChangeEditSectionName }) => {
 
 
     const [confirmationModal, setConfirmationModal] = useState(null);
+
+
+
+
+    const deleteSection = async (data, token) => {
+        let result = null;
+        const toastId = toast.loading("Loading...");
+        try {
+            const response = await axios.post("api/course/deleteSection", data, {
+                Authorisation: `Bearer ${token}`,
+            });
+            console.log("DELETE SECTION API RESPONSE............", response);
+            if (!response?.data?.success) {
+                throw new Error("Could Not Delete Section");
+            }
+            toast.success("Course Section Deleted");
+            result = response?.data?.updatedCourse;
+            console.log("Delete API RESULT............", result);
+        } catch (error) {
+            console.log("DELETE SECTION API ERROR............", error);
+            toast.error(error.message);
+        }
+        toast.dismiss(toastId);
+        return result;
+    };
+    const deleteSubSection = async (data, token) => {
+        let result = null;
+        const toastId = toast.loading("Loading...");
+        try {
+            const response = await axios.post("api/course/deleteSubSection", data, {
+                Authorisation: `Bearer ${token}`,
+            });
+            console.log("DELETE SUB-SECTION API RESPONSE............", response);
+            if (!response?.data?.success) {
+                throw new Error("Could Not Delete Lecture");
+            }
+            toast.success("Lecture Deleted");
+            result = response?.data?.data;
+            console.log("Delete subsection API RESULT............", result);
+        } catch (error) {
+            console.log("DELETE SUB-SECTION API ERROR............", error);
+            toast.error(error.message);
+        }
+        toast.dismiss(toastId);
+        return result;
+    };
+
+
 
 
 
@@ -81,7 +128,7 @@ const NestedView = ({ handelChangeEditSectionName }) => {
                                 </div>
                             </summary>
 
-                            <div className='px-6 pb-4'>
+                            {/* <div className='px-6 pb-4'>
                                 {
                                     section.subSection.map((subSection) => (
                                         <div onClick={(e) => { if (e.currentTarget != e.target) return; setviewSubSection(subSection); }} key={subSection._id} className='flex cursor-pointer items-center justify-between gap-x-3 border-b-2 border-b-richblack-600 py-2 z-0'>
@@ -117,7 +164,7 @@ const NestedView = ({ handelChangeEditSectionName }) => {
                                     <VscAdd className='text-lg text-yellow-50 ' />
                                     <p>Add Lecture</p>
                                 </button>
-                            </div>
+                            </div> */}
 
                         </details>
                     ))

@@ -6,7 +6,7 @@ import { createSection, deleteSection, upadteSection } from "../controllers/Sect
 const router=express.Router();
 
 router.post('/create',auth,isInstructor, createCourse);
-router.post("/addSection",auth,isInstructor ,createSection);
+router.post("/addSection",createSection);
 router.post("/updateSection",auth,isInstructor,upadteSection);
 router.post("/deleteSection",auth,isInstructor,deleteSection)
 export default router;

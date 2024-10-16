@@ -1,11 +1,11 @@
-import mongoose, { model } from "mongoose";
+import mongoose from "mongoose";
 
 const sectionSchema=new mongoose.Schema({
     sectionName:{
         type:String,
 
     },
-    subSection:[
+    SubSection:[
         {
             type:mongoose.Schema.Types.ObjectId,
             required:true,

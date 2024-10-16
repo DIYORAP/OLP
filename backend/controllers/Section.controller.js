@@ -1,6 +1,6 @@
 import Section from "../model/Section.model.js";
 import Course from "../model/Course.model.js";
-
+import SubSection from "../model/SubSection.model.js";
 export const createSection = async (req, res, next) => {
     try {
         const { sectionName, courseId } = req.body;
@@ -37,8 +37,8 @@ export const createSection = async (req, res, next) => {
             { new: true }
         ).populate({
             path: "courseContent",
-            populate: {
-                path: "subSection",
+            populate: { path: 'SubSection', // Make sure this matches your Section model
+                model: 'SubSection' // Use the exact name here
             },
         });
 
@@ -49,6 +49,7 @@ export const createSection = async (req, res, next) => {
             updatedCourse,
         });
     } catch (error) {
+        console.log(error)
         res.status(500).json({
             success: false,
             message: "Internal server error",

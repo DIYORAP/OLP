@@ -2,8 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
     setCourse,
     setEditCourse,
@@ -13,11 +12,10 @@ import {
 import NestedView from "./NestedView";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { secureHeapUsed } from "crypto";
 
 const CourseBuilderForm = () => {
     const { user } = useSelector((state) => state.user);
-    const [editSectionName, setEditSectionName] = React.useState(false);
+    const [editSectionName, setEditSectionName] = useState(false);
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const { course } = useSelector((state) => state.course);
@@ -30,21 +28,13 @@ const CourseBuilderForm = () => {
 
         try {
             const response = await axios.post(
-                '/api/courses/addSection',
+                '/api/courses/addSection', data,
                 {
-                    sectionName: data.sectionName,
-                    sectionId: data.sectionId,
-                    courseId: data.courseId,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+
+                    Authorization: `Bearer ${token}`,
+
                 }
             );
-            console.log(sectionId)
-            console.log(sectionName)
-            console.log(courseId)
             console.log("CREATE SECTION API RESPONSE............", response);
 
             if (!response?.data?.success) {
@@ -68,16 +58,11 @@ const CourseBuilderForm = () => {
 
         try {
             const response = await axios.post(
-                "api/course/updateSection",
+                "api/courses/updateSection", data,
                 {
-                    sectionName: data.sectionName,
-                    sectionId: data.sectionId,
-                    courseId: data.courseId,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+
+                    Authorization: `Bearer ${token}`,
+
                 }
             );
 
@@ -202,7 +187,7 @@ const CourseBuilderForm = () => {
                     )}
                 </div>
             </form>
-            {/* {course.courseContent.length > 0 && <NestedView handelChangeEditSectionName={handelChangeEditSectionName} />} */}
+            <NestedView handelChangeEditSectionName={handelChangeEditSectionName} />
             <div className="flex justify-end gap-x-3">
                 <button
                     onClick={() => {

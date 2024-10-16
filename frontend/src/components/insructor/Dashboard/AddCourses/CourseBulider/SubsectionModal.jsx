@@ -4,13 +4,12 @@ import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-//import { createSubSection, updateSubSection } from '../../../../../services/operations/courseDetailsAPI';
 import { RxCross1 } from 'react-icons/rx';
 import Upload from './Upload'
-//import IconBtn from '../../../../common/IconBtn';
 import { useState } from 'react';
 import { setCourse } from '@/redux/Slice/courseSlice';
 import IconBtn from '@/components/common/iconBtn';
+import axios from 'axios';
 
 
 const SubsectionModal = ({
@@ -44,7 +43,26 @@ const SubsectionModal = ({
         }
         return false;
     }
-
+    const createSubSection = async (data, token) => {
+        let result = null;
+        const toastId = toast.loading("Uploading...");
+        try {
+            const response = await axios.post("/course/addSubSection", data, {
+                Authorisation: `Bearer ${token}`,
+            });
+            console.log("CREATE SUB-SECTION API RESPONSE............", response);
+            if (!response?.data?.success) {
+                throw new Error("Could Not Add Lecture");
+            }
+            toast.success("Lecture Added");
+            result = response?.data?.data;
+        } catch (error) {
+            console.log("CREATE SUB-SECTION API ERROR............", error);
+            toast.error(error.message);
+        }
+        toast.dismiss(toastId);
+        return result;
+    };
     const handelEditSubsection = async (data) => {
         const currentValues = getValues();
         const formData = new FormData();
