@@ -1,36 +1,35 @@
 import React from 'react'
+import { FiEdit } from "react-icons/fi"
 
-const IconBtn = ({ ...btnData }) => {
 
-    const { children, text, onClickHandler, disabled, outline = false, customClasses, type } = btnData;
 
+const iconBtn = ({
+    text,
+    onclick,
+    children,
+    disabled,
+    outline = false,
+    customClasses,
+    type,
+}) => {
     return (
-        <div className='text-white' >
-            <button
-                onClick={onClickHandler}
-                disabled={disabled}
-                type={type}
-                className={` ${customClasses} rounded-md py-2 px-5 font-semibold text-richblack-900 
-        ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
-        ${outline ? 'border border-yellow-50 bg-transparent' : 'bg-yellow-50'}
-        `}
-            >
-                {
-                    children ?
-                        (
-                            <div className={`flex items-center gap-x-2 
-              ${outline && 'text-yellow-50'}
-              `} >
-                                {text}
-                                {children}
-                            </div>
-                        )
-                        :
-                        (<div>{text}</div>)
-                }
-            </button>
-        </div>
+        <button className='flex items-center bg-black cursor-pointer gap-x-2 rounded-md py-2 text-sm md:text-lg px-3 md:px-5 font-semibold text-white undefined'
+            disabled={disabled}
+            onClick={onclick}
+            type={type}>
+            {
+                children ? (
+                    <>
+                        <span>
+                            {text}
+                        </span>
+                        {children}
+                    </>
+                ) : (text)
+            }
+
+        </button>
     )
 }
 
-export default IconBtn
+export default iconBtn

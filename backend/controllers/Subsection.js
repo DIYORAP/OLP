@@ -1,7 +1,7 @@
 import Section from "../model/Section.model.js"
 import SubSection from "../model/SubSection.model.js"
 import Course from "../model/Course.model.js"
-import { uploadImageToCloudinary } from "../utils/imageUploader.js"
+import { uploadVideoToCloudinary } from "../utils/imageUploader.js"
 
 export const createSubSection=async (req,res)=>{
     try {
@@ -18,7 +18,7 @@ export const createSubSection=async (req,res)=>{
                 .status(404)
                 .json({ success: false, message: "Section not found" });
         }
-        const uploadDetails = await uploadImageToCloudinary(
+        const uploadDetails = await uploadVideoToCloudinary(
 			video,
 			process.env.FOLDER_VIDEO
 		);
@@ -33,11 +33,11 @@ export const createSubSection=async (req,res)=>{
 		});
         const updatedSection = await Section.findByIdAndUpdate(
 			{ _id: sectionId },
-			{ $push: { subSection: SubSectionDetails._id } },
+			{ $push: { SubSection: SubSectionDetails._id } },
 			{ new: true }
-		).populate("subSection");
+		).populate("SubSection");
 
-		const updatedCourse = await Course.findById(courseId).populate({ path: "courseContent", populate: { path: "subSection" } }).exec();
+		const updatedCourse = await Course.findById(courseId).populate({ path: "courseContent", populate: { path: "SubSection" } }).exec();
 		// Return the updated section in the response
 		return res.status(200).json({ success: true, data: updatedCourse });
     } catch (error) {
@@ -74,7 +74,7 @@ export const updateSubSection=async(req,res)=>{
 		},{ new: true });
 
 		
-		const updatedCourse = await Course.findById(courseId).populate({ path: "courseContent", populate: { path: "subSection" } }).exec();
+		const updatedCourse = await Course.findById(courseId).populate({ path: "courseContent", populate: { path: "SubSection" } }).exec();
 		// Return the updated section in the response
 		return res.status(200).json({ success: true, data: updatedCourse });
 	} catch (error) {
@@ -112,8 +112,8 @@ export const deleteSubSection=async(req,res)=>{
         });
     }
 	await SubSection.findByIdAndDelete(subSectionId);
-	await Section.findByIdAndUpdate({_id:sectionId},{$pull:{subSection:subSectionId}},{new:true});
-	const updatedCourse = await Course.findById(courseId).populate({ path: "courseContent", populate: { path: "subSection" } }).exec();
+	await Section.findByIdAndUpdate({_id:sectionId},{$pull:{SubSection:subSectionId}},{new:true});
+	const updatedCourse = await Course.findById(courseId).populate({ path: "courseContent", populate: { path: "SubSection" } }).exec();
 	return res.status(200).json({ success: true, message: "Sub-section deleted", data: updatedCourse });
 		
 	} catch (error) {

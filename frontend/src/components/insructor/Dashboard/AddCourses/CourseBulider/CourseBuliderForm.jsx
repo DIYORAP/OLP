@@ -58,7 +58,7 @@ const CourseBuilderForm = () => {
 
         try {
             const response = await axios.post(
-                "api/courses/updateSection", data,
+                "/api/courses/updateSection", data,
                 {
 
                     Authorization: `Bearer ${token}`,

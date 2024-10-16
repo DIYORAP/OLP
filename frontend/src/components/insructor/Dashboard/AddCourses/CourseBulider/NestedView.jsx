@@ -30,7 +30,7 @@ const NestedView = ({ handelChangeEditSectionName }) => {
         let result = null;
         const toastId = toast.loading("Loading...");
         try {
-            const response = await axios.post("api/course/deleteSection", data, {
+            const response = await axios.post("/api/courses/deleteSection", data, {
                 Authorisation: `Bearer ${token}`,
             });
             console.log("DELETE SECTION API RESPONSE............", response);
@@ -51,7 +51,7 @@ const NestedView = ({ handelChangeEditSectionName }) => {
         let result = null;
         const toastId = toast.loading("Loading...");
         try {
-            const response = await axios.post("api/course/deleteSubSection", data, {
+            const response = await axios.post("/api/courses/deleteSection", data, {
                 Authorisation: `Bearer ${token}`,
             });
             console.log("DELETE SUB-SECTION API RESPONSE............", response);
@@ -128,9 +128,9 @@ const NestedView = ({ handelChangeEditSectionName }) => {
                                 </div>
                             </summary>
 
-                            {/* <div className='px-6 pb-4'>
+                            {<div className='px-6 pb-4'>
                                 {
-                                    section.subSection.map((subSection) => (
+                                    section.SubSection.map((subSection) => (
                                         <div onClick={(e) => { if (e.currentTarget != e.target) return; setviewSubSection(subSection); }} key={subSection._id} className='flex cursor-pointer items-center justify-between gap-x-3 border-b-2 border-b-richblack-600 py-2 z-0'>
                                             <div className='flex items-center gap-x-3'>
                                                 <RxDropdownMenu size={25} className=' text-richblack-50' />
@@ -160,11 +160,11 @@ const NestedView = ({ handelChangeEditSectionName }) => {
                                         </div>
                                     ))
                                 }
-                                <button onClick={() => setAddSubSection(section._id)} className='mt-3 flex items-center gap-x-1 text-yellow-50 font-bold'>
-                                    <VscAdd className='text-lg text-yellow-50 ' />
+                                <button onClick={() => setAddSubSection(section._id)} className='mt-3 flex items-center gap-x-1 text-black font-bold'>
+                                    <VscAdd className='text-lg text-black ' />
                                     <p>Add Lecture</p>
                                 </button>
-                            </div> */}
+                            </div>}
 
                         </details>
                     ))

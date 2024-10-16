@@ -74,11 +74,11 @@ export const upadteSection=async(req,res,next)=>{
             }
            );
 
-           const updatedCourse =await Course.findById(courseId).populate({path:"courseContent",populate:{path:"subSection"}}).exec();
+           const updatedCourse =await Course.findById(courseId).populate({path:"courseContent",populate:{path:"SubSection"}}).exec();
            res.status(200).json({
             success:true,
             message:"Section updated SuccessFully",
-            upadteSection,
+            updatedCourse,
            })
     } catch (error) {
         console.error("Error updating section :",error);
@@ -94,12 +94,12 @@ export const deleteSection =async(req,res,next)=>{
          const {sectionId,courseId} =req.body;
          await Section.findByIdAndDelete(sectionId);
 
-         const updatedCourse=await Course.findById(courseId).populate({path:"courseContent",populate:{path:"subSection"}}).exec();
+         const updatedCourse=await Course.findById(courseId).populate({path:"courseContent",populate:{path:"SubSection"}}).exec();
 
          res.status(200).json({
             success:true,
             message:"Section deleted",
-            upadteSection,
+            updatedCourse,
          })
     } catch (error) {
          console.error("Error deleting section",error);

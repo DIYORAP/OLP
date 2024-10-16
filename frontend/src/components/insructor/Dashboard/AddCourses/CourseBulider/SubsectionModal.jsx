@@ -19,7 +19,7 @@ const SubsectionModal = ({
     edit = false,
     view = false
 }) => {
-    const { token } = useSelector((state) => state.auth);
+    const { token } = useSelector((state) => state.user);
     const { course } = useSelector((state) => state.course);
     const [loading, setLoading] = useState(false);
 
@@ -47,7 +47,7 @@ const SubsectionModal = ({
         let result = null;
         const toastId = toast.loading("Uploading...");
         try {
-            const response = await axios.post("/course/addSubSection", data, {
+            const response = await axios.post("/api/courses/addSubSection", data, {
                 Authorisation: `Bearer ${token}`,
             });
             console.log("CREATE SUB-SECTION API RESPONSE............", response);
