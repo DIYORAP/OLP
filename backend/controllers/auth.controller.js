@@ -18,10 +18,12 @@ export const signup=async (req,res,next)=> {
 		}
 
 
+    let approved = "";
+		approved === "Instructor" ? (approved = false) : (approved = true);
 
     const profileDetails=await Profile.create({ });
 
-    const newUser = new User({ username, email, password: hashedPassword,role,additionalDetails:profileDetails });
+    const newUser = new User({ username, email, password: hashedPassword,role,additionalDetails:profileDetails ,approved:approved});
     try {
       await newUser.save();
       res.status(201).json('User created successfully!');
