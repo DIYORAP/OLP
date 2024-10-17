@@ -52,7 +52,7 @@ const PublishCourse = () => {
     }
 
     const goToMyCourses = () => {
-        navigate("/instructor/courses");
+        navigate("/dashboard/mycourses");
     }
 
     const handelPublish = async () => {

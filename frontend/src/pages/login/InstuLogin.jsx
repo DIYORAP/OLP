@@ -40,7 +40,7 @@ function InstuLogin() {
             }
 
             dispatch(signInSuccess(data)); // Ensure you are passing the right data
-            navigate('/instructor/courses');
+            navigate('/dashboard/mycourses');
         } catch (error) {
             dispatch(signInFailure(error));
         }

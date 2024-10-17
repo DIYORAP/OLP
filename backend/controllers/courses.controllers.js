@@ -4,7 +4,7 @@ import User from "../model/User.model.js";
 import uploadImageToCloudinary from "../utils/cloudUploader.js"
 import ErrorResponse from "../utils/ErrorResponse.js";
 import Section from "../model/Section.model.js";
-
+import CourseProgress from "../model/CourseProgress.model.js"
 export const createCourse = async (req, res, next) => {
   try {
     const instructorId = req.user.id;
@@ -203,7 +203,7 @@ export const getFullCourseDetails = async (req, res) => {
 		  },
 		})
 		.populate("category")
-		.populate("RatingAndReviews")
+		//.populate("ratingAndReviews")
 		.populate({
 		  path: "courseContent",
 		  populate: {
@@ -213,12 +213,12 @@ export const getFullCourseDetails = async (req, res) => {
 		.exec()
 
 		
-	  let courseProgressCount = await CourseProgress.findOne({
-		courseID: courseId,
-		userID: userId,
-	  })
+	//   let courseProgressCount = await CourseProgress.findOne({
+	// 	courseID: courseId,
+	// 	userID: userId,
+	//   })
   
-	  console.log("courseProgressCount : ", courseProgressCount)
+	 // console.log("courseProgressCount : ", courseProgressCount)
   
 	  if (!courseDetails) {
 		return res.status(400).json({
@@ -234,27 +234,28 @@ export const getFullCourseDetails = async (req, res) => {
 	    });
 	  }
   
-	  let totalDurationInSeconds = 0
-	  courseDetails.courseContent.forEach((content) => {
-		content.subSection.forEach((subSection) => {
-		  const timeDurationInSeconds = parseInt(subSection.timeDuration)
-		  totalDurationInSeconds += timeDurationInSeconds;
-		})
-	  })
+	//   let totalDurationInSeconds = 0
+	//   courseDetails.courseContent.forEach((content) => {
+	// 	content.subSection.forEach((subSection) => {
+	// 	  const timeDurationInSeconds = parseInt(subSection.timeDuration)
+	// 	  totalDurationInSeconds += timeDurationInSeconds;
+	// 	})
+	//   })
   
-	  const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+	 // const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
   
 	  return res.status(200).json({
 		success: true,
 		data: {
 		  courseDetails,
-		  totalDuration,
-		  completedVideos: courseProgressCount?.completedVideos
-			? courseProgressCount?.completedVideos
-			: ["none"],
+		//  totalDuration,
+		//   completedVideos: courseProgressCount?.completedVideos
+		// 	? courseProgressCount?.completedVideos
+		// 	: ["none"],
 		},
 	  })
 	} catch (error) {
+		console.log(error)
 	  return res.status(500).json({
 		success: false,
 		message: error.message,

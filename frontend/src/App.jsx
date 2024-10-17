@@ -24,6 +24,7 @@ import "./App.css";
 import InstuLogin from './pages/login/InstuLogin';
 import HeroHeader from './pages/instuctor/InsruHero';
 import MyCourses from './components/insructor/Dashboard/Courses/MyCourses';
+import EditCourse from './components/insructor/Dashboard/EditCourse/EditCourse';
 
 function App() {
   return (
@@ -50,7 +51,10 @@ function App() {
           <Route element={<SidebarLayout />}>
             <Route path="/dashboard/mycourses" element={<MyCourses />} />
             <Route path="/dashboard/addcourse" element={<AddCourse />} />
-
+            <Route
+              path="dashboard/edit-course/:courseId"
+              element={<EditCourse />}
+            />
 
 
           </Route>

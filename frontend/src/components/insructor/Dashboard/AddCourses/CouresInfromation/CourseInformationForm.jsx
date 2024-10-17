@@ -69,19 +69,39 @@ const CourseInformationForm = () => {
         // Return null if there's an error
         return null;
     };
+    const editCourseDetails = async (data, token) => {
+        let result = null;
+        const toastId = toast.loading("Loading...");
+        try {
+            const response = await axios.post("/api/courses/editCourse ", data, {
+                "Content-Type": "multipart/form-data",
+                Authorisation: `Bearer ${token}`,
+            });
+            console.log("EDIT COURSE API RESPONSE............", response);
+            if (!response?.data?.success) {
+                throw new Error("Could Not Update Course Details");
+            }
+            toast.success("Course Details Updated Successfully");
+            result = response?.data?.data;
+        } catch (error) {
+            console.log("EDIT COURSE API ERROR............", error);
+            toast.error(error.response.data.message);
+        }
+        toast.dismiss(toastId);
+        return result;
+    };
 
 
     useEffect(() => {
 
 
         if (editCourse) {
-            setValue("courseTitle", course.courseName);
-            setValue("courseShortDesc", course.courseDescription);
+            setValue("courseTitle", course.title);
+            setValue("courseShortDesc", course.description);
             setValue("coursePrice", course.price);
-            setValue("courseTags", course.tag);
+            setValue("courseTags", course.tags);
             setValue("courseBenefits", course.whatYouWillLearn);
             setValue("courseCategory", course.category);
-            // setValue("courseRequirements", course.instructions);
             setValue("courseImage", course.thumbnail);
         }
 
@@ -98,7 +118,6 @@ const CourseInformationForm = () => {
             currentValues.courseBenefits !== course.whatYouWillLearn ||
             currentValues.courseCategory !== course.category ||
             currentValues.courseImage !== course.thumbnail)
-            //    currentValues.courseRequirements.toString() !== course.instructions.toString())
             return true;
         else
             return false;
@@ -114,11 +133,11 @@ const CourseInformationForm = () => {
 
                 formData.append("courseId", course._id);
                 if (currentValues.courseTitle !== course.courseName) {
-                    formData.append("courseName", data.courseTitle);
+                    formData.append("title", data.courseTitle);
                 }
 
                 if (currentValues.courseShortDesc !== course.courseDescription) {
-                    formData.append("courseDescription", data.courseShortDesc);
+                    formData.append("description", data.courseShortDesc);
                 }
 
                 if (currentValues.coursePrice !== course.price) {
@@ -135,7 +154,7 @@ const CourseInformationForm = () => {
 
 
                 setLoading(true);
-                const result = await editCourseDetails(formData, token);
+                const result = await editCourseDetails(formData, user);
                 setLoading(false);
                 if (result) {
                     dispatch(setEditCourse(false));
@@ -146,8 +165,8 @@ const CourseInformationForm = () => {
             else {
                 toast.error("NO Changes made so far");
             }
-            console.log("PRINTING FORMDATA", formData);
-            console.log("PRINTING result", result);
+            // console.log("PRINTING FORMDATA", formData);
+            //  console.log("PRINTING result", result);
 
             return;
         }
