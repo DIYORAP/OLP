@@ -86,7 +86,7 @@ const CourseBuilderForm = () => {
     const gonext = () => {
         if (course.courseContent.length > 0) {
             if (
-                course.courseContent.some((section) => section.subSection.length > 0)
+                course.courseContent.some((section) => section.SubSection.length > 0)
             ) {
                 dispatch(setStep(3));
             } else {

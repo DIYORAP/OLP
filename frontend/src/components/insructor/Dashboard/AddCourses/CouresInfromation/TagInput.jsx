@@ -17,8 +17,8 @@ const ChipInput = ({ name, label, register, errors, setValue }) => {
 
         });
         if (editCourse) {
-            settags(JSON.parse(course?.tag));
-            setValue(name, JSON.parse(course?.tag));
+            settags(JSON.parse(course?.tags));
+            setValue(name, JSON.parse(course?.tags));
         }
     }, [])
 

@@ -124,6 +124,71 @@ export const getAllCourses=async(req,res,next)=>{
   }
 };
 
+export const editCourse = async (req, res) => {
+	try {
+	  const { courseId, status } = req.body; // Include status for publish/draft
+	  const updates = req.body; // You might want to use this to set other fields
+	  const course = await Course.findById(courseId);
+  
+	  if (!course) {
+		return res.status(404).json({ error: "Course not found" });
+	  }
+  
+	  // Update course status based on the provided status
+	  if (status) {
+		course.status = status; // Assuming 'status' can be 'published' or 'draft'
+	  }
+  
+	  // If Thumbnail Image is found, update it
+	  if (req.files) {
+		console.log("thumbnail update");
+		const thumbnail = req.files.thumbnailImage;
+		const thumbnailImage = await uploadImageToCloudinary(
+		  thumbnail,
+		  process.env.FOLDER_NAME
+		);
+		course.thumbnail = thumbnailImage.secure_url;
+	  }
+  
+	  // Update other course details if needed
+	  Object.assign(course, updates); // Use this to update other fields
+  
+	  await course.save();
+  
+	  const updatedCourse = await Course.findOne({
+		_id: courseId,
+	  })
+		.populate({
+		  path: "instructor",
+		  populate: {
+			path: "additionalDetails",
+		  },
+		})
+		//.populate("ratingAndReview")
+		.populate({
+		  path: "courseContent",
+		  populate: {
+			path: "SubSection",
+		  },
+		})
+		.exec();
+  
+	  res.json({
+		success: true,
+		message: "Course updated successfully",
+		data: updatedCourse,
+	  });
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({
+		success: false,
+		message: "Internal server error",
+		error: error.message,
+	  });
+	}
+  };
+  
+
 export const getFullCourseDetails = async (req, res) => {
 	try {
 	  const { courseId } = req.body
@@ -138,11 +203,11 @@ export const getFullCourseDetails = async (req, res) => {
 		  },
 		})
 		.populate("category")
-		.populate("ratingAndReviews")
+		.populate("RatingAndReviews")
 		.populate({
 		  path: "courseContent",
 		  populate: {
-			path: "subSection",
+			path: "SubSection",
 		  },
 		})
 		.exec()
@@ -162,12 +227,12 @@ export const getFullCourseDetails = async (req, res) => {
 		})
 	  }
   
-	  // if (courseDetails.status === "Draft") {
-	  //   return res.status(403).json({
-	  //     success: false,
-	  //     message: `Accessing a draft course is forbidden`,
-	  //   });
-	  // }
+	  if (courseDetails.status === "Draft") {
+	    return res.status(403).json({
+	      success: false,
+	      message: `Accessing a draft course is forbidden`,
+	    });
+	  }
   
 	  let totalDurationInSeconds = 0
 	  courseDetails.courseContent.forEach((content) => {

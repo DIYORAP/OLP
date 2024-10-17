@@ -119,12 +119,12 @@ const SubsectionModal = ({
 
 
     return (
-        <div className='fixed inset-0 z-[1000] !mt-0 grid h-screen w-screen place-items-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm'>
-            <div className='my-10 w-11/12 max-w-[700px] rounded-lg border border-richblack-400 bg-richblack-800'>
-                <div className='flex items-center justify-between rounded-t-lg bg-richblack-700 p-5'>
-                    <p className='text-xl font-semibold text-richblack-5'>{view && "Viewing"} {add && "Adding"} {edit && "Editing"} Lecture</p>
+        <div className='fixed inset-0 z-[1000] !mt-0 grid h-screen w-screen place-items-center overflow-auto bg-white bg-opacity-15 backdrop-blur-sm'>
+            <div className='my-10 w-11/12 max-w-[700px] rounded-lg border border-black bg-white'>
+                <div className='flex items-center justify-between rounded-t-lg  p-5'>
+                    <p className='text-xl font-bold text-black'>{view && "Viewing"} {add && "Adding"} {edit && "Editing"} Lecture</p>
                     <button onClick={() => (!loading ? setModalData(null) : {})}>
-                        <RxCross1 size={20} color={"white"} />
+                        <RxCross1 size={20} color={"black"} />
                     </button>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 px-8 py-10">
@@ -139,19 +139,19 @@ const SubsectionModal = ({
                         editData={edit ? modalData.videoUrl : null}
                     />
                     <div className='flex flex-col space-y-2'>
-                        <label className='text-sm text-richblack-5' htmlFor='lecture'>Lecture Title</label>
+                        <label className='text-sm text-black' htmlFor='lecture'>Lecture Title</label>
                         <input disabled={view}
                             id='lecture'
                             placeholder='Enter Lecture Title'
                             {...register("lecture", { required: true })}
                             className='form-style w-full'
                         />
-                        {errors.lectureTitle && (<span className='ml-2 text-xs tracking-wide text-pink-200'>
+                        {errors.lectureTitle && (<span className='ml-2 text-xs tracking-wide text-red-700'>
                             Lecture Title is required
                         </span>)}
                     </div>
                     <div className='flex flex-col space-y-2'>
-                        <label className='text-sm text-richblack-5'>Lecture Description</label>
+                        <label className='text-sm text-black'>Lecture Description</label>
                         <textarea disabled={view}
                             id='lectureDesc'
                             placeholder='Enter Lecture Description'
@@ -159,7 +159,7 @@ const SubsectionModal = ({
                             className='form-style resize-x-none min-h-[130px] w-full'
                         />
                         {
-                            errors.lectureDesc && (<span className='ml-2 text-xs tracking-wide text-pink-200'>
+                            errors.lectureDesc && (<span className='ml-2 text-xs tracking-wide text-red-700'>
                                 Lecture Description is required
                             </span>)
                         }

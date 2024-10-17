@@ -41,6 +41,12 @@ const courseSchema = new mongoose.Schema(
                                                 required: true,                                         //   ref: 'Category',
                                                 //  // required: true,
     },
+    ratingAndReviews: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "RatingAndReview",
+      },
+    ],
     averageRating: {
       type: Number,
       default: 0,

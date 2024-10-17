@@ -10,6 +10,9 @@ import ConfirmationModal from '@/components/common/ConfirmationModal';
 import { setCourse } from '@/redux/Slice/courseSlice';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { IoIosArrowDropdownCircle } from "react-icons/io";
+import { RiDropdownList } from "react-icons/ri";
+
 
 const NestedView = ({ handelChangeEditSectionName }) => {
     const { user } = useSelector(state => state.user);
@@ -102,17 +105,17 @@ const NestedView = ({ handelChangeEditSectionName }) => {
                         <details key={section._id} className='mt-4'>
                             <summary className='flex cursor-pointer items-center justify-between border-b-2 border-b-richblack-600 py-2'>
                                 <div className='flex items-center gap-x-3'>
-                                    <RxDropdownMenu size={25} className=' text-richblack-50' />
-                                    <p className='font-semibold text-richblack-50' >{section.sectionName}</p>
+                                    <IoIosArrowDropdownCircle size={25} className=' text-black' />
+                                    <p className='font-semibold text-black' >{section.sectionName}</p>
                                 </div>
                                 <div className='flex items-center gap-x-3'>
                                     <button>
-                                        <VscEdit className='text-lg text-richblack-50 ' onClick={() => {
+                                        <VscEdit className='text-lg text-black ' onClick={() => {
                                             handelChangeEditSectionName(section._id, section.sectionName);
                                         }} />
                                     </button>
                                     <button>
-                                        <VscTrash className='text-lg text-richblack-50' onClick={() => {
+                                        <VscTrash className='text-lg text-black' onClick={() => {
                                             setConfirmationModal({
                                                 text1: "Delete this Section?",
                                                 text2: "All the lectures in this section will be deleted",
@@ -124,7 +127,7 @@ const NestedView = ({ handelChangeEditSectionName }) => {
                                         }} />
                                     </button>
                                     <span className="font-medium text-richblack-300">|</span>
-                                    <VscTriangleDown className='text-lg text-richblack-50' />
+                                    <VscTriangleDown className='text-lg text-black' />
                                 </div>
                             </summary>
 
@@ -133,19 +136,19 @@ const NestedView = ({ handelChangeEditSectionName }) => {
                                     section.SubSection.map((subSection) => (
                                         <div onClick={(e) => { if (e.currentTarget != e.target) return; setviewSubSection(subSection); }} key={subSection._id} className='flex cursor-pointer items-center justify-between gap-x-3 border-b-2 border-b-richblack-600 py-2 z-0'>
                                             <div className='flex items-center gap-x-3'>
-                                                <RxDropdownMenu size={25} className=' text-richblack-50' />
-                                                <p className='font-semibold text-richblack-50' >{subSection.title}</p>
+                                                <RiDropdownList size={25} className=' text-black' />
+                                                <p className='font-semibold text-black' >{subSection.title}</p>
                                             </div>
                                             <div className='flex items-center gap-x-3'>
                                                 <button>
-                                                    <VscEdit className='text-lg text-richblack-50 z-50' onClick={
+                                                    <VscEdit className='text-lg text-black z-50' onClick={
                                                         () => {
                                                             setEditSubsection(subSection);
                                                         }
                                                     } />
                                                 </button>
                                                 <button>
-                                                    <VscTrash className='text-lg text-richblack-50 z-50' size={21} onClick={() => {
+                                                    <VscTrash className='text-lg text-black z-50' size={21} onClick={() => {
                                                         setConfirmationModal({
                                                             text1: "Delete this Sub-Section?",
                                                             text2: "Selected lecture will be deleted",
