@@ -325,6 +325,28 @@ export const deleteCourse=async (req, res) => {
 	}
   }
 
+
+
+   // finding created course nichena couse vartical vala course valu che
+  export const getInstructorCourses=async(req,res,next)=>{
+	try {
+		 const insrID=req.user.id;
+
+		 const courses=await Course.find({instructor:insrID});
+
+		 res.status(200).json({
+			success:true,
+			data:courses,
+		 });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({
+			success:false,
+			message:"failed to find course",
+            error:error.message,
+		})
+	}
+  }
   //mark lecture as completed
 export const markLectureAsComplete = async (req, res) => {
 	const { courseId, subSectionId, userId } = req.body

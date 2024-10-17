@@ -7,7 +7,7 @@ const Sidebar = () => {
 
     // Define sidebar routes
     const sidebarRoutes = [
-        { icon: <MonitorPlay />, label: "Courses", path: "/instructor/courses" },
+        { icon: <MonitorPlay />, label: "Courses", path: "dashboard/mycourses" },
         { icon: <BarChart4 />, label: "Performance", path: "#" },
         { icon: <Users />, label: "Students", path: "#" },
         { icon: <Radio />, label: "CreateSession", path: "#" },
