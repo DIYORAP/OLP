@@ -15,75 +15,47 @@ const MyProfile = () => {
                     My Profile
                 </h1>
 
-                {/* section 1 */}
-                <div className='flex items-center justify-end rounded-md border-[1px] border-black bg-white p-3 md:p-8 md:px-12'>
-                    <div className='flex w-full items-center gap-x-4 '>
-                        <img
-                            src={currentUser.profilePic}
-                            alt={`profile-${currentUser?.username}`}
-                            className='aspect-square w-[78px] rounded-full object-cover' />
-                        <div className='space-y-1'>
-                            <p className='text-lg font-semibold text-richblack-5'> {currentUser?.username} </p>
-                            <p className=' text-[11px] md:text-sm text-richblack-300 md:max-w-full max-w-[220px] break-words'> {currentUser?.email}</p>
-                        </div>
-                    </div>
-                    <div className="hidden md:block">
-
-                        <Link to="/dashboard/settings">
-                            <Button> Edit
-                            </Button>
-                        </Link>
-                    </div>
-                </div>
-
-                {/* section 2
-                <div className='my-10 flex flex-col gap-y-3 md:gap-y-10 rounded-md border-[1px] border-richblack-700 bg-white p-3 md:p-8 md:px-12'>
-                    <div className='flex w-full items-center justify-between'>
-                        <p className='text-lg font-semibold text-richblack-5'>About</p>
-                        <div >
-                            <IconBtn
-                                text="Edit"
-                                onclick={() => {
-                                    navigate("/dashboard/settings")
-                                }} />
-                        </div>
-                    </div>
-                    <p className='text-richblack-400 text-sm font-medium'> {currentUser?.additionalDetails?.about ?? "Write Something about Yourself"}</p>
-                </div> */}
-
-                {/* section 3 */}
                 <div className='my-10 flex flex-col gap-y-10 rounded-md border-[1px] border-black bg-white p-3 md:p-8 md:px-12'>
                     <div className='flex w-full items-center justify-between'>
                         <p className='text-lg font-semibold text-richblack-5'>Personal Details</p>
-                        <div className=''>
-                            <Link to="/dashboard/settings">
-                                <Button> Edit
-                                </Button>
-                            </Link>
-
-                        </div>
                     </div>
                     <div className='flex gap-y-5 md:flex-row flex-col max-w-[500px] justify-between'>
                         <div className='flex flex-col gap-y-5'>
+                            <div className='flex w-full items-center gap-x-3'>
+                                <img
+                                    src={currentUser.profilePic}
+                                    alt={`profile-${currentUser?.username}`}
+                                    className='aspect-square w-[78px] rounded-full object-cover' />
+                                <div className='space-y-1'>
+                                    <p className='text-lg font-semibold text-richblack-5'> {currentUser?.username} </p>
+                                    <p className=' text-[11px] md:text-sm text-richblack-300 md:max-w-full max-w-[220px] break-words'> {currentUser?.email}</p>
+                                </div>
+                            </div>
                             <div>
-                                <p className='mb-2 text-black font-bold'>username:</p>
-                                <p className='text-sm font-medium text-richblack-5'>{currentUser?.username}</p>
+                                <p className='mb-2 text-black font-bold'>Username:</p>
+                                <p className='text-sm font-medium text-black'>{currentUser?.username}</p>
                             </div>
                             <div>
                                 <p className='mb-2 font-bold text-black'>Email:</p>
-                                <p className='text-sm font-medium text-richblack-5 break-words'>{currentUser?.email}</p>
+                                <p className='text-sm font-medium text-black break-words'>{currentUser?.email}</p>
                             </div>
                             <div>
                                 <p className='mb-2 font-bold text-black'>Gender:</p>
-                                <p className='text-sm font-medium text-richblack-5'>{currentUser?.additionalDetails?.gender ?? "Add Gender"}</p>
+                                <p className='text-sm font-medium text-black'>{currentUser?.additionalDetails?.gender ?? "Add Gender"}</p>
                             </div>
                             <div>
                                 <p className='mb-2 font-bold text-black'>Phone Number:</p>
-                                <p className='text-sm font-medium text-richblack-5'>{currentUser?.additionalDetails?.contactNumber ?? "Add Contact Number"}</p>
+                                <p className='text-sm font-medium text-black'>{currentUser?.additionalDetails?.contactNumber ?? "Add Contact Number"}</p>
                             </div>
                             <div>
                                 <p className='mb-2 font-bold text-black'>Date of Birth:</p>
-                                <p className='text-sm font-medium text-richblack-5'>{currentUser?.additionalDetails?.dateOfBirth ?? "Add Date of Birth"}</p>
+                                <p className='text-sm font-medium text-black'>{currentUser?.additionalDetails?.dateOfBirth ?? "Add Date of Birth"}</p>
+                            </div>
+                            <div className='flex ml-96'>
+                                <Link to="/dashboard/settings">
+                                    <Button> Edit
+                                    </Button>
+                                </Link>
                             </div>
                         </div>
 
