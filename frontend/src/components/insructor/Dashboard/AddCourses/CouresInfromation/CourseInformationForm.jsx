@@ -110,11 +110,11 @@ const CourseInformationForm = () => {
 
     const isFormUpdated = () => {
         const currentValues = getValues();
-        if (currentValues.courseTitle !== course.courseName ||
-            currentValues.courseShortDesc !== course.courseDescription ||
+        if (currentValues.courseTitle !== course.title ||
+            currentValues.courseShortDesc !== course.description ||
             currentValues.coursePrice !== course.price ||
-            currentValues.courseTitle !== course.courseName ||
-            currentValues.courseTags.toString() !== course.tag.toString() ||
+            currentValues.courseTitle !== course.title ||
+            currentValues.courseTags.toString() !== course.tags.toString() ||
             currentValues.courseBenefits !== course.whatYouWillLearn ||
             currentValues.courseCategory !== course.category ||
             currentValues.courseImage !== course.thumbnail)
@@ -132,11 +132,11 @@ const CourseInformationForm = () => {
                 const formData = new FormData();
 
                 formData.append("courseId", course._id);
-                if (currentValues.courseTitle !== course.courseName) {
+                if (currentValues.courseTitle !== course.title) {
                     formData.append("title", data.courseTitle);
                 }
 
-                if (currentValues.courseShortDesc !== course.courseDescription) {
+                if (currentValues.courseShortDesc !== course.description) {
                     formData.append("description", data.courseShortDesc);
                 }
 
@@ -148,10 +148,13 @@ const CourseInformationForm = () => {
                     formData.append("whatYouWillLearn", data.courseBenefits);
                 }
 
-                if (currentValues.courseCategory._id !== course.category._id) {
+                if (currentValues.courseCategory !== course.category) {
                     formData.append("category", data.courseCategory);
                 }
 
+                if (currentValues.courseImage !== course.thumbnail) {
+                    formData.append("thumbnailImage", data.courseImage);
+                }
 
                 setLoading(true);
                 const result = await editCourseDetails(formData, user);
@@ -165,8 +168,8 @@ const CourseInformationForm = () => {
             else {
                 toast.error("NO Changes made so far");
             }
-            // console.log("PRINTING FORMDATA", formData);
-            //  console.log("PRINTING result", result);
+            // console.log("form data is", formData);
+            console.log("PRINTING result", result);
 
             return;
         }

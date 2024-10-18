@@ -142,17 +142,28 @@ export const editCourse = async (req, res) => {
 	  // If Thumbnail Image is found, update it
 	  if (req.files) {
 		console.log("thumbnail update");
-		const thumbnail = req.files.thumbnailImage;
+		const thumbnail = req.files?.thumbnailImage;
 		const thumbnailImage = await uploadImageToCloudinary(
 		  thumbnail,
 		  process.env.FOLDER_NAME
 		);
 		course.thumbnail = thumbnailImage.secure_url;
 	  }
-  
-	  // Update other course details if needed
-	  Object.assign(course, updates); // Use this to update other fields
-  
+	//   console.log(thumbnail);
+	//   console.log(thumbnailImage);
+	/// baki che imagwe upadate nathi thadi [achi ho
+	
+	  for (const key in updates) {
+		if (Object.prototype.hasOwnProperty.call(updates, key)) {
+			if (key === "tags") {
+				course[key] = JSON.parse(updates[key]);
+			} else {
+				course[key] = updates[key];
+			}
+		}
+	}
+	
+    
 	  await course.save();
   
 	  const updatedCourse = await Course.findOne({
