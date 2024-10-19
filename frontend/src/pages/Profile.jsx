@@ -1,4 +1,3 @@
-import iconBtn from '@/components/common/iconBtn'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import { useSelector } from 'react-redux'
@@ -52,7 +51,7 @@ const MyProfile = () => {
                                 <p className='text-sm font-medium text-black'>{currentUser?.additionalDetails?.dateOfBirth ?? "Add Date of Birth"}</p>
                             </div>
                             <div className='flex ml-96'>
-                                <Link to="/dashboard/settings">
+                                <Link to="/settings">
                                     <Button> Edit
                                     </Button>
                                 </Link>
