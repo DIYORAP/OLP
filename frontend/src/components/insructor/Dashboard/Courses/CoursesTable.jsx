@@ -24,7 +24,25 @@ export default function CoursesTable({ courses, setCourses }) {
 
 
 
-
+    const deleteCourse = async (courseId, token) => {
+        const toastId = toast.loading("Loading...");
+        try {
+            const response = await axios.post("/api/courses/deletecourse", courseId, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log("DELETE COURSE API RESPONSE............", response);
+            if (!response?.data?.success) {
+                throw new Error("Could Not Delete Course");
+            }
+            toast.success("Course Deleted");
+        } catch (error) {
+            console.log("DELETE COURSE API ERROR............", error);
+            toast.error(error?.response?.data?.message || "Could not delete course");
+        }
+        toast.dismiss(toastId);
+    };
 
 
 
@@ -32,7 +50,7 @@ export default function CoursesTable({ courses, setCourses }) {
         let result = [];
         const toastId = toast.loading("Loading...");
         try {
-            const response = await axios.post("/api/courses/getInstructorCourses",
+            const response = await axios.get("/api/courses/getInstructorCourses",
                 null,
                 {
                     Authorisation: `Bearer ${token}`,
@@ -52,9 +70,11 @@ export default function CoursesTable({ courses, setCourses }) {
     };
 
 
-    const handleCourse = async (courseId) => {
+
+
+    const handleCourseDelete = async (courseId) => {
         setLoading(true)
-        //  await deleteCourse({ courseId: courseId }, token)
+        await deleteCourse({ courseId: courseId }, token)
         const result = await fetchInstructorCourses(token)
         if (result) {
             setCourses(result)

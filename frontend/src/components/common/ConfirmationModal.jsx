@@ -22,7 +22,7 @@ const ConfirmationModal = ({ modalData }) => {
                 </div>
             </div>
 
-            <div className='fixed inset-0 z-10 !mt-0 grid place-items-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm over'></div>
+            <div className='fixed inset-0 z-10 !mt-0 grid place-items-center overflow-auto bg-white  over'></div>
 
         </div>
     )

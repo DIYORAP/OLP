@@ -1,10 +1,10 @@
 import Course from "../model/Course.model.js";
-import Category from "../model/Category.model.js";
 import User from "../model/User.model.js";
 import uploadImageToCloudinary from "../utils/cloudUploader.js"
 import ErrorResponse from "../utils/ErrorResponse.js";
 import Section from "../model/Section.model.js";
 import CourseProgress from "../model/CourseProgress.model.js"
+import SubSection from '../model/SubSection.model.js'
 export const createCourse = async (req, res, next) => {
   try {
     const instructorId = req.user.id;
@@ -277,16 +277,14 @@ export const getFullCourseDetails = async (req, res) => {
 
 
   //delete course create
-export const deleteCourse=async (req, res) => {
+export const deleteCourse=async (req, res,next) => {
 	try {
 	  const { courseId } = req.body
-	  // Find the course
 	  const course = await Course.findById(courseId)
 	  if (!course) {
 		return res.status(404).json({ message: "Course not found" })
 	  }
   
-	  // Unenroll students from the course
 	  const studentsEnrolled = course.studentsEnrolled
 	  for (const studentId of studentsEnrolled) {
 		await User.findByIdAndUpdate(studentId, {
@@ -297,10 +295,9 @@ export const deleteCourse=async (req, res) => {
 	  // Delete sections and sub-sections
 	  const courseSections = course.courseContent
 	  for (const sectionId of courseSections) {
-		// Delete sub-sections of the section
 		const section = await Section.findById(sectionId)
 		if (section) {
-		  const subSections = section.subSection
+		  const subSections = section.SubSection
 		  for (const subSectionId of subSections) {
 			await SubSection.findByIdAndDelete(subSectionId);
 		  }
@@ -313,10 +310,6 @@ export const deleteCourse=async (req, res) => {
 	  // Delete the course
 	  await Course.findByIdAndDelete(courseId)
 
-	  //Delete course id from Category
-	  await Category.findByIdAndUpdate(course.category._id, {
-		$pull: { courses: courseId },
-	     })
 	
 	//Delete course id from Instructor
 	await User.findByIdAndUpdate(course.instructor._id, {
@@ -359,55 +352,4 @@ export const deleteCourse=async (req, res) => {
 		})
 	}
   }
-  //mark lecture as completed
-export const markLectureAsComplete = async (req, res) => {
-	const { courseId, subSectionId, userId } = req.body
-	if (!courseId || !subSectionId || !userId) {
-	  return res.status(400).json({
-		success: false,
-		message: "Missing required fields",
-	  })
-	}
-	try {
-	progressAlreadyExists = await CourseProgress.findOne({
-				  userID: userId,
-				  courseID: courseId,
-				})
-	  const completedVideos = progressAlreadyExists.completedVideos
-	  if (!completedVideos.includes(subSectionId)) {
-		await CourseProgress.findOneAndUpdate(
-		  {
-			userID: userId,
-			courseID: courseId,
-		  },
-		  {
-			$push: { completedVideos: subSectionId },
-		  }
-		)
-	  }else{
-		return res.status(400).json({
-			success: false,
-			message: "Lecture already marked as complete",
-		  })
-	  }
-	  await CourseProgress.findOneAndUpdate(
-		{
-		  userId: userId,
-		  courseID: courseId,
-		},
-		{
-		  completedVideos: completedVideos,
-		}
-	  )
-	return res.status(200).json({
-	  success: true,
-	  message: "Lecture marked as complete",
-	})
-	} catch (error) {
-	  return res.status(500).json({
-		success: false,
-		message: error.message,
-	  })
-	}
-
-}
+ 
