@@ -24,7 +24,7 @@ export const createCourse = async (req, res, next) => {
     	
     // Check if the user is an instructor
     const instructorDetails = await User.findById(instructorId, {
-			role: "Student",
+			role: "Instructor",
 		});
 
     if (!instructorDetails) {

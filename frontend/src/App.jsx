@@ -25,6 +25,7 @@ import InstuLogin from './pages/login/InstuLogin';
 import HeroHeader from './pages/instuctor/InsruHero';
 import MyCourses from './components/insructor/Dashboard/Courses/MyCourses';
 import EditCourse from './components/insructor/Dashboard/EditCourse/EditCourse';
+import Settings from './pages/Settings';
 
 function App() {
   return (
@@ -43,6 +44,8 @@ function App() {
           <Route path="/instructor/signup" element={<InsruSignUp />} />
           <Route path="/instructor/login" element={<InstuLogin />} />
           <Route element={<PrivateRoute />}>
+            <Route path='/settings' element={<Settings />} />
+
             <Route path='/profile' element={<Profile />} />
           </Route>
 
