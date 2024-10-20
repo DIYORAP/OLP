@@ -353,3 +353,13 @@ export const deleteCourse=async (req, res,next) => {
 	}
   }
  
+  export const getAll = async (req, res) => {
+	try {
+	  const courses = await Course.find().populate('instructor').exec();
+	  res.status(200).json(courses);
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ message: 'Failed to fetch courses' });
+	}
+  };
+  
