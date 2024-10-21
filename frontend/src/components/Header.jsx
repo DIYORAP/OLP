@@ -8,9 +8,11 @@ const Header = () => {
 
     return (
         <header className='flex bg-white border-b py-4 sm:px-8 px-6 font-sans min-h-[80px] tracking-wide relative z-50'>
-            <div className='flex flex-wrap items-center lg:gap-y-2 gap-4'>
+            <Link to="/" ><div className='flex flex-wrap items-center lg:gap-y-2 gap-4'>
                 <h2 className="font-bold text-2xl">SkillIQ</h2>
             </div>
+            </Link>
+
             <div className='flex border-2 focus-within:border-gray-400 rounded-full ml-48 px-7 py-3 overflow-hidden max-w-64 max-lg:hidden'>
                 <input
                     type='text'

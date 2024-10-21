@@ -3,6 +3,7 @@ import { IoCloseSharp } from 'react-icons/io5';
 import { useDispatch, useSelector } from "react-redux";
 import { signInFailure, signInStart, signInSuccess } from "../../redux/Slice/userSlice.js";
 import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 function Login() {
     const [formData, setFormData] = useState({ role: "Student" });
@@ -41,7 +42,9 @@ function Login() {
 
             dispatch(signInSuccess(data)); // Ensure you are passing the right data
             navigate('/student/courses');
+            toast.success("successfull login")
         } catch (error) {
+            toast.error("login error check your password and email ")
             dispatch(signInFailure(error));
         }
     };

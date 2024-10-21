@@ -153,7 +153,6 @@ const CourseDetails = () => {
                             </div>
 
                             <div className='text-center'>
-                                {/* copy url */}
                                 <button className='mx-auto flex items-center gap-2 py-6 text-black-100' onClick={
                                     () => {
                                         navigator.clipboard.writeText(window.location.href);
@@ -206,7 +205,7 @@ const CourseDetails = () => {
                                         </summary>
 
                                         {/* baki che thodu */}
-                                        {/* <div className='mt-5'>
+                                        <div className='mt-5'>
                                             {
                                                 item?.SubSection?.map((subItem, subIndex) => (
                                                     <div key={subIndex} className='relative overflow-hidden bg-richblack-900  p-5 border border-solidborder-black'>
@@ -218,7 +217,7 @@ const CourseDetails = () => {
 
                                                 ))
                                             }
-                                        </div> */}
+                                        </div>
                                     </details>
                                 ))
                             }

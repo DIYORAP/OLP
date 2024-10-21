@@ -2,6 +2,7 @@ import User from "../model/User.model.js"
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken";
 import Profile from "../model/Profile.model.js"
+import ErrorResponse from "../utils/ErrorResponse.js";
 
 export const signup=async (req,res,next)=> {
     const {username,email,password,role}=req.body;
@@ -59,14 +60,14 @@ export const signin = async (req, res, next) => {
 			});
 		}
     const user = await User.findOne({ email });
-    if (!user) return next(errorHandler(404, 'User not found!'));
+    if (!user) return next(ErrorResponse(404, 'User not found!'));
 
      
     const validPassword = bcryptjs.compareSync(password, user.password);
-    if (!validPassword) return next(errorHandler(401, 'Wrong credentials!'));
+    if (!validPassword) return next(ErrorResponse(401, 'Wrong credentials!'));
 
     if (user.role !== role) {   
-      return next(errorHandler(403, 'Unauthorized role!'));
+      return next(ErrorResponse(403, 'Unauthorized role!'));
     }
  
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET,{expiresIn:"24h"});
