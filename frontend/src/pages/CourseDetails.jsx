@@ -109,7 +109,7 @@ const CourseDetails = () => {
 
     return (
         <div>
-            <div className='mx-auto box-content px-4 lg:w-[1260px] lg:relative '>
+            <div className='mx-auto box-content px-4 lg:w-[1260px] lg:relative  bg-black text-white mt-8 rounded-lg'>
                 <div className='mx-auto grid min-h-[450px] max-w-maxContentTab justify-items-center py-8 lg:mx-0 lg:justify-items-start lg:py-0 xl:max-w-[810px]'>
                     <div className='relative block max-h-[30rem] lg:hidden'>
                         <div className='absolute bottom-0 left-0 h-full w-full shadow-[#161D29_0px_-64px_36px_-28px_inset]'></div>
@@ -118,43 +118,31 @@ const CourseDetails = () => {
                     <div className='z-30 my-5 flex flex-col justify-center gap-4 py-5 text-lg text-richblack-5'>
                         <p className='text-4xl font-bold text-richblack-5 sm:text-[42px]'>{courseDetail?.title}</p>
                         <p className='text-richblack-200'>{courseDetail?.description}</p>
-                        {/* <div className='flex gap-x-3 items-center'> */}
-                        {/* <span className='text-black-50'>{avgReviewCount || 0}</span> */}
-                        {/* <RatingStars Review_Count={avgReviewCount} /> */}
-                        {/* <span className=' md:block hidden md:text-xl text-richblack-5'>({courseDetail?.ratingAndReviews?.length} Reviews)</span> */}
-                        {/* student enrolled */}
-                        {/* <span className='text-richblack-200'>{courseDetail?.studentsEnrolled?.length} students enrolled</span> */}
-                        {/* </div> */}
+                        <div className='flex gap-x-3 items-center'>
+                            <span className='text-black-50'>4.5 || 0</span>
+                            <span className=' md:block hidden md:text-xl text-richblack-5'>23 Reviews</span>
+                            student enrolled
+                            <span className='text-richblack-200'>1000 students enrolled</span>
+                        </div>
                         <div>
                             <p>Created By {courseDetail?.instructor?.username} </p>
                         </div>
                         <div className='flex flex-wrap gap-5 text-lg'>
-                            <AiOutlineInfoCircle className='text-2xl text-richblack-5' />
-                            <p className='text-black'>Created at &nbsp;
+                            <AiOutlineInfoCircle className='text-2xl ' />
+                            <p>Created at &nbsp;
                                 {new Date(courseDetail?.createdAt || courseDetail?.updatedAt).toLocaleDateString('en-US', {
                                     year: 'numeric',
                                     month: 'long',
                                     day: 'numeric',
                                 })}
                             </p>
-                            <p className='flex items-center gap-2 text-black'><BsGlobe className='text-lg text-black' />English</p>
+                            <p className='flex items-center gap-2'><BsGlobe className='text-lg' />English</p>
                         </div>
                     </div>
-                    <div className='flex w-full flex-col gap-4 border-y border-y-richblack-500 py-4 lg:hidden'>
-                        <p className='space-x-3 pb-4 text-3xl font-semibold text-richblack-5'>
-                            <span>₹{courseDetail?.price}</span></p>
-                        {ACCOUNT_TYPE.INSTRUCTOR !== token?.role &&
-                            <>
-                                {
-                                    alreadyEnrolled ? <button onClick={() => { navigate("/dashboard/enrolled-courses") }} className='yellowButton'>Go to Course</button> : <button onClick={handelPayment} className='yellowButton'>Buy Now</button>
-                                }
 
-                            </>
-                        }
-                    </div>
                 </div>
-                <div className='right-[1rem] top-[60px] mx-auto hidden min-h-[600px] w-1/3 max-w-[410px] translate-y-24 md:translate-y-0 lg:absolute  lg:block'>
-                    <div className='flex flex-col gap-4 rounded-md bg-richblack-700 p-4 text-richblack-5'>
+                <div className='right-[1rem] top-[60px] mx-auto hidden min-h-[500px] w-1/3 max-w-[410px] translate-y-24 md:translate-y-0 lg:absolute  lg:block border-black border-2 rounded-md bg-slate-300'>
+                    <div className='flex flex-col gap-4 rounded-md bg-richblack-700 p-4 text-black'>
                         <img src={courseDetail?.thumbnail} alt="course img" className='max-h-[300px] min-h-[180px] w-[400px] overflow-hidden rounded-2xl object-cover md:max-w-full' />
                         <div className='px-4'>
                             <div className='space-x-3 pb-4 text-3xl font-semibold'>
@@ -221,7 +209,7 @@ const CourseDetails = () => {
                                         {/* <div className='mt-5'>
                                             {
                                                 item?.SubSection?.map((subItem, subIndex) => (
-                                                    <div key={subIndex} className='relative overflow-hidden bg-richblack-900  p-5 border border-solid border-richblack-600'>
+                                                    <div key={subIndex} className='relative overflow-hidden bg-richblack-900  p-5 border border-solidborder-black'>
                                                         <div className='flex items-center gap-2'>
                                                             <IoVideocamOutline className='txt-lg text-richblack-5' />
                                                             <span className='text-lg'>{subItem?.title}</span>
@@ -270,7 +258,7 @@ const CourseDetails = () => {
             </div>
 
 
-        </div>
+        </div >
     )
 }
 
