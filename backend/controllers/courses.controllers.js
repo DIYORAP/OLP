@@ -363,3 +363,40 @@ export const deleteCourse=async (req, res,next) => {
 	}
   };
   
+  export const getCourseDetails = async (req,res)=>{
+	try {
+		const {courseId}=req.body;
+	const courseDetails=await Course.find({_id: courseId}).populate({path:"instructor",
+	populate:{path:"additionalDetails"}})
+	.populate("category")
+	// .populate({                    
+	// 	path:"RatingAndReviews",
+	// 	populate:{path:"user"
+	// 	,select:"username role profilePic"}
+	// })
+	.populate({path:"courseContent",populate:{path:"SubSection"}})
+	.exec();
+
+	if(!courseDetails){
+		return res.status(404).json({
+            success:false,
+            message:"Course Not Found"
+        })
+	}
+	return res.status(200).json({
+        success:true,
+		message:"Course fetched successfully now",
+        data:courseDetails
+    });
+		
+	} catch (error) {
+		console.log(error);
+        return res.status(404).json({
+            success:false,
+			message:`Can't Fetch Course Data`,
+			error:error.message
+        })
+		
+	}
+
+}

@@ -30,7 +30,7 @@ export default function Home() {
                             key={course._id}
                             className="mb-4 hover:scale-[1.03] transition-all duration-200 z-50 border-blue-950 border-[1px] rounded-md"
                         >
-                            <Link key={course._id} to={'/'} className="block mb-8">
+                            <Link key={course._id} to={`/courses/${course._id}`} className="block mb-8">
                                 <article key={course.id} className="flex max-w-xl flex-col items-start justify-between">
                                     <div className="items-center gap-x-4 text-xs">
                                         <div
