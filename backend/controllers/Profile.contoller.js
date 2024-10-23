@@ -37,3 +37,55 @@ export const updateProfile=async(req,res,next)=>{
          });
     }
 }
+
+
+export const upadteDisplaypicture=async(req,res,next)=>{
+    try {
+        
+
+        const id=req.user.id;
+        const user=await User.findById(id);
+        if(!user)
+        {
+            return res.status(404).json({
+                success:false,
+                message:"user nathi maliyo",
+            });
+
+        }
+
+        const image =req.files.pfp;
+
+        if(!image)
+        {
+            return res.status(404).json({
+                success:false,
+                message:"iamge not found",
+
+            });
+
+        }
+
+        const uploadDetails=await uploadImageToCloudinary(
+            image,
+            process.env.FOLDER_NAME
+        );
+        console.log(uploadDetails);
+
+        const uploadImage=await User.findByIdAndUpdate({_id:id},{image:uploadDetails.secure_url},{new:true});
+
+
+        return res.status(200).json({
+            success:true,
+            message:"image upadate sucdesfully",
+            data:uploadImage,
+        });
+
+    } catch (error) {
+       console.log("uplaiod image error",error);
+       return res.status(500).json({
+        success:false,
+        message:error.message,
+       });
+    }
+}
