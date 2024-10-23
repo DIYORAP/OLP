@@ -119,7 +119,7 @@ const CourseDetails = () => {
                         <p className='text-4xl font-bold text-richblack-5 sm:text-[42px]'>{courseDetail?.title}</p>
                         <p className='text-richblack-200'>{courseDetail?.description}</p>
                         <div className='flex gap-x-3 items-center'>
-                            <span className='text-black-50'>4.5 || 0</span>
+                            <span className='text-black-50'>5 || 4</span>
                             <span className=' md:block hidden md:text-xl text-richblack-5'>23 Reviews</span>
                             student enrolled
                             <span className='text-richblack-200'>1000 students enrolled</span>
