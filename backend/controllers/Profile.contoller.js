@@ -49,7 +49,7 @@ export const upadteDisplaypicture=async(req,res,next)=>{
         {
             return res.status(404).json({
                 success:false,
-                message:"user nathi maliyo",
+                message:"user not found",
             });
 
         }
@@ -60,7 +60,7 @@ export const upadteDisplaypicture=async(req,res,next)=>{
         {
             return res.status(404).json({
                 success:false,
-                message:"iamge not found",
+                message:"image not found",
 
             });
 
