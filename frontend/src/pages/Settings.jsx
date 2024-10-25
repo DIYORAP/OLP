@@ -1,9 +1,17 @@
 import React from 'react'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 
 export default function Settings() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.profile.user);
+    const pfp = useSelector(state => state.profile.image);
+    const [profilePicture, setprofilePicture] = useState(pfp);
+    const token = useSelector(state => state.auth.token);
+
     const { currentUser } = useSelector((state) => state.user)
     const [formData, setFormData] = useState({
         firstName: "",
