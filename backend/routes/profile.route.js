@@ -5,4 +5,4 @@ const router=express.Router();
 
 router.put("/updateProfile",auth,updateProfile);
 //router.get("/getUserDetails",auth, )
-
+export  default router;

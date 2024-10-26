@@ -53,7 +53,7 @@ export default function Settings() {
         const { username, lastName, dateOfBirth, gender, contactNumber, about } = additionalDetails;
         const toastId = toast.loading("Updating...");
         try {
-            const response = await axios.put("", {
+            const response = await axios.put("/api/profile/updateProfile", {
                 username,
                 lastName,
                 dateOfBirth,
