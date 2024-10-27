@@ -3,19 +3,19 @@ import React, { useState, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
 export default function Settings() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector(state => state.profile.user);
     const pfp = useSelector(state => state.profile.image);
     const [profilePicture, setProfilePicture] = useState(pfp);
-    const token = useSelector(state => state.auth.token);
+    const token = useSelector(state => state.user.token);
     const { currentUser } = useSelector(state => state.user);
     const fileRef = useRef(null);
-
+    console.log(token)
     const [formData, setFormData] = useState({
         username: currentUser.username || "",
-        lastName: currentUser.lastName || "",
         dateOfBirth: currentUser?.additionalDetails.dateOfBirth || "",
         gender: currentUser?.additionalDetails.gender || "Prefer not to say",
         contactNumber: currentUser?.additionalDetails.contactNumber || "",
@@ -24,22 +24,26 @@ export default function Settings() {
 
     const handleUpload = async (e) => {
         e.preventDefault();
-        const file = e.target[0].files[0];
-        if (file) {
-            try {
-                await updatePfp(token, file);
-            } catch (error) {
-                toast.error("Error uploading profile picture.");
-            }
+        const file = fileRef.current?.files[0];
+        if (!file) {
+            return toast.error("No file selected.");
         }
-    }
+
+        try {
+            await updatePfp(token, file);
+            toast.success("Profile picture uploaded successfully.");
+        } catch (error) {
+            toast.error("Error uploading profile picture.");
+            console.error("File upload error:", error);
+        }
+    };
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             setProfilePicture(URL.createObjectURL(file));
         }
-    }
+    };
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -47,54 +51,45 @@ export default function Settings() {
             ...prevData,
             [name]: value,
         }));
-    }
+    };
 
     const updateAdditionalDetails = async (token, additionalDetails) => {
-        const { username, lastName, dateOfBirth, gender, contactNumber, about } = additionalDetails;
+        const { username, dateOfBirth, gender, contactNumber, about } = additionalDetails;
         const toastId = toast.loading("Updating...");
         try {
             const response = await axios.put("/api/profile/updateProfile", {
                 username,
-                lastName,
                 dateOfBirth,
                 gender,
                 contactNumber,
                 about,
             }, {
-                Authorization: `Bearer ${token}`,
+                headers: { Authorization: `Bearer ${token}` },
             });
 
             if (!response.data.success) {
-                throw new Error(response.data.message);
+                throw new Error(response.data.message || "Update failed.");
             }
-            toast.success("Additional Details Updated Successfully");
 
-            // Update localStorage
-            const user = JSON.parse(localStorage.getItem("user")) || {};
-            Object.assign(user, {
-                username: lastName || user.username,
-                additionalDetails: {
-                    ...user.additionalDetails,
-                    dateOfBirth: dateOfBirth || user.additionalDetails.dateOfBirth,
-                    contactNumber: contactNumber || user.additionalDetails.contactNumber,
-                    about: about || user.additionalDetails.about,
-                    gender: gender || user.additionalDetails.gender,
-                }
-            });
-            localStorage.setItem("user", JSON.stringify(user));
+            toast.success("Additional Details Updated Successfully");
+            localStorage.setItem("user", JSON.stringify({ ...user, ...additionalDetails }));
 
         } catch (error) {
+            const errorMessage = error.response?.data?.message || "Failed to update details.";
             console.error("Error updating additional details:", error);
-            toast.error(error.response?.data?.message || "Failed to update details.");
+            toast.error(errorMessage);
         } finally {
             toast.dismiss(toastId);
         }
-    }
+    };
 
     const handleAdditionalDetails = (e) => {
         e.preventDefault();
+        if (!formData.username.trim() || !formData.contactNumber.trim()) {
+            return toast.error("Please fill in all required fields.");
+        }
         updateAdditionalDetails(token, formData);
-    }
+    };
 
     return (
         <div>

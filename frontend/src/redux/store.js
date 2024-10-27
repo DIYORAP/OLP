@@ -4,8 +4,9 @@ import courseReducer from './Slice/courseSlice.js'
 
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import profileSlice from "./Slice/profileSlice.js"
 
-const rootReducer = combineReducers({ user: user1 ,course:courseReducer,
+const rootReducer = combineReducers({ user: user1 ,course:courseReducer,profile:profileSlice
 });
 const persistConfig = {
   key: "root",
