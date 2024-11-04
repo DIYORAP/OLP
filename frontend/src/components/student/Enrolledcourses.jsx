@@ -17,7 +17,7 @@ const EnrolledCourses = () => {
 
     const getEnrolledCourses = async () => {
         setLoading(true);
-        // const response = await getUserEnrolledCourses(token, dispatch);
+        const response = await getUserEnrolledCourses(token, dispatch);
         console.log("getEnrolledCourses -> response", response?.courseProgress);
         setLoading(false);
         setEnrolledCourses(response?.courses);
@@ -34,7 +34,7 @@ const EnrolledCourses = () => {
     }
 
     useEffect(() => {
-        //     getEnrolledCourses();
+        getEnrolledCourses();
     }, []);
 
     if (Loading) {
