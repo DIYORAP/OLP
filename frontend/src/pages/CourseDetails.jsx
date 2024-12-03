@@ -42,7 +42,7 @@ const CourseDetails = () => {
         } catch (error) {
             console.log("COURSE_DETAILS_API API ERROR............", error);
             result = error.response.data;
-            // toast.error(error.response.data.message);
+            toast.error(error.response.data.message);
         }
         // toast.dismiss(toastId)
         // dispatch(setProgress(100));

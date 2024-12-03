@@ -1,8 +1,8 @@
 import express from "express";
 import { auth, isInstructor } from "../middlewares/auth.js";
-import { createCourse, deleteCourse, editCourse, getAll, getCourseDetails, getFullCourseDetails, getInstructorCourses } from "../controllers/Courses.controllers.js";
+import { createCourse, deleteCourse, editCourse, getAll, getCourseDetails, getFullCourseDetails, getInstructorCourses } from "../controllers/Courses.controller.js";
 import { createSection, deleteSection, upadteSection } from "../controllers/Section.controller.js";
- import {createSubSection,deleteSubSection,updateSubSection} from "../controllers/Subsection.js"
+ import {createSubSection,deleteSubSection,updateSubSection} from "../controllers/Subsection.controller.js"
 const router=express.Router();
 
 router.post('/create',auth,isInstructor, createCourse);

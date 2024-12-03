@@ -34,7 +34,12 @@ app.use(
     tempFileDir: "/tmp",
   })
 );
-
+app.all('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "POST, GET");
+  next();
+});
 app.use(cors({
   origin: 'http://localhost:5173', // Allow only your frontend's origin
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific methods
