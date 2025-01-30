@@ -2,18 +2,11 @@ import axios from 'axios';
 import React, { useState, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 export default function Settings() {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
     const user = useSelector(state => state.profile.user);
-    const pfp = useSelector(state => state.profile.image);
-    const [profilePicture, setProfilePicture] = useState(pfp);
     const token = useSelector(state => state.user.token);
     const { currentUser } = useSelector(state => state.user);
-    const fileRef = useRef(null);
-    console.log(token)
     const [formData, setFormData] = useState({
         username: currentUser.username || "",
         dateOfBirth: currentUser?.additionalDetails.dateOfBirth || "",
@@ -22,28 +15,7 @@ export default function Settings() {
         about: currentUser?.additionalDetails.about || "",
     });
 
-    const handleUpload = async (e) => {
-        e.preventDefault();
-        const file = fileRef.current?.files[0];
-        if (!file) {
-            return toast.error("No file selected.");
-        }
 
-        try {
-            await updatePfp(token, file);
-            toast.success("Profile picture uploaded successfully.");
-        } catch (error) {
-            toast.error("Error uploading profile picture.");
-            console.error("File upload error:", error);
-        }
-    };
-
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setProfilePicture(URL.createObjectURL(file));
-        }
-    };
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -93,16 +65,8 @@ export default function Settings() {
 
     return (
         <div>
-            <input
-                onChange={handleFileChange}
-                type="file"
-                ref={fileRef}
-                hidden
-                accept="image/*"
-            />
             <img
-                onClick={() => fileRef.current.click()}
-                src={profilePicture}
+                src={currentUser.profilePic}
                 alt="profile"
                 className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
             />

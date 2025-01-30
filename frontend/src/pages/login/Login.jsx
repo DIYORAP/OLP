@@ -41,8 +41,6 @@ function Login() {
             }
 
             dispatch(signInSuccess(data)); // Ensure you are passing the right data
-            localStorage.setItem("user", JSON.stringify(response.data.user))
-            localStorage.setItem("token", JSON.stringify(response.data.token))
             navigate('/student/courses');
             toast.success("successfull login")
         } catch (error) {
