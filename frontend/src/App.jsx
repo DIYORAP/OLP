@@ -8,7 +8,7 @@ import SidebarLayout from './components/insructor/SidebarLayout';
 import Mess from './components/Mess';
 import Courses from './pages/Courses';
 import StudSidebarLayout from './components/student/studSidebarLayout';
-import Purchases from './pages/student/Purchases';
+import Purchases from './pages/student/EnrolledCourses';
 import Session from './pages/student/Session';
 import Setting from './pages/student/Setting';
 //import InsruCourses from './pages/instuctor/InsruCourses';
@@ -27,6 +27,7 @@ import MyCourses from './components/insructor/Dashboard/Courses/MyCourses';
 import EditCourse from './components/insructor/Dashboard/EditCourse/EditCourse';
 import Settings from './pages/Settings';
 import CourseDetails from './pages/CourseDetails';
+import EnrolledCourses from './components/student/Enrolledcourses';
 
 function App() {
   return (
@@ -66,7 +67,10 @@ function App() {
 
           <Route element={<StudSidebarLayout />}>
             <Route path="/student/courses" element={<Courses />} />
-            <Route path="/student/purchase" element={<Purchases />} />
+            <Route
+              path="dashboard/enrolled-courses"
+              element={<EnrolledCourses />}
+            />
             <Route path="/student/session" element={<Session />} />
             <Route path="/student/setting" element={<Setting />} />
 

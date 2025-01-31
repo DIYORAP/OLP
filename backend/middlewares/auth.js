@@ -1,38 +1,48 @@
+
 import ErrorResponse from "../utils/ErrorResponse.js";
 import jwt from "jsonwebtoken";
 //import clgDev from "../utils/clgDev";
 
-export const auth=async(req,res,next)=>{
-    try {
-        const token = req.cookies.token 
-        || req.body.token 
-        || req.header("Authorisation").replace("Bearer ", "");    
-            console.log(token);
-        if (!token) {
-            return next(new ErrorResponse('User not authorized to access this route', 401));
-          }
-          try {
-            const decode=jwt.verify(token,process.env.JWT_SECRET);
-            req.user=decode;
-            return next();
-          } catch (error) {
-           return next(new ErrorResponse("User not authorized to access this route",401));
 
-          }
-    } catch (error) { 
-         next(new ErrorResponse('Something went wrong while validating user', 500));   
-    }
+export const auth = async (req, res, next) => {
+  try {
+      const token = req.cookies.token 
+          || req.body.token 
+          || (req.header("Authorization") ? req.header("Authorization").replace("Bearer ", "") : null);
+
+      console.log("Extracted Token:", token);
+  
+      if (!token) {
+          return next(new ErrorResponse('User not authorized to access this route', 401));
+      }
+
+      try {
+          const decoded = jwt.verify(token, process.env.JWT_SECRET);
+          req.user = decoded;
+          return next();
+      } catch (error) {
+          return next(new ErrorResponse("Invalid token, authorization denied", 401));
+      }
+  } catch (error) { 
+      console.error("Auth Middleware Error:", error);
+      return res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
 };
-
+  
 
 export const isStudent= async(req,res,next)=>{
+    console.log("isStudent middleware",req.user.role);
     try {
         if(req.user.role !== "Student"){
+        
             return res.status(401).json({
                 success:false,
                 messages:"only for the student _:)"
             })
+
         }
+        return next();
+
     } catch (error) {
         return res.status(500).json({
             success:false,

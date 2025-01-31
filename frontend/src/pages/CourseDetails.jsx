@@ -12,11 +12,28 @@ import { IoVideocamOutline } from 'react-icons/io5';
 import { FaChevronDown } from 'react-icons/fa';
 import axios from 'axios';
 import { ACCOUNT_TYPE } from '@/utils/constants';
-import { Button } from '@/components/ui/button';
+
+
+async function loadScript(src) {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = src;
+        script.onload = () => {
+            console.log("Razorpay script loaded successfully.");
+            resolve(true);
+        };
+        script.onerror = () => {
+            console.error("Failed to load Razorpay SDK.");
+            reject(false);
+        };
+        document.body.appendChild(script);
+    });
+}
 
 const CourseDetails = () => {
-    const { token } = useSelector((state) => state.user);
-    // const {user} = useSelector((state) => state.profile);
+    const token = useSelector((state) => state.user?.currentUser?.token);
+    console.log("CourseDetails -> token", token)
+    const { user } = useSelector((state) => state.profile);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { courseId } = useParams();
@@ -46,8 +63,73 @@ const CourseDetails = () => {
         }
         // toast.dismiss(toastId)
         // dispatch(setProgress(100));
-        //   dispatch(setLoading(false));
+        // dispatch(setLoading(false));
         return result;
+    };
+
+    const buyCourse = async (token, courses, userDetails, navigate, dispatch) => {
+        const toastId = toast.loading("Redirecting to payment gateway...");
+
+        try {
+            const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+            if (!res) {
+                toast.error("Razorpay SDK failed to load. Check network.");
+                return;
+            }
+
+            console.log("Fetching order details from backend...");
+            const orderResponse = await axios.post("/api/payment/capturePayment", { courses }, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (!orderResponse.data.success) {
+                toast.error(orderResponse.data.message);
+                console.error("Order creation failed:", orderResponse.data);
+                return;
+            }
+
+            console.log("Order Response:", orderResponse.data);
+
+            const options = {
+                key: 'rzp_test_PtpoMknwZja8AL',
+                amount: orderResponse.data.amount.toString(),
+                currency: orderResponse.data.currency,
+                order_id: orderResponse.data.orderId,
+
+                name: "Online Learning Platform",
+                description: "Course Purchase",
+                prefill: {
+                    name: `${userDetails?.firstName} ${userDetails?.lastName}`,
+                    email: userDetails?.email
+                },
+                handler: async function (response) {
+                    console.log("Payment Success:", response);
+                    sendPaymentSuccessEmail(response, orderResponse.data.amount, token);
+                    verifypament(response, courses, token, navigate, dispatch);
+                },
+                theme: { color: "#686CFD" }
+            };
+
+            if (!window.Razorpay) {
+                console.error("Razorpay SDK not found in window.");
+                toast.error("Payment gateway error.");
+                return;
+            }
+
+            const paymentObject = new window.Razorpay(options);
+            paymentObject.open();
+            paymentObject.on("payment.failed", function (response) {
+                console.error("Payment Failed:", response);
+                toast.error("Payment Failed");
+            });
+
+            toast.dismiss(toastId);
+
+        } catch (error) {
+            toast.dismiss(toastId);
+            console.error("Error in buyCourse:", error);
+            toast.error("Something went wrong");
+        }
     };
 
     const handelPayment = () => {
@@ -62,13 +144,13 @@ const CourseDetails = () => {
     useEffect(() => {
         const getCourseDetails = async () => {
             const response = await fetchCourseDetails(courseId, dispatch);
-            // console.log("getCourseDetails -> response", response);
+            console.log("getCourseDetails -> response", response);
             setCourseDetail(response);
         }
         getCourseDetails();
     }, [courseId]);
 
-    // useEffect(() => {
+    //useEffect(() => {
     //     if (courseDetail?.ratingAndReviews?.length > 0) {
     //         const count = GetAvgRating(courseDetail?.ratingAndReviews);
     //         setAvgReviewCount(count);
@@ -89,15 +171,15 @@ const CourseDetails = () => {
     // }
 
 
-    // useEffect(() => {
-    //     if (courseDetail) {
-    //         const Enrolled = courseDetail?.studentsEnrolled?.find((student) => student === user?._id);
-    //         // console.log("CourseDetails -> Enrolled", Enrolled)
-    //         if (Enrolled) {
-    //             setAlreadyEnrolled(true);
-    //         }
-    //     }
-    // }, [courseDetail, user?._id])
+    useEffect(() => {
+        if (courseDetail) {
+            const Enrolled = courseDetail?.studentsEnrolled?.find((student) => student === user?._id);
+            console.log("CourseDetails -> Enrolled", Enrolled)
+            if (Enrolled) {
+                setAlreadyEnrolled(true);
+            }
+        }
+    }, [courseDetail, user?._id])
 
 
 
@@ -122,7 +204,7 @@ const CourseDetails = () => {
                             <span className='text-black-50'>5 || 4</span>
                             <span className=' md:block hidden md:text-xl text-richblack-5'>23 Reviews</span>
                             student enrolled
-                            <span className='text-richblack-200'>1000 students enrolled</span>
+                            <span className='text-richblack-200'>{courseDetail?.studentsEnrolled?.length} students enrolled</span>
                         </div>
                         <div>
                             <p>Created By {courseDetail?.instructor?.username} </p>
@@ -147,9 +229,41 @@ const CourseDetails = () => {
                         <div className='px-4'>
                             <div className='space-x-3 pb-4 text-3xl font-semibold'>
                                 <span>₹{courseDetail?.price}</span>
+                                {ACCOUNT_TYPE.INSTRUCTOR !== user?.role &&
+                                    <>
+                                        {
+                                            alreadyEnrolled ? <button onClick={() => { navigate("/dashboard/enrolled-courses") }} className='yellowButton'>Go to Course</button> : <button onClick={handelPayment} className='yellowButton'>Buy Now</button>
+                                        }
+                                        {/* {
+                                            alreadyEnrolled ? (<div></div>) :
+                                                // (
+                                                //     cart?.find((item) => item?._id === courseDetail?._id) ?
+                                                //         (<button onClick={() => { navigate("/dashboard/cart") }} className='blackButton text-richblack-5'>Go to Cart</button>) :
+                                                //         (<button onClick={handelAddToCart} className='blackButton text-richblack-5'>Add to Cart</button>)
+                                                // )
+                                        } */}
+                                    </>
+                                }
                             </div>
                             <div className='flex flex-col gap-4'>
-                                <Button>Buy Now</Button>
+                                {ACCOUNT_TYPE.INSTRUCTOR !== user?.accountType &&
+                                    <>
+                                        {
+                                            alreadyEnrolled ? <button onClick={() => { navigate("/dashboard/enrolled-courses") }} className='bg-black'>Go to Course</button> : <button onClick={handelPayment} className='yellowButton'>Buy Now</button>
+                                        }
+                                        {/* {
+                                            alreadyEnrolled ? (<div></div>) :
+                                                (
+                                                    cart?.find((item) => item._id === courseDetail._id) ?
+                                                        (<button onClick={() => { navigate("/dashboard/cart") }} className='blackButton text-richblack-5'>Go to Cart</button>) :
+                                                        (<button onClick={handelAddToCart} className='blackButton text-richblack-5'>Add to Cart</button>)
+                                                )
+                                        } */}
+                                    </>
+                                }
+                            </div>
+                            <div className='pb-3 pt-6 text-center text-sm text-richblack-25'>
+                                <p>30-Day Money-Back Guarantee</p>
                             </div>
 
                             <div className='text-center'>
@@ -204,7 +318,6 @@ const CourseDetails = () => {
                                             </div>
                                         </summary>
 
-                                        {/* baki che thodu */}
                                         <div className='mt-5'>
                                             {
                                                 item?.SubSection?.map((subItem, subIndex) => (
