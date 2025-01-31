@@ -21,7 +21,7 @@ const StudSidebar = () => {
 
     const sidebarRoutes = [
         { icon: <LayoutDashboard />, label: "Dashboard", path: "/student/courses" },
-        { icon: <HardDriveDownload />, label: "Purchases", path: "/student/purchase" },
+        { icon: <HardDriveDownload />, label: "Purchases", path: "/dashboard/enrolled-courses" },
         { icon: <Radio />, label: "Live Session", path: "/student/session" },
         { icon: <Cog />, label: "Settings", path: "/student/setting" },
         { icon: <LogOut />, label: "Logout", onClick: handleSignOut },
