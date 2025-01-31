@@ -11,8 +11,8 @@ const EnrolledCourses = () => {
 
     const token = useSelector((state) => state.user?.currentUser?.token);
 
-    const [enrolledCourses, setEnrolledCourses] = useState(undefined);
-    const [progressData, setProgressData] = useState(undefined);
+    const [enrolledCourses, setEnrolledCourses] = useState([]);
+    const [progressData, setProgressData] = useState([]);
     const [Loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -38,6 +38,7 @@ const EnrolledCourses = () => {
             }
 
             result = response.data.data;
+            console.log("GET_USER_ENROLLED_COURSES_API RESPONSE:", result);
         } catch (error) {
             console.error("GET_USER_ENROLLED_COURSES_API ERROR:", error);
             toast.error("Could Not Get Enrolled Courses");
@@ -62,8 +63,8 @@ const EnrolledCourses = () => {
 
     const totalNoOfLectures = (course) => {
         let total = 0;
-        course.courseContent.forEach((section) => {
-            total += section.subSection.length;
+        course.courseContent.forEach((Section) => {
+            total += Section.SubSection?.length;
         });
         return total;
     }
@@ -89,34 +90,34 @@ const EnrolledCourses = () => {
                 !enrolledCourses ? (<div>
                     Loading...
                 </div>)
-                    : !enrolledCourses.length ? (<p className='grid h-[10vh] w-full place-content-center text-richblack-5'>You have not enrolled in any course yet</p>)
+                    : !enrolledCourses.length ? (<p className='grid h-[10vh] w-full place-content-center text-black'>You have not enrolled in any course yet</p>)
                         : (
-                            <div className='my-8 text-richblack-5'>
-                                <div className='flex rounded-t-lg bg-richblack-500 '>
+                            <div className='my-8 black'>
+                                <div className='flex rounded-t-lg border-2 bbg-richblack-700 '>
                                     <p className='w-[45%] px-5 py-3'>Course Name</p>
                                     <p className='w-1/4 px-2 py-3'></p>
                                     <p className='flex-1 px-2 py-3'>Progress</p>
                                 </div>
-                                {/* Cards shure hote h ab */}
+                                {/* card start */}
                                 {
                                     enrolledCourses.map((course, index) => (
                                         <div key={index} onClick={() => {
-                                            navigate(`view-course/${course._id}/section/${course.courseContent[0]._id}/sub-section/${course.courseContent[0].subSection[0]}`)
+                                            navigate(`view-course/${course._id}/section/${course.courseContent[0]._id}/sub-section/${course.courseContent[0].SubSection[0]}`)
                                         }}
                                             className='flex items-center border border-richblack-700 rounded-none'>
                                             <div className='flex w-[45%] cursor-pointer items-center gap-4 px-5 py-3'>
                                                 <img className='h-14 w-14 rounded-lg object-cover' src={course.thumbnail} />
                                                 <div className='flex max-w-xs flex-col gap-2'>
-                                                    <p className='font-semibold'>{course.courseName}</p>
+                                                    <p className='font-semibold '>{course.title}</p>
                                                     <p className='text-xs text-richblack-300 hidden md:block'>{
                                                         //description with max 50 characters
-                                                        course.courseDescription.length > 50 ? course.courseDescription.slice(0, 50) + '....' : course.courseDescription
+                                                        course.description.length > 50 ? course.description.slice(0, 50) + '....' : course.description
                                                     }</p>
                                                 </div>
                                             </div>
 
                                             <div className='w-1/4 px-2 py-3'>
-                                                {course?.totalDuration}
+                                                {/* {course?.totalDuration} */}
                                             </div>
 
                                             <div className='flex w-1/5 flex-col gap-2 px- py-3'>

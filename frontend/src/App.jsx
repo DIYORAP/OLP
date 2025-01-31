@@ -28,6 +28,8 @@ import EditCourse from './components/insructor/Dashboard/EditCourse/EditCourse';
 import Settings from './pages/Settings';
 import CourseDetails from './pages/CourseDetails';
 import EnrolledCourses from './pages/student/EnrolledCourses';
+import VideoDetails from './pages/VideoDetails';
+import ViewCourse from './pages/ViewCourse';
 
 function App() {
   return (
@@ -65,10 +67,26 @@ function App() {
 
           </Route>
 
+          <Route
+            element={
+
+              <ViewCourse />
+
+            }
+          >
+
+            <>
+              <Route
+                path="/dashboard/enrolled-courses/view-course/:courseId/section/:sectionId/sub-section/:subsectionId"
+                element={<VideoDetails />}
+              />
+            </>
+
+          </Route>
           <Route element={<StudSidebarLayout />}>
             <Route path="/student/courses" element={<Courses />} />
             <Route
-              path="dashboard/enrolled-courses"
+              path="/dashboard/enrolled-courses"
               element={<EnrolledCourses />}
             />
             <Route path="/student/session" element={<Session />} />
@@ -77,6 +95,8 @@ function App() {
 
 
           </Route>
+
+
         </Routes>
 
         <Footer />

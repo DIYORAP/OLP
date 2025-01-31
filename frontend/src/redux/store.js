@@ -5,8 +5,15 @@ import loadingBarSlice from './Slice/loadingBarSlice.js'
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import profileSlice from "./Slice/profileSlice.js"
-
-const rootReducer = combineReducers({ user: user1 ,course:courseReducer,profile:profileSlice,loadingBar:loadingBarSlice,
+import viewCourseSlice from "./Slice/viewCourseSlice.js"
+const rootReducer = combineReducers(
+  { 
+    user: user1 ,
+    course:courseReducer,
+    profile:profileSlice,
+    loadingBar:loadingBarSlice,
+    viewCourse:viewCourseSlice,
+    
 });
 const persistConfig = {
   key: "root",

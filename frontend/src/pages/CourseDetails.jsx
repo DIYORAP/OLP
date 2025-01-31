@@ -33,7 +33,7 @@ async function loadScript(src) {
 const CourseDetails = () => {
     const token = useSelector((state) => state.user?.currentUser?.token);
     console.log("CourseDetails -> token", token)
-    const { user } = useSelector((state) => state.profile);
+    const { currentUser } = useSelector((state) => state.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { courseId } = useParams();
@@ -41,6 +41,40 @@ const CourseDetails = () => {
     const [avgReviewCount, setAvgReviewCount] = useState(0);
     const [alreadyEnrolled, setAlreadyEnrolled] = useState(false);
     // const { cart } = useSelector((state) => state.cart);
+
+    const verifypament = async (response, courses, token, navigate, dispatch,) => {
+        const toastId = toast.loading("Please wait while we verify your payment");
+        console.log("verifypayment -> courses", courses.courses);
+        try {
+            // const data = {
+            //     amount: response.amount.toString(),
+            //     paymentId: response.razorpay_payment_id,
+            //     orderId: response.razorpay_order_id,
+            //     signature: response.razorpay_signature,
+            // };
+            const res = await axios.post("/api/payment/verifyPayment", {
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+                courses: courses.courses || courses,
+            }, {
+                Authorisation: `Bearer ${token}`,
+            });
+            console.log("verifypament -> res", res)
+            if (!res.data.success) {
+                toast.error(res.message);
+                return;
+            }
+
+            toast.success("Payment Successfull");
+            navigate("/dashboard/enrolled-courses");
+        }
+        catch (err) {
+            toast.error("Payment Failed");
+            console.log(err);
+        }
+        toast.dismiss(toastId);
+    }
 
     const fetchCourseDetails = async (courseId, dispatch) => {
         // const toastId = toast.loading("Loading...")
@@ -104,7 +138,6 @@ const CourseDetails = () => {
                 },
                 handler: async function (response) {
                     console.log("Payment Success:", response);
-                    sendPaymentSuccessEmail(response, orderResponse.data.amount, token);
                     verifypament(response, courses, token, navigate, dispatch);
                 },
                 theme: { color: "#686CFD" }
@@ -134,7 +167,7 @@ const CourseDetails = () => {
 
     const handelPayment = () => {
         if (token) {
-            buyCourse(token, [courseId], user, navigate, dispatch);
+            buyCourse(token, [courseId], currentUser, navigate, dispatch);
         }
         else {
             navigate('/login');
@@ -173,14 +206,35 @@ const CourseDetails = () => {
 
     useEffect(() => {
         if (courseDetail) {
-            const Enrolled = courseDetail?.studentsEnrolled?.find((student) => student === user?._id);
+            console.log("CourseDetails -> courseDetail", courseDetail)
+            const Enrolled = courseDetail?.studentsEnrolled?.find((Student) => Student === currentUser?._id);
             console.log("CourseDetails -> Enrolled", Enrolled)
             if (Enrolled) {
                 setAlreadyEnrolled(true);
             }
         }
-    }, [courseDetail, user?._id])
+    }, [courseDetail, currentUser?._id])
+    // useEffect(() => {
+    //     if (courseDetail && user?._id) {
+    //         console.log("CourseDetails -> courseDetail", courseDetail);
 
+    //         // Ensure studentsEnrolled is an array
+    //         const enrolledStudentIds = Array.isArray(courseDetail?.studentsEnrolled)
+    //             ? courseDetail.studentsEnrolled.map(id => id.toString())
+    //             : [];
+
+    //         console.log("CourseDetails -> Enrolled Student IDs", enrolledStudentIds);
+
+    //         // Check if user is enrolled
+    //         const isEnrolled = enrolledStudentIds.includes(user?._id.toString());
+
+    //         console.log("CourseDetails -> Enrolled", isEnrolled);
+
+    //         if (isEnrolled) {
+    //             setAlreadyEnrolled(true);
+    //         }
+    //     }
+    // }, [courseDetail, user?._id]);
 
 
 
@@ -229,41 +283,18 @@ const CourseDetails = () => {
                         <div className='px-4'>
                             <div className='space-x-3 pb-4 text-3xl font-semibold'>
                                 <span>₹{courseDetail?.price}</span>
-                                {ACCOUNT_TYPE.INSTRUCTOR !== user?.role &&
-                                    <>
-                                        {
-                                            alreadyEnrolled ? <button onClick={() => { navigate("/dashboard/enrolled-courses") }} className='yellowButton'>Go to Course</button> : <button onClick={handelPayment} className='yellowButton'>Buy Now</button>
-                                        }
-                                        {/* {
-                                            alreadyEnrolled ? (<div></div>) :
-                                                // (
-                                                //     cart?.find((item) => item?._id === courseDetail?._id) ?
-                                                //         (<button onClick={() => { navigate("/dashboard/cart") }} className='blackButton text-richblack-5'>Go to Cart</button>) :
-                                                //         (<button onClick={handelAddToCart} className='blackButton text-richblack-5'>Add to Cart</button>)
-                                                // )
-                                        } */}
-                                    </>
-                                }
                             </div>
                             <div className='flex flex-col gap-4'>
-                                {ACCOUNT_TYPE.INSTRUCTOR !== user?.accountType &&
+                                {ACCOUNT_TYPE.INSTRUCTOR !== currentUser?.role &&
                                     <>
                                         {
-                                            alreadyEnrolled ? <button onClick={() => { navigate("/dashboard/enrolled-courses") }} className='bg-black'>Go to Course</button> : <button onClick={handelPayment} className='yellowButton'>Buy Now</button>
+                                            alreadyEnrolled ? <button onClick={() => { navigate("/dashboard/enrolled-courses") }} className='bg-green-800 p-3 rounded-md text-white '>Go to Course</button> : <button onClick={handelPayment} className='bg-black rounded-md p-3 text-white'>Buy Now</button>
                                         }
-                                        {/* {
-                                            alreadyEnrolled ? (<div></div>) :
-                                                (
-                                                    cart?.find((item) => item._id === courseDetail._id) ?
-                                                        (<button onClick={() => { navigate("/dashboard/cart") }} className='blackButton text-richblack-5'>Go to Cart</button>) :
-                                                        (<button onClick={handelAddToCart} className='blackButton text-richblack-5'>Add to Cart</button>)
-                                                )
-                                        } */}
                                     </>
                                 }
                             </div>
                             <div className='pb-3 pt-6 text-center text-sm text-richblack-25'>
-                                <p>30-Day Money-Back Guarantee</p>
+                                <p>NO Money-Back Guarantee</p>
                             </div>
 
                             <div className='text-center'>

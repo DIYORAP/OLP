@@ -1,6 +1,7 @@
 import express from "express";
-import { auth, isInstructor } from "../middlewares/auth.js";
-import { createCourse, deleteCourse, editCourse, getAll, getCourseDetails, getFullCourseDetails, getInstructorCourses } from "../controllers/Courses.controller.js";
+import { auth, isInstructor, isStudent } from "../middlewares/auth.js";
+import { createCourse, deleteCourse, editCourse, getAll, getCourseDetails, getFullCourseDetails, getInstructorCourses, markLectureAsComplete } from "../controllers/Courses.controller.js";
+import { createRating, getAllRating, getAverageRating } from "../controllers/RatingAndReviews.controller.js";
 import { createSection, deleteSection, upadteSection } from "../controllers/Section.controller.js";
  import {createSubSection,deleteSubSection,updateSubSection} from "../controllers/Subsection.controller.js"
 const router=express.Router();
@@ -14,10 +15,17 @@ router.post("/deleteSubSection", auth, isInstructor, deleteSubSection);
 router.post("/updateSubSection", auth, isInstructor, updateSubSection);
 router.post("/editCourse", auth, isInstructor, editCourse);
 router.get("/getInstructorCourses", auth, isInstructor, getInstructorCourses);
-router.post("/getFullCourseDetails",auth,isInstructor,getFullCourseDetails);
+router.post("/getFullCourseDetails",auth,getFullCourseDetails);
 router.post("/deletecourse",auth,isInstructor,deleteCourse);
 router.get("/cou",getAll);
 router.post("/getCourseDetails", getCourseDetails)
+router.post("/updateCourseProgress", auth, isStudent, markLectureAsComplete);
+
+
+// ********
+router.post("/createRating", auth, isStudent, createRating)
+router.get("/getAverageRating", getAverageRating)
+router.get("/getReviews", getAllRating)
 
 export default router;
 

@@ -10,7 +10,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 
 const EditCourse = () => {
-    const { token } = useSelector((state) => state.user);
+    const { token } = useSelector((state) => state.user.currentUser);
     const { course } = useSelector((state) => state.course);
     const { courseId } = useParams();
     const [loading, setLoading] = useState(false);

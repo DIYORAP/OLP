@@ -59,4 +59,3 @@ app.use('/api/auth', authRouter);
 app.use('/api/courses',courseRoute);
 app.use('/api/profile/',profile);
 app.use('/api/payment',paymentRoute);
- 
