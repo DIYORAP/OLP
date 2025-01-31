@@ -4,13 +4,12 @@ import ProgressBar from '@ramonak/react-progress-bar';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
-
-
-
+import { setProgress } from '@/redux/Slice/loadingBarSlice';
+import toast from 'react-hot-toast';
 const EnrolledCourses = () => {
     const dispatch = useDispatch();
 
-    const { token } = useSelector((state) => state.user);
+    const token = useSelector((state) => state.user?.currentUser?.token);
 
     const [enrolledCourses, setEnrolledCourses] = useState(undefined);
     const [progressData, setProgressData] = useState(undefined);

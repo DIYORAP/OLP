@@ -27,7 +27,7 @@ import MyCourses from './components/insructor/Dashboard/Courses/MyCourses';
 import EditCourse from './components/insructor/Dashboard/EditCourse/EditCourse';
 import Settings from './pages/Settings';
 import CourseDetails from './pages/CourseDetails';
-import EnrolledCourses from './components/student/Enrolledcourses';
+import EnrolledCourses from './pages/student/EnrolledCourses';
 
 function App() {
   return (

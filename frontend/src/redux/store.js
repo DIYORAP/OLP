@@ -1,12 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import user1 from "./Slice/userSlice.js";
 import courseReducer from './Slice/courseSlice.js'
-
+import loadingBarSlice from './Slice/loadingBarSlice.js'
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import profileSlice from "./Slice/profileSlice.js"
 
-const rootReducer = combineReducers({ user: user1 ,course:courseReducer,profile:profileSlice
+const rootReducer = combineReducers({ user: user1 ,course:courseReducer,profile:profileSlice,loadingBar:loadingBarSlice,
 });
 const persistConfig = {
   key: "root",
