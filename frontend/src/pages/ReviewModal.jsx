@@ -25,7 +25,7 @@ const ReviewModal = ({ setReviewModal }) => {
         const toastId = toast.loading("Loading...");
         let success = false;
         try {
-            const response = await axios.post("/course/createRating", data, {
+            const response = await axios.post("/api/courses/createRating", data, {
                 Authorisation: `Bearer ${token}`,
             });
             console.log("CREATE RATING API RESPONSE............", response);
@@ -68,16 +68,16 @@ const ReviewModal = ({ setReviewModal }) => {
 
     return (
         <div>
-            <div className=' z-50 my-10 w-11/12 max-w-[700px] rounded-lg border border-richblack-400 bg-richblack-800 fixed left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2'>
-                <div className='flex items-center justify-between rounded-t-lg bg-richblack-700 p-5'>
-                    <p className='text-xl font-semibold text-richblack-5'>Add Review</p>
+            <div className=' z-50 my-10 w-11/12 max-w-[700px] rounded-lg border border-richblack-400 bg-white fixed left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2'>
+                <div className='flex items-center justify-between rounded-t-lg bg-white p-5'>
+                    <p className='text-xl font-semibold text-black'>Add Review</p>
                     <button>
-                        <RxCross2 onClick={() => { setReviewModal(false) }} className=' text-xl text-richblack-25' />
+                        <RxCross2 onClick={() => { setReviewModal(false) }} className=' text-xl text-black' />
                     </button>
                 </div>
                 <div className='p-5'>
                     <div className='flex items-center justify-center gap-x-4'>
-                        <img className='aspect-square w-[50px] rounded-full object-cover' src={user?.image} alt="user" />
+                        <img className='aspect-square w-[50px] rounded-full object-cover' src={user?.profilePic} alt="user" />
                         <div>
                             <p className='font-semibold text-richblack-5'>{user?.firstName} {user?.lastName}</p>
                             <p className='text-sm text-richblack-5'>Posting Publicly</p>
@@ -86,15 +86,15 @@ const ReviewModal = ({ setReviewModal }) => {
                     <form onSubmit={handleSubmit(onSubmit)} className='mt-6 flex flex-col items-center' >
                         <ReactStars onChange={ratingChanged} count={5} size={24} activeColor="#ffd700" />
                         <input value={getValues().userRating} {...register("userRating", { required: true })} type="hidden" />
-                        {errors.userRating && <span className='text-pink-200 text-[11px]'>* Please provide your rating</span>}
+                        {errors.userRating && <span className='text-red-900 text-[11px]'>* Please provide your rating</span>}
                         <div className='flex w-11/12 flex-col space-y-2'>
-                            <label htmlFor="userExperience" className='text-sm text-richblack-5'>Add Your Experience <span className='text-pink-200'>*</span> </label>
+                            <label htmlFor="userExperience" className='text-sm text-richblack-5'>Add Your Experience <span className='text-red-900'>*</span> </label>
                             <textarea {...register("userExperience", { required: true })} className='form-style resize-x-none min-h-[130px] w-full' placeholder='Write your experience...'></textarea>
-                            {errors.userExperience && <span className='text-pink-200 text-[12px]'>* Please provide your expirence</span>}
+                            {errors.userExperience && <span className='text-red-800 text-[12px]'>* Please provide your expirence</span>}
                         </div>
                         <div className='mt-6 flex w-11/12 justify-end gap-x-2'>
                             <button onClick={() => { setReviewModal(false) }} className='px-4 py-2 rounded-lg text-sm font-medium bg-richblack-300'>Cancel</button>
-                            <button type='submit' className='px-4 py-2 rounded-lg text-sm font-medium text-black  bg-yellow-100'>Submit</button>
+                            <button type='submit' className='px-4 py-2 rounded-lg text-sm font-medium text-white bg-black'>Submit</button>
                         </div>
                     </form>
                 </div>
