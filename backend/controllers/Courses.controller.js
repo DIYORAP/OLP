@@ -396,52 +396,57 @@ export const deleteCourse=async (req, res,next) => {
 
 
 export const markLectureAsComplete = async (req, res) => {
-	const { courseId, subSectionId, userId } = req.body
+	const { courseId, subSectionId, userId } = req.body;
+  
 	if (!courseId || !subSectionId || !userId) {
 	  return res.status(400).json({
 		success: false,
 		message: "Missing required fields",
-	  })
+	  });
 	}
+  
 	try {
-	progressAlreadyExists = await CourseProgress.findOne({
-				  userID: userId,
-				  courseID: courseId,
-				})
-	  const completedVideos = progressAlreadyExists.completedVideos
-	  if (!completedVideos.includes(subSectionId)) {
-		await CourseProgress.findOneAndUpdate(
-		  {
-			userID: userId,
-			courseID: courseId,
-		  },
-		  {
-			$push: { completedVideos: subSectionId },
-		  }
-		)
-	  }else{
-		return res.status(400).json({
-			success: false,
-			message: "Lecture already marked as complete",
-		  })
+	  // Check if progress record exists
+	  const progressAlreadyExists = await CourseProgress.findOne({
+		userID: userId, // Ensure field matches database schema
+		courseID: courseId,
+	  });
+  
+	  if (!progressAlreadyExists) {
+		return res.status(404).json({
+		  success: false,
+		  message: "Course progress not found for this user",
+		});
 	  }
+  
+	  if (progressAlreadyExists.completedVideos.includes(subSectionId)) {
+		return res.status(400).json({
+		  success: false,
+		  message: "Lecture already marked as complete",
+		});
+	  }
+  
+	  // Mark lecture as completed
 	  await CourseProgress.findOneAndUpdate(
 		{
-		  userId: userId,
+		  userID: userId,
 		  courseID: courseId,
 		},
 		{
-		  completedVideos: completedVideos,
+		  $addToSet: { completedVideos: subSectionId }, // Prevents duplicates
 		}
-	  )
-	return res.status(200).json({
-	  success: true,
-	  message: "Lecture marked as complete",
-	})
+	  );
+  
+	  return res.status(200).json({
+		success: true,
+		message: "Lecture marked as complete",
+	  });
 	} catch (error) {
+	  console.error("Error marking lecture as complete:", error);
 	  return res.status(500).json({
 		success: false,
-		message: error.message,
-	  })
+		message: "Internal server error",
+		error: error.message,
+	  });
 	}
-}
+  };

@@ -19,9 +19,9 @@ router.post("/getFullCourseDetails",auth,getFullCourseDetails);
 router.post("/deletecourse",auth,isInstructor,deleteCourse);
 router.get("/cou",getAll);
 router.post("/getCourseDetails", getCourseDetails)
-router.post("/updateCourseProgress", auth, isStudent, markLectureAsComplete);
+router.post("/updateCourseProgress", auth, markLectureAsComplete);
 
-
+// ********
 // ********
 router.post("/createRating", auth, isStudent, createRating)
 router.get("/getAverageRating", getAverageRating)
