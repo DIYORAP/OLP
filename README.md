@@ -66,11 +66,23 @@ The course creation feature allows instructors to create and manage courses on t
 - **Payments:** Stripe for handling payments
 
   ## Add course
-  ![image](https://github.com/user-attachments/assets/75d1e4ca-480e-4a0d-89b3-48a310bc194d)
-  ![Screenshot (707)](https://github.com/user-attachments/assets/0bd8877c-0bcb-4f2b-921e-a5297d6a79bb)
-![Screenshot (709)](https://github.com/user-attachments/assets/2c971140-6a0f-484c-bdb8-d5c5df7f0b7c)
-![Screenshot (708)](https://github.com/user-attachments/assets/327c0a06-4c4a-45b1-a9c5-17200a7a8a39)
-![Screenshot (710)](https://github.com/user-attachments/assets/53951a23-fbc2-4ecd-8ac7-8a81f1668278)
+ ![Screenshot (711)](https://github.com/user-attachments/assets/b517d95a-1826-43ae-8259-c27fce4f5fcd)
+![Screenshot (707)](https://github.com/user-attachments/assets/53ff88d8-d518-427b-a300-e3bf4d7a324e)
+![Screenshot (709)](https://github.com/user-attachments/assets/c56f3ea4-2ae6-4427-9cf7-f8cf62bba247)
+![Screenshot (708)](https://github.com/user-attachments/assets/edde90a9-427d-41db-a4d1-8cba43dcf0f4)
+![Screenshot (710)](https://github.com/user-attachments/assets/8d4f4e52-07c1-41db-81e5-5cc6e9c1e55c)
+
+## buy course
+![image](https://github.com/user-attachments/assets/edb83b93-3495-444e-9432-4cf40a343cbe)
+![image](https://github.com/user-attachments/assets/10c95ad2-f7e4-46c4-bd62-2a40ccd162bc)
+![image](https://github.com/user-attachments/assets/9a45f7fc-eff6-43e5-bc20-418d102d42f2)
+![image](https://github.com/user-attachments/assets/ab7030bd-7227-4c49-927b-a8d41599c87d)
+
+
+
+
+
+
 
 
 
