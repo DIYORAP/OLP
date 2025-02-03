@@ -81,21 +81,10 @@ The course creation feature allows instructors to create and manage courses on t
 
 # Course Creation & Video Calling Feature
 
-## Overview
-The course creation feature allows instructors to create and manage courses on the online learning platform. It includes functionalities like adding course details, uploading videos, setting pricing, and organizing course sections.
 
 Additionally, the platform provides a **video calling feature** using WebRTC, enabling students to connect with instructors for real-time doubt-solving through peer-to-peer communication.
 
 ## Features
-### Course Creation
-- **Multi-step course creation form** (Title, Description, Pricing, Content, etc.)
-- **Thumbnail & Video Upload** (Supports Cloudinary/Vimeo integration)
-- **Course Sections & Lessons Management**
-- **Real-time Progress Saving**
-- **Draft & Publish Modes**
-- **Tags & Categories for Course Organization**
-- **Course Preview before Publishing**
-- **Redux-based State Management**
 
 ### Video Calling (WebRTC-Based)
 - **Peer-to-peer connection between students and instructors**
