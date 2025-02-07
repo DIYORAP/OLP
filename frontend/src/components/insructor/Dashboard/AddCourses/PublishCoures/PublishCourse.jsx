@@ -97,7 +97,7 @@ const PublishCourse = () => {
                     <div className='my-6 mb-8'>
                         <label htmlFor="public" className="inline-flex items-center text-lg">
                             <input defaultChecked={false} type="checkbox" id="public" name="public" className="border-gray-300 h-4 w-4 rounded bg-richblack-500 text-richblack-400 focus:ring-2 focus:ring-richblack-5" {...register("public")} />
-                            <span className="ml-2 text-richblack-400">Make this course as public <span className='border-red-200 border-x-8 font-bold rounded-sm text-blue-900'>badhane batava mago cho</span> </span>
+                            <span className="ml-2 text-richblack-400">Make this course as public  </span>
                         </label>
                     </div>
                     <div className="ml-auto flex max-w-max items-center gap-x-4">

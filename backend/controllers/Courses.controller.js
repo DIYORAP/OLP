@@ -202,7 +202,6 @@ export const editCourse = async (req, res) => {
   
 
 export const getFullCourseDetails = async (req, res) => {
-	console.log("User from request:", req.user);
 
 	try {
 	  const { courseId } = req.body
