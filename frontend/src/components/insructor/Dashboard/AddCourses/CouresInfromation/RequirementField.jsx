@@ -52,7 +52,7 @@ const RequirementField = ({ name, label, register, errors, setValue, getValues }
                 <button
                     type='button'
                     onClick={handleAddRequirement}
-                    className='font-semibold text-yellow-50 mt-3'>
+                    className='font-semibold text-black mt-3'>
                     Add
                 </button>
             </div>
@@ -77,7 +77,7 @@ const RequirementField = ({ name, label, register, errors, setValue, getValues }
                 )
             }
             {errors[name] && (
-                <span className='ml-2 text-xs tracking-wide text-pink-200'>
+                <span className='ml-2 text-xs tracking-wide text-red-800'>
                     {label} is required
                 </span>
             )}
