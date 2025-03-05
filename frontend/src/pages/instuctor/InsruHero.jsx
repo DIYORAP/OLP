@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
-import InsruSignUp from '../signup/InsruSignUp';
 import { Link } from 'react-router-dom';
 
 
@@ -36,7 +35,7 @@ const HeroHeader = () => {
                         <p className="text-white text-lg md:text-xl mb-6">
                             Become an instructor and change lives — including your own
                         </p>
-                        <Link to="/instructor/signup">   <Button > Get started</Button></Link>
+                        <Link to="/login">   <Button > Get started</Button></Link>
                     </div>
                 </div>
             </div >
@@ -68,7 +67,7 @@ const HeroHeader = () => {
                 <p className="text-xl mb-8">
                     Join one of the world’s largest online learning marketplaces.
                 </p>
-                <Link to='/instructor/login'>
+                <Link to='/login'>
                     <Button onClick={() => setloginModel(true)}
                         type="button"
                         className="bg-slate-950 text-white py-3 px-6 rounded-lg text-lg font-medium hover:bg-blue-700 transition duration-300"

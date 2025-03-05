@@ -16,12 +16,12 @@ import Setting from './pages/student/Setting';
 import Toasterprovider from './components/providers/toaster-provider';
 import SignUp from './pages/signup/SignUp';
 import Login from './pages/login/Login';
-import InsruSignUp from './pages/signup/InsruSignUp';
+//import InsruSignUp from './pages/signup/InsruSignUp';
 import PrivateRoute from './components/PrivateRoute';
 import Profile from './pages/Profile';
 import AddCourse from './components/insructor/Dashboard/AddCourses';
 import "./App.css";
-import InstuLogin from './pages/login/InstuLogin';
+//import InstuLogin from './pages/login/InstuLogin';
 import HeroHeader from './pages/instuctor/InsruHero';
 import MyCourses from './components/insructor/Dashboard/Courses/MyCourses';
 import EditCourse from './components/insructor/Dashboard/EditCourse/EditCourse';
@@ -48,8 +48,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/instructor" element={<HeroHeader />} />
 
-          <Route path="/instructor/signup" element={<InsruSignUp />} />
-          <Route path="/instructor/login" element={<InstuLogin />} />
+          {/* <Route path="/instructor/signup" element={<InsruSignUp />} /> */}
+          {/* <Route path="/instructor/login" element={<InstuLogin />} /> */}
           <Route path="/courses/:courseId" element={<CourseDetails />} />
 
 
