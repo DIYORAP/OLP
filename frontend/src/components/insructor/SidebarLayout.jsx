@@ -5,7 +5,6 @@ import { Outlet } from "react-router-dom"; // Import Outlet to render child rout
 const SidebarLayout = () => {
     return (
         <div className="flex min-h-screen">
-            {/* Sidebar - fixed width */}
             <div className="w-64 bg-gray-200">
                 <Sidebar />
             </div>

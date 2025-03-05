@@ -10,7 +10,7 @@ import cors from "cors"
 import fileUpload from "express-fileupload";
 import { cloudnairyconnect } from "./config/Cloudnary.js";
 import paymentRoute from "./routes/payment.router.js";
-
+import mettingRouter from "./routes/meeting.router.js"
 
 dotenv.config();
 cloudnairyconnect
@@ -59,3 +59,4 @@ app.use('/api/auth', authRouter);
 app.use('/api/courses',courseRoute);
 app.use('/api/profile/',profile);
 app.use('/api/payment',paymentRoute);
+app.use('/api/meeting',mettingRouter);

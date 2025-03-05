@@ -30,6 +30,9 @@ import CourseDetails from './pages/CourseDetails';
 import EnrolledCourses from './pages/student/EnrolledCourses';
 import VideoDetails from './pages/VideoDetails';
 import ViewCourse from './pages/ViewCourse';
+import InstructorSession from './pages/instuctor/Session';
+import StudentSession from './pages/student/Session';
+import VideoCallPage from './pages/Metting';
 
 function App() {
   return (
@@ -48,6 +51,9 @@ function App() {
           <Route path="/instructor/signup" element={<InsruSignUp />} />
           <Route path="/instructor/login" element={<InstuLogin />} />
           <Route path="/courses/:courseId" element={<CourseDetails />} />
+
+
+          <Route path="/session/:sessionId" element={<VideoCallPage />} />
           <Route element={<PrivateRoute />}>
             <Route path='/settings' element={<Settings />} />
 
@@ -62,8 +68,9 @@ function App() {
             <Route
               path="dashboard/edit-course/:courseId"
               element={<EditCourse />}
-            />
 
+            />
+            <Route path="/insructor/session" element={<InstructorSession />} />
 
           </Route>
 
@@ -89,7 +96,7 @@ function App() {
               path="/dashboard/enrolled-courses"
               element={<EnrolledCourses />}
             />
-            <Route path="/student/session" element={<Session />} />
+            <Route path="/student/session" element={<StudentSession />} />
             <Route path="/student/setting" element={<Setting />} />
 
 
