@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const StudentSession = () => {
     const [sessions, setSessions] = useState([]);
@@ -15,6 +16,7 @@ const StudentSession = () => {
                 const res = await axios.get("/api/meeting/sessions");
                 setSessions(res.data);
             } catch (error) {
+                toast.error("Error fetching Sessions")
                 setError("Error fetching sessions");
                 console.error("Error fetching sessions", error);
             }
@@ -28,6 +30,7 @@ const StudentSession = () => {
             navigate(`/session/${sessionId}`);
         } catch (error) {
             setError("Error joining session");
+            toast.error("Error joining session")
             console.error("Error joining session", error);
         }
     };
@@ -35,10 +38,6 @@ const StudentSession = () => {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
             <h1 className="text-3xl font-bold mb-4">Student Dashboard</h1>
-
-            {/* Show Errors */}
-            {error && <p className="text-red-600">{error}</p>}
-
             <h2 className="text-xl font-bold mt-4">Available Sessions</h2>
             <ul className="w-full max-w-md mt-4">
                 {sessions.length === 0 ? (

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const InstructorSession = () => {
     const [title, setTitle] = useState("");
@@ -20,13 +21,13 @@ const InstructorSession = () => {
                 setSessions(res.data);
             } catch (error) {
                 setError("Error fetching sessions");
+                toast.error("Error fetching sessions")
                 console.error("Error fetching sessions", error);
             }
         };
         fetchSessions();
     }, []);
 
-    // ✅ Create a new session
     const createSession = async () => {
         if (!title || !date || !time) {
             setError("Please provide session title, date, and time.");
@@ -45,20 +46,17 @@ const InstructorSession = () => {
             setSessions([...sessions, { ...sessionData, sessionId: res.data.sessionId }]);
         } catch (error) {
             setError("Error creating session");
+            toast.error("Error creating Session")
             console.error("Error creating session", error);
         }
     };
 
-    // ✅ Join session (redirect to session page)
     const joinSession = (sessionId) => {
         navigate(`/session/${sessionId}`);
     };
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-            <h1 className="text-3xl font-bold mb-4">Instructor Dashboard</h1>
-
-            {/* Create Session Form */}
             <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
                 <h2 className="text-lg font-bold mb-3">Create a New Session</h2>
                 <input
@@ -87,10 +85,6 @@ const InstructorSession = () => {
                 </button>
             </div>
 
-            {/* Show Errors */}
-            {error && <p className="text-red-600 mt-2">{error}</p>}
-
-            {/* Show Created Session Link */}
             {sessionId && (
                 <p className="mt-4">
                     Session Created! Share this link:{" "}
@@ -98,7 +92,6 @@ const InstructorSession = () => {
                 </p>
             )}
 
-            {/* Show List of Sessions */}
             <h2 className="text-xl font-bold mt-6">All Sessions</h2>
             <ul className="w-full max-w-md mt-4">
                 {sessions.map((session) => (
