@@ -56,7 +56,8 @@ const InstructorSession = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen  p-4">
+        <div className="flex flex-col items-center justify-center min-h-screen p-4">
+            {/* Create Session Form */}
             <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
                 <h2 className="text-lg font-bold mb-3">Create a New Session</h2>
                 <input
@@ -80,35 +81,53 @@ const InstructorSession = () => {
                 />
                 <button
                     onClick={createSession}
-                    className="px-6 py-2 bg-blue-600 text-white rounded w-full">
+                    className="px-6 py-2 bg-black text-white rounded w-full transition"
+                >
                     Create Session
                 </button>
             </div>
 
+            {/* Session Link Message */}
             {sessionId && (
-                <p className="mt-4">
+                <p className="mt-4 text-center">
                     Session Created! Share this link:{" "}
-                    <a href={`/session/${sessionId}`} className="text-blue-600">{`/session/${sessionId}`}</a>
+                    <a href={`/session/${sessionId}`} className="text-black font-bold">
+                        {`/session/${sessionId}`}
+                    </a>
                 </p>
             )}
 
+            {/* All Sessions List */}
             <h2 className="text-xl font-bold mt-6">All Sessions</h2>
             <ul className="w-full max-w-md mt-4">
                 {sessions.map((session) => (
-                    <li key={session.sessionId} className="border p-3 mb-2 rounded bg-white shadow">
-                        <p><strong>Title:</strong> {session.title}</p>
-                        <p><strong>Date:</strong> {session.date}</p>
-                        <p><strong>Time:</strong> {session.time}</p>
-                        <p><strong>Instructor:</strong> {session.instructor?.username || "Unknown"}</p>
+                    <li
+                        key={session.sessionId}
+                        className="border p-4 mb-3 rounded bg-white shadow flex justify-between items-center"
+                    >
+                        <div>
+                            <p className="text-lg font-semibold">{session.title}</p>
+                            <p className="text-sm text-gray-600">
+                                <strong>Date:</strong> {session.date}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                                <strong>Time:</strong> {session.time}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                                <strong>Instructor:</strong> {session.instructor?.username || "Unknown"}
+                            </p>
+                        </div>
                         <button
                             onClick={() => joinSession(session.sessionId)}
-                            className="mt-2 px-4 py-2 bg-green-600 text-white rounded">
-                            Join Session
+                            className="px-4 py-2 bg-green-600 text-white rounded-md shadow hover:bg-green-700 transition"
+                        >
+                            Join
                         </button>
                     </li>
                 ))}
             </ul>
         </div>
+
     );
 };
 
