@@ -36,22 +36,33 @@ const StudentSession = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-            <h1 className="text-3xl font-bold mb-4">Student Dashboard</h1>
+        <div className="flex flex-col items-center justify-center min-h-screen p-4">
             <h2 className="text-xl font-bold mt-4">Available Sessions</h2>
-            <ul className="w-full max-w-md mt-4">
+            <ul className="w-full max-w-2xl mt-2 flex flex-col">
                 {sessions.length === 0 ? (
                     <p>No sessions available.</p>
                 ) : (
                     sessions.map((session) => (
-                        <li key={session.sessionId} className="border p-3 mb-2 rounded bg-white shadow">
-                            <p><strong>Title:</strong> {session.title}</p>
-                            <p><strong>Date:</strong> {session.date}</p>
-                            <p><strong>Time:</strong> {session.time}</p>
-                            <p><strong>Instructor:</strong> {session.instructor?.username || "Unknown"}</p>
+                        <li
+                            key={session.sessionId}
+                            className="border p-4 mb-3 rounded bg-white shadow flex justify-between items-center"
+                        >
+                            <div>
+                                <p className="text-lg font-semibold">{session.title}</p>
+                                <p className="text-sm text-gray-600">
+                                    <strong>Date:</strong> {session.date}
+                                </p>
+                                <p className="text-sm text-gray-600">
+                                    <strong>Time:</strong> {session.time}
+                                </p>
+                                <p className="text-sm text-gray-600">
+                                    <strong>Instructor:</strong> {session.instructor?.username || "Unknown"}
+                                </p>
+                            </div>
                             <button
                                 onClick={() => joinSession(session.sessionId)}
-                                className="mt-2 px-4 py-2 bg-green-600 text-white rounded">
+                                className="px-4 py-2 bg-green-600 text-white rounded-md shadow hover:bg-green-700 transition"
+                            >
                                 Join Session
                             </button>
                         </li>

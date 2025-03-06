@@ -56,7 +56,7 @@ const InstructorSession = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+        <div className="flex flex-col items-center justify-center min-h-screen  p-4">
             <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
                 <h2 className="text-lg font-bold mb-3">Create a New Session</h2>
                 <input

@@ -20,10 +20,10 @@ const StudSidebar = () => {
     };
 
     const sidebarRoutes = [
-        { icon: <LayoutDashboard />, label: "Dashboard", path: "/student/courses" },
+        // { icon: <LayoutDashboard />, label: "Dashboard", path: "/" },
         { icon: <HardDriveDownload />, label: "Purchases", path: "/dashboard/enrolled-courses" },
         { icon: <Radio />, label: "Live Session", path: "/student/session" },
-        { icon: <Cog />, label: "Settings", path: "/student/setting" },
+        { icon: <Cog />, label: "Settings", path: "/profile" },
         { icon: <LogOut />, label: "Logout", onClick: handleSignOut },
     ];
 

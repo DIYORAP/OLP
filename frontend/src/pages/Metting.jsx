@@ -41,8 +41,8 @@
 //             layout: "Auto",
 //             showLayoutButton: true,
 //             scenario: {
-//                 mode: ZegoUIKitPrebuilt.GroupCall, // 🎥 Group Call Mode
-//                 config: { role: ZegoUIKitPrebuilt.Host }, // 🏠 Set as Host
+//                 mode: ZegoUIKitPrebuilt.GroupCall, 
+//                 config: { role: ZegoUIKitPrebuilt.Host }, 
 //             },
 //         });
 //     };
