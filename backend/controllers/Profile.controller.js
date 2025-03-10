@@ -120,3 +120,46 @@ export const getEnrolledCourses=async(req,res) => {
         });
     }
 }
+
+
+
+export const instructorDashboard = async (req, res) => {
+	try {
+		if (!req.user) {
+			return res.status(401).json({
+				success: false,
+				message: "Unauthorized: No user found",
+			});
+		}
+
+		const id = req.user.id;
+		console.log("Instructor ID:", id);
+
+		const courseData = await Course.find({ instructor: id });
+
+		const courseDetails = courseData.map((course) => {
+			let totalStudents = course?.studentsEnrolled?.length || 0;
+			let totalRevenue = (course?.price || 0) * totalStudents;
+
+			return {
+				_id: course._id,
+				courseName: course.title,
+				courseDescription: course.description,
+				totalStudents,
+				totalRevenue,
+			};
+		});
+
+		res.status(200).json({
+			success: true,
+			message: "User Data fetched successfully",
+			data: courseDetails,
+		});
+	} catch (error) {
+		console.error("Server Error:", error);
+		return res.status(500).json({
+			success: false,
+			message: "Internal Server Error: " + error.message,
+		});
+	}
+};

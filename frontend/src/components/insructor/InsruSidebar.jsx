@@ -24,10 +24,10 @@ const Sidebar = () => {
 
     const sidebarRoutes = [
         { icon: <MonitorPlay />, label: "Courses", path: "dashboard/mycourses" },
-        { icon: <BarChart4 />, label: "Performance", path: "#" }, // Placeholder paths
-        { icon: <Users />, label: "Students", path: "#" }, // Placeholder paths
-        { icon: <Radio />, label: "CreateSession", path: "/insructor/session" }, // Placeholder paths
-        { icon: <LogOut />, label: "Logout", onClick: handleSignOut } // Logout button
+        { icon: <BarChart4 />, label: "Performance", path: "insructor/performance" },
+        { icon: <Users />, label: "Students", path: "#" },
+        { icon: <Radio />, label: "CreateSession", path: "/insructor/session" },
+        { icon: <LogOut />, label: "Logout", onClick: handleSignOut }
     ];
 
     return (

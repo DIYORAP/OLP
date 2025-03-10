@@ -31,6 +31,7 @@ import VideoCallPage from './pages/Metting';
 import { useSelector } from 'react-redux';
 import LoadingBar from 'react-top-loading-bar';
 import { ACCOUNT_TYPE } from './utils/constants';
+import Performance from './pages/instuctor/Performance';
 function App() {
   const user = useSelector((state) => state.user?.currentUser?.role);
   ;
@@ -74,6 +75,7 @@ function App() {
                   element={<EditCourse />}
 
                 />
+                <Route path='/insructor/performance' element={< Performance />} />
                 <Route path="/insructor/session" element={<InstructorSession />} />
 
               </Route>
