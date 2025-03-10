@@ -32,6 +32,9 @@ import { useSelector } from 'react-redux';
 import LoadingBar from 'react-top-loading-bar';
 import { ACCOUNT_TYPE } from './utils/constants';
 import Performance from './pages/instuctor/Performance';
+import CourseList from './components/admin/AdminCourses';
+import AdminSidebarLayout from './components/admin/SidebarLayout';
+import StudentList from './components/admin/AdminStudent';
 function App() {
   const user = useSelector((state) => state.user?.currentUser?.role);
   ;
@@ -117,6 +120,12 @@ function App() {
               </Route>
             </Route>
           )}
+
+          <Route element={<AdminSidebarLayout />}>
+            <Route path='/admin/courses' element={<CourseList />} />
+            <Route path='/admin/students' element={<StudentList />} />
+
+          </Route>
 
           <Route path="*" element={<Home />} />
 

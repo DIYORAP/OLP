@@ -137,9 +137,9 @@ const Header = () => {
                         </Link>
                     </li>
                     <li className='max-lg:border-b max-lg:py-3 px-3'>
-                        <a href='#' className='text-[#000] hover:text-[#040404] text-[15px] block font-semibold'>
+                        <Link to='/' className='text-[#000] hover:text-[#040404] text-[15px] block font-semibold'>
                             Courses
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </div>

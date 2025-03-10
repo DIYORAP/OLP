@@ -11,6 +11,7 @@ import fileUpload from "express-fileupload";
 import { cloudnairyconnect } from "./config/Cloudnary.js";
 import paymentRoute from "./routes/payment.router.js";
 import mettingRouter from "./routes/meeting.router.js"
+import adminRouter from './routes/admin.route.js'
 
 dotenv.config();
 cloudnairyconnect
@@ -60,3 +61,4 @@ app.use('/api/courses',courseRoute);
 app.use('/api/profile',profile);
 app.use('/api/payment',paymentRoute);
 app.use('/api/meeting',mettingRouter);
+app.use('/api/admin',adminRouter);
