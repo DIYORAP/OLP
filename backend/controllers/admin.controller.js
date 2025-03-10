@@ -61,7 +61,27 @@ export const getAllCourses = async (req, res, next) => {
 export const getAllStudents = async (req, res) => {
     try {
         const students = await User.find({ role: "Student" })
-            .populate("courses", "title price thumbnail instructor")
+            .populate("courses", "title price thumbnail instructor ")
+            .exec();
+
+        return res.status(200).json({
+            success: true,
+            data: students,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Error fetching students",
+            error: error.message,
+        });
+    }
+};
+
+export const getAllins = async (req, res) => {
+    try {
+        const students = await User.find({ role: "Instructor" })
+            .populate("courses", "title price studentsEnrolled thumbnail instructor")
             .exec();
 
         return res.status(200).json({

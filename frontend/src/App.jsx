@@ -35,6 +35,7 @@ import Performance from './pages/instuctor/Performance';
 import CourseList from './components/admin/AdminCourses';
 import AdminSidebarLayout from './components/admin/SidebarLayout';
 import StudentList from './components/admin/AdminStudent';
+import InstructorList from './components/admin/AdminInstructor';
 function App() {
   const user = useSelector((state) => state.user?.currentUser?.role);
   ;
@@ -124,6 +125,9 @@ function App() {
           <Route element={<AdminSidebarLayout />}>
             <Route path='/admin/courses' element={<CourseList />} />
             <Route path='/admin/students' element={<StudentList />} />
+            <Route path='/admin/instructors' element={<InstructorList />} />
+
+
 
           </Route>
 
