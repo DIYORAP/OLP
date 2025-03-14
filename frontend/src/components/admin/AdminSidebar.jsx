@@ -22,10 +22,11 @@ const Sidebar = () => {
     };
 
     const sidebarRoutes = [
+        { icon: <DollarSign />, label: "Revenue", path: "/admin/revenue" },
+
         { icon: <MonitorPlay />, label: "Courses", path: "/admin/courses" },
         { icon: <Users />, label: "Students", path: "/admin/students" },
         { icon: <GraduationCap />, label: "Instructors", path: "/admin/instructors" },
-        { icon: <DollarSign />, label: "Revenue", path: "/admin/revenue" },
         { icon: <LogOut />, label: "Logout", onClick: handleSignOut }
     ];
 

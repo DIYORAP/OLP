@@ -12,6 +12,8 @@ import { IoVideocamOutline } from 'react-icons/io5';
 import { FaChevronDown } from 'react-icons/fa';
 import axios from 'axios';
 import { ACCOUNT_TYPE } from '@/utils/constants';
+import RatingStars from '@/components/common/RatingStar';
+import GetAvgRating from '@/utils/getavragerating';
 
 
 async function loadScript(src) {
@@ -122,7 +124,7 @@ const CourseDetails = () => {
                 return;
             }
 
-            console.log("Order Response:", orderResponse.data);
+            console.log("Ordegr Response:", orderResponse.data);
 
             const options = {
                 key: 'rzp_test_PtpoMknwZja8AL',
@@ -183,13 +185,13 @@ const CourseDetails = () => {
         getCourseDetails();
     }, [courseId]);
 
-    //useEffect(() => {
-    //     if (courseDetail?.ratingAndReviews?.length > 0) {
-    //         const count = GetAvgRating(courseDetail?.ratingAndReviews);
-    //         setAvgReviewCount(count);
-    //         console.log("getCourseDetails -> count", parseInt(count));
-    //     }
-    // }, [courseDetail?.ratingAndReviews]);
+    useEffect(() => {
+        if (courseDetail?.ratingAndReviews?.length > 0) {
+            const count = GetAvgRating(courseDetail?.ratingAndReviews);
+            setAvgReviewCount(count);
+            console.log("getCourseDetails -> count", parseInt(count));
+        }
+    }, [courseDetail?.ratingAndReviews]);
 
 
     //add to cart
@@ -214,27 +216,27 @@ const CourseDetails = () => {
             }
         }
     }, [courseDetail, currentUser?._id])
-    // useEffect(() => {
-    //     if (courseDetail && user?._id) {
-    //         console.log("CourseDetails -> courseDetail", courseDetail);
+    useEffect(() => {
+        if (courseDetail && currentUser?._id) {
+            console.log("CourseDetails -> courseDetail", courseDetail);
 
-    //         // Ensure studentsEnrolled is an array
-    //         const enrolledStudentIds = Array.isArray(courseDetail?.studentsEnrolled)
-    //             ? courseDetail.studentsEnrolled.map(id => id.toString())
-    //             : [];
+            // Ensure studentsEnrolled is an array
+            const enrolledStudentIds = Array.isArray(courseDetail?.studentsEnrolled)
+                ? courseDetail.studentsEnrolled.map(id => id.toString())
+                : [];
 
-    //         console.log("CourseDetails -> Enrolled Student IDs", enrolledStudentIds);
+            console.log("CourseDetails -> Enrolled Student IDs", enrolledStudentIds);
 
-    //         // Check if user is enrolled
-    //         const isEnrolled = enrolledStudentIds.includes(user?._id.toString());
+            // Check if user is enrolled
+            const isEnrolled = enrolledStudentIds.includes(currentUser?._id.toString());
 
-    //         console.log("CourseDetails -> Enrolled", isEnrolled);
+            console.log("CourseDetails -> Enrolled", isEnrolled);
 
-    //         if (isEnrolled) {
-    //             setAlreadyEnrolled(true);
-    //         }
-    //     }
-    // }, [courseDetail, user?._id]);
+            if (isEnrolled) {
+                setAlreadyEnrolled(true);
+            }
+        }
+    }, [courseDetail, currentUser?._id]);
 
 
 
@@ -255,9 +257,9 @@ const CourseDetails = () => {
                         <p className='text-4xl font-bold text-richblack-5 sm:text-[42px]'>{courseDetail?.title}</p>
                         <p className='text-richblack-200'>{courseDetail?.description}</p>
                         <div className='flex gap-x-3 items-center'>
-                            <span className='text-black-50'>5 || 4</span>
-                            <span className=' md:block hidden md:text-xl text-richblack-5'>23 Reviews</span>
-                            student enrolled
+                            <span className='text-black'>{avgReviewCount || 0}</span>
+                            <RatingStars Review_Count={avgReviewCount} />
+                            <span className=' md:block hidden md:text-xl text-richblack-5'>({courseDetail?.ratingAndReviews?.length} Reviews)</span>
                             <span className='text-richblack-200'>{courseDetail?.studentsEnrolled?.length} students enrolled</span>
                         </div>
                         <div>
@@ -368,20 +370,21 @@ const CourseDetails = () => {
                         </div>
                     </div>
                 </div>
-                <div className='mb-12 py-4'>
-                </div>
-                <p className='text-[28px] font-semibold'>
-                    Author
-                </p>
-                <div className='flex items-center gap-4 py-4'>
-                    <img src={courseDetail?.instructor.profilePic} alt="author img" className='w-[50px] h-[50px] rounded-full object-cover' />
-                    <p className='text-xl font-semibold'>{courseDetail?.instructor?.username}</p>
-                </div>
-            </div>
+                <div className='mb-12 py-4 border-[1px] max-w-[830px] rounded-sm p-3'>
 
+                    <p className='text-[28px] font-semibold'>
+                        Author
+                    </p>
+                    <div className='flex items-center gap-4 py-4'>
+                        <img src={courseDetail?.instructor.profilePic} alt="author img" className='w-[50px] h-[50px] rounded-full object-cover' />
+                        <p className='text-xl font-semibold'>{courseDetail?.instructor?.username}</p>
+                    </div>
+                </div>
+
+            </div>
             <div className='mx-auto box-content px-4 text-start text-richblack-5 lg:w-[1260px]'>
                 <div className='mx-auto max-w-maxContentTab lg:mx-0 xl:max-w-[990px]'>
-                    <div className='my-8 border border-richblack-600 p-3 md:p-8'>
+                    <div className='my-8 border p-3 md:p-8 rounded-sm'>
                         <p className='text-3xl font-semibold'>
                             Reviews
                         </p>
@@ -396,10 +399,27 @@ const CourseDetails = () => {
                                 </div>
                             </div>
                         </div>
+                        {
+                            courseDetail?.ratingAndReviews?.map((item, index) => (
+                                <div key={index} className='flex flex-col md:items-baseline gap-3 my-4 mt-12 ga  border-[1px] rounded-sm p-4 '>
+                                    <div className='flex items-center gap-2'>
+                                        <img src={item?.user?.profilePic} alt="user img" className='w-[30px] h-[30px] rounded-full object-cover' />
+                                        <div className='flex flex-col'>
+                                            <p className='md:text-xl min-w-max font-semibold'>{item?.user?.username} </p>
+                                        </div>
+                                    </div>
+                                    <div className='flex flex-col gap-2'>
+                                        <div className='flex items-center gap-2'>
+                                            <RatingStars Review_Count={item?.rating} />
+                                        </div>
+                                        <p className='text-black text-[12px] md:text-sm max-w-4xl'>{item?.review}</p>
+                                    </div>
+                                </div>
+                            ))
+                        }
                     </div>
                 </div>
             </div>
-
 
         </div >
     )

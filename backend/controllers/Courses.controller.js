@@ -361,11 +361,11 @@ export const deleteCourse=async (req, res,next) => {
 	const courseDetails=await Course.find({_id: courseId}).populate({path:"instructor",
 	populate:{path:"additionalDetails"}})
 	.populate("category")
-	// .populate({                    
-	// 	path:"RatingAndReviews",
-	// 	populate:{path:"user"
-	// 	,select:"username role profilePic"}
-	// })
+	.populate({                    
+		path:"ratingAndReviews",
+		populate:{path:"user"
+	 	,select:"username role profilePic"}
+	 })
 	.populate({path:"courseContent",populate:{path:"SubSection"}})
 	.exec();
 

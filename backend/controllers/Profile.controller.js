@@ -122,7 +122,6 @@ export const getEnrolledCourses=async(req,res) => {
 }
 
 
-
 export const instructorDashboard = async (req, res) => {
 	try {
 		if (!req.user) {
@@ -163,3 +162,80 @@ export const instructorDashboard = async (req, res) => {
 		});
 	}
 };
+
+export const adminShowAllStudents = async (req, res) => {
+	try {
+		// Fetch all students and their enrolled courses
+		const students = await User.aggregate([
+			{ $match: { role: "student" } },
+			{
+				$lookup: {
+					from: "courses",
+					localField: "enrolledCourses",
+					foreignField: "_id",
+					as: "enrolledCourseDetails",
+				},
+			},
+			{
+				$project: {
+					_id: 1,
+					name: 1,
+					email: 1,
+					enrolledCourses: "$enrolledCourseDetails.title",
+				},
+			},
+		]);
+
+		// Fetch all courses to calculate total students and revenue
+		const courseData = await Course.find({});
+		const courseDetails = courseData.map((course) => {
+			let totalStudents = course?.studentsEnrolled?.length || 0;
+			let totalRevenue = (course?.price || 0) * totalStudents;
+
+			return {
+				_id: course._id,
+				courseName: course.title,
+				courseDescription: course.description,
+				totalStudents,
+				totalRevenue,
+			};
+		});
+
+		// Calculate total students and revenue across all courses
+		const totalStudents = courseDetails.reduce((acc, course) => acc + course.totalStudents, 0);
+		const totalRevenue = courseDetails.reduce((acc, course) => acc + course.totalRevenue, 0);
+
+		res.status(200).json({
+			success: true,
+			message: "All students and revenue fetched successfully",
+			data: {
+				students,
+				courseDetails,
+				totalStudents,
+				totalRevenue,
+			},
+		});
+	} catch (error) {
+		console.error("Error fetching students & revenue:", error);
+		return res.status(500).json({
+			success: false,
+			message: "Internal Server Error: " + error.message,
+		});
+	}
+};
+
+export const getadminCourses=async(req,res) => {
+	try {
+        const courseData = await Course.find({ });
+        res.status(200).json({
+            success: true,
+            message: "User Data fetched successfully",
+            data: courseData,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+}

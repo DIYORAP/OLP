@@ -9,9 +9,8 @@ const AdminSidebarLayout = () => {
                 <Sidebar />
             </div>
 
-            {/* Main content - flex-grow to take remaining space */}
             <div className="flex-1 p-4">
-                <Outlet /> {/* This is where the routed content will be rendered */}
+                <Outlet />
             </div>
         </div>
     );

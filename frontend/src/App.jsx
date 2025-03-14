@@ -36,6 +36,7 @@ import CourseList from './components/admin/AdminCourses';
 import AdminSidebarLayout from './components/admin/SidebarLayout';
 import StudentList from './components/admin/AdminStudent';
 import InstructorList from './components/admin/AdminInstructor';
+import Revenue from './components/admin/Revanue';
 function App() {
   const user = useSelector((state) => state.user?.currentUser?.role);
   ;
@@ -56,8 +57,9 @@ function App() {
 
           {/* <Route path="/instructor/signup" element={<InsruSignUp />} /> */}
           {/* <Route path="/instructor/login" element={<InstuLogin />} /> */}
+          <Route path="/courses/:courseId" element={<CourseDetails />} />
+
           <Route element={<PrivateRoute />}>
-            <Route path="/courses/:courseId" element={<CourseDetails />} />
             <Route path="/session/:sessionId" element={<VideoCallPage />} />
           </Route>
           <Route element={<PrivateRoute />}>
@@ -126,6 +128,7 @@ function App() {
             <Route path='/admin/courses' element={<CourseList />} />
             <Route path='/admin/students' element={<StudentList />} />
             <Route path='/admin/instructors' element={<InstructorList />} />
+            <Route path='/admin/revenue' element={<Revenue />} />
 
 
 
