@@ -189,7 +189,7 @@ function Login() {
             if (formData.role === "Instructor") {
                 navigate('/dashboard/mycourses');
             } else {
-                navigate('/student/courses');
+                navigate('/dashboard/enrolled-courses');
             }
         } catch (error) {
             toast.error("Login error: Check your email and password");

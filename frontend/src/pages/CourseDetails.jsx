@@ -257,13 +257,13 @@ const CourseDetails = () => {
                         <p className='text-4xl font-bold text-richblack-5 sm:text-[42px]'>{courseDetail?.title}</p>
                         <p className='text-richblack-200'>{courseDetail?.description}</p>
                         <div className='flex gap-x-3 items-center'>
-                            <span className='text-black'>{avgReviewCount || 0}</span>
+                            <span className='text-yellow-500 font-bold'>{avgReviewCount || 0}</span>
                             <RatingStars Review_Count={avgReviewCount} />
                             <span className=' md:block hidden md:text-xl text-richblack-5'>({courseDetail?.ratingAndReviews?.length} Reviews)</span>
-                            <span className='text-richblack-200'>{courseDetail?.studentsEnrolled?.length} students enrolled</span>
+                            <span className='text-green-600'>{courseDetail?.studentsEnrolled?.length} students enrolled</span>
                         </div>
                         <div>
-                            <p>Created By {courseDetail?.instructor?.username} </p>
+                            <p className='text-fuchsia-600'>Created By {courseDetail?.instructor?.username} </p>
                         </div>
                         <div className='flex flex-wrap gap-5 text-lg'>
                             <AiOutlineInfoCircle className='text-2xl ' />
