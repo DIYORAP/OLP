@@ -60,7 +60,7 @@ export default function Home() {
                     <button
                         key={cat.value}
                         onClick={() => handleCategoryChange(cat.value)}
-                        className={`px-4 py-2 rounded-md text-white transition-all duration-200 ${selectedCategory === cat.value ? "bg-blue-600" : "bg-gray-700"
+                        className={`px-4 py-2 rounded-lg text-white transition-all duration-200 ${selectedCategory === cat.value ? "bg-black" : "bg-gray-700"
                             }`}
                     >
                         {cat.label}
