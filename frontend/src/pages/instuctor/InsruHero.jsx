@@ -27,7 +27,7 @@ const HeroHeader = () => {
     ];
     return (
         <>
-            <div className="relative h-[600px] w-full bg-cover bg-center" style={{ backgroundImage: 'url(https://s.udemycdn.com/teaching/billboard-desktop-v4.jpg)' }}>
+            <div className="relative h-[600px] w-full bg-cover bg-center" style={{ backgroundImage: 'url(https://cdn2.vectorstock.com/i/1000x1000/44/76/blackboard-inscribed-with-scientific-formulas-vector-16084476.jpg)' }}>
                 <div className="absolute inset-0 bg-black bg-opacity-40"></div>
                 <div className="relative z-10 flex items-center justify-center h-full ">
                     <div className="container mx-auto px-4">

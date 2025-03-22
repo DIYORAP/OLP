@@ -295,9 +295,6 @@ const CourseDetails = () => {
                                     </>
                                 }
                             </div>
-                            <div className='pb-3 pt-6 text-center text-sm text-richblack-25'>
-                                <p>NO Money-Back Guarantee</p>
-                            </div>
 
                             <div className='text-center'>
                                 <button className='mx-auto flex items-center gap-2 py-6 text-black-100' onClick={
