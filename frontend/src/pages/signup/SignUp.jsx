@@ -273,24 +273,7 @@ const SignUp = () => {
                                 />
                             </div>
 
-                            <div className="flex items-start">
-                                <div className="flex items-center h-5">
-                                    <input
-                                        id="terms"
-                                        type="checkbox"
-                                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-primary-600"
-                                        required
-                                    />
-                                </div>
-                                <div className="ml-3 text-sm">
-                                    <label htmlFor="terms" className="font-light text-gray-300">
-                                        I accept the{" "}
-                                        <a className="font-medium text-primary-600 hover:underline" href="#">
-                                            Terms and Conditions
-                                        </a>
-                                    </label>
-                                </div>
-                            </div>
+
 
                             <button
                                 disabled={loading}
@@ -302,7 +285,7 @@ const SignUp = () => {
 
                             <p className="text-sm font-light text-gray-300">
                                 Already have an account?{" "}
-                                <a href="#" className="font-medium text-primary-600 hover:underline">
+                                <a href="/login" className="font-medium text-primary-600 hover:underline">
                                     Login here
                                 </a>
                             </p>

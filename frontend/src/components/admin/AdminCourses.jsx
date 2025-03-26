@@ -51,7 +51,6 @@ const CourseList = () => {
                                 key={course._id}
                                 className="flex gap-x-10 border-b border-gray-700 px-6 py-8"
                             >
-                                {/* Course Info */}
                                 <td colSpan={1} className="flex flex-1 gap-x-4 p-1">
                                     <img
                                         src={course.thumbnail}
@@ -63,7 +62,6 @@ const CourseList = () => {
                                             {course.title}
                                         </p>
 
-                                        {/* Instructor Name */}
                                         <p className="text-sm text-gray-700">
                                             Instructor:{" "}
                                             <span className="font-medium">
@@ -71,7 +69,6 @@ const CourseList = () => {
                                             </span>
                                         </p>
 
-                                        {/* Students Enrolled */}
                                         <p className="text-sm text-gray-700">
                                             Students Enrolled:{" "}
                                             <span className="font-medium">
@@ -79,26 +76,22 @@ const CourseList = () => {
                                             </span>
                                         </p>
 
-                                        {/* Course Description */}
                                         <p className="text-xs text-black">
                                             {course.description?.length > 50
                                                 ? course.description.split(" ").slice(0, 50).join(" ") + "..."
                                                 : course.description}
                                         </p>
 
-                                        {/* Created Date */}
                                         <p className="font-bold text-black">
                                             Created: {new Date(course.createdAt || course.updatedAt).toLocaleDateString()}
                                         </p>
                                     </div>
                                 </td>
 
-                                {/* Price */}
                                 <td className="text-2xl font-medium text-black mt-40">
                                     ₹{course.price}
                                 </td>
 
-                                {/* Delete Button */}
                                 <td className="text-sm font-medium text-black">
                                     <button
                                         disabled={loading}
