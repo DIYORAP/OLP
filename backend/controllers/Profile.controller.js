@@ -3,93 +3,104 @@ import User from "../model/User.model.js"
 import Course from "../model/Course.model.js"
 import uploadImageToCloudinary from "../utils/cloudUploader.js"
 
-
-export const updateProfile=async(req,res,next)=>{
+export const updateProfile = async (req, res, next) => {
     try {
-        const {dateOfBirth ="",about=" ",contactNumber="",username,gender=""}=req.body;
+        const { dateOfBirth = "", about = "", contactNumber = "", username, gender = "" } = req.body;
+        const id = req.user?.id; 
 
-        const id =req.user.id;
+        if (!id) {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized: No user ID provided",
+            });
+        }
 
+        const userDetails = await User.findById(id).populate("additionalDetails");
+        if (!userDetails) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
 
-        const userDetails=await User.findById(id);
-        const profile =await Profile.findById(userDetails.additionalDetails);
-        userDetails.username=username || userDetails.username;
-        profile.dateOfBirth=dateOfBirth||profile.dateOfBirth;
-        profile.about=about|| profile.about;
-        profile.gender=gender||profile.gender;
-        profile.contactNumber= contactNumber ||profile.contactNumber;
+        const profile = userDetails.additionalDetails;
+        if (!profile) {
+            return res.status(404).json({
+                success: false,
+                message: "Profile details not found",
+            });
+        }
 
+        if (contactNumber && !/^\d{10,15}$/.test(contactNumber)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid contact number format",
+            });
+        }
+
+        if (username) userDetails.username = username;
+        if (dateOfBirth) profile.dob = new Date(dateOfBirth); 
+        if (about) profile.about = about;
+        if (gender) {
+            if (!["Male", "Female", "Non-Binary", "not to say", "Other", "null"].includes(gender)) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid gender value",
+                });
+            }
+            profile.gender = gender;
+        }
+        if (contactNumber) profile.contactNumber = contactNumber;
 
         await profile.save();
         await userDetails.save();
 
-        return res.json({
-            success:true,
-            message:"profile updated successfully",
-            profile,
-            userDetails
-        })
+        return res.status(200).json({
+            success: true,
+            message: "Profile updated successfully",
+            userDetails,
+        });
     } catch (error) {
-         console.log("profile upadting eror",error);
-         return res.status(500).json({
-            success:false,
-            error:error.message,
-         });
-    }
-}
-
-
-export const upadteDisplaypicture=async(req,res,next)=>{
-    try {
+        console.error("Profile updating error:", error);
         
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+            error: error.message || "Something went wrong",
+        });
+    }
+};
 
-        const id=req.user.id;
-        const user=await User.findById(id);
-        if(!user)
-        {
-            return res.status(404).json({
-                success:false,
-                message:"user not found",
-            });
+export const updateDisplayPicture = async (req, res) => {
+    try {
+        const { id } = req.user;
+		console.log(id)
 
+        if (!req.files || !req.files.profilePic) {
+            return res.status(400).json({ success: false, message: "No image provided" });
         }
 
-        const image =req.files.pfp;
+        const profilePic = req.files.profilePic;
 
-        if(!image)
-        {
-            return res.status(404).json({
-                success:false,
-                message:"image not found",
+        console.log("Received File:", profilePic.name);
+        const uploadDetails = await uploadImageToCloudinary(profilePic, process.env.FOLDER_NAME);
 
-            });
+        const user = await User.findById(id);
+        if (!user) return res.status(404).json({ success: false, message: "User not found" });
 
-        }
-
-        const uploadDetails=await uploadImageToCloudinary(
-            image,
-            process.env.FOLDER_NAME
-        );
-        console.log(uploadDetails);
-
-        const uploadImage=await User.findByIdAndUpdate({_id:id},{image:uploadDetails.secure_url},{new:true});
-
+        user.profilePic = uploadDetails.secure_url;
+        await user.save();
 
         return res.status(200).json({
-            success:true,
-            message:"image upadate sucdesfully",
-            data:uploadImage,
+            success: true,
+            message: "Profile picture updated successfully",
+            profilePic: user.profilePic,
         });
-
     } catch (error) {
-       console.log("uplaiod image error",error);
-       return res.status(500).json({
-        success:false,
-        message:error.message,
-       });
+        console.error("Upload image error:", error);
+        return res.status(500).json({ success: false, message: error.message });
     }
-}
-
+};
 export const getEnrolledCourses=async(req,res) => {
 	try {
         const id = req.user.id;

@@ -10,7 +10,6 @@ export const auth = async (req, res, next) => {
           || req.body.token 
           || (req.header("Authorization") ? req.header("Authorization").replace("Bearer ", "") : null);
 
-      console.log("Extracted Token:", token);
   
       if (!token) {
           return next(new ErrorResponse('User not authorized to access this route', 401));
@@ -31,7 +30,6 @@ export const auth = async (req, res, next) => {
   
 
 export const isStudent= async(req,res,next)=>{
-    console.log("isStudent middleware",req.user.role);
     try {
         if(req.user.role !== "Student"){
         

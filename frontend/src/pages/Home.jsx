@@ -51,9 +51,7 @@ export default function Home() {
 
     return (
         <>
-            <h2 className="section_heading mb-6 md:text-3xl text-xl m-3 ml-10">
-                Most Popular Courses
-            </h2>
+
 
             <div className="flex gap-3 mb-6 justify-center">
                 {categories.map((cat) => (

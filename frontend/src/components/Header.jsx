@@ -148,7 +148,7 @@ const Header = () => {
                 {currentUser?.token ? (
                     <div className="relative flex items-center">
                         <img
-                            className='rounded-full h-8 w-8 object-cover border-green-700 border-2 cursor-pointer'
+                            className='rounded-full h-8 w-8 mt-2 object-cover border-green-700 border-2 cursor-pointer'
                             src={currentUser.profilePic}
                             alt='profile'
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}

@@ -59,7 +59,7 @@ export const signin = async (req, res, next) => {
 				message: `Please Fill up All the Required Fields`,
 			});
 		}
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).populate("additionalDetails");;
     if (!user) return next(ErrorResponse(404, 'User not found!'));
 
      

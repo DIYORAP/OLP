@@ -48,7 +48,15 @@ const MyProfile = () => {
                             </div>
                             <div>
                                 <p className='mb-2 font-bold text-black'>Date of Birth:</p>
-                                <p className='text-sm font-medium text-black'>{currentUser?.additionalDetails?.dateOfBirth ?? "Add Date of Birth"}</p>
+                                <p className='text-sm font-medium text-black'>
+                                    {currentUser?.additionalDetails?.dob
+                                        ? new Date(currentUser.additionalDetails.dob).toLocaleDateString("en-US", {
+                                            year: "numeric",
+                                            month: "long",
+                                            day: "numeric"
+                                        })
+                                        : "Add Date of Birth"}
+                                </p>
                             </div>
                             <div className='flex ml-96'>
                                 <Link to="/settings">

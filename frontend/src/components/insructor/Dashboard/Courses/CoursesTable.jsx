@@ -93,9 +93,9 @@ export default function CoursesTable({ courses, setCourses }) {
     return (
         <>
 
-            <Table className="rounded-xl border border-richblack-800 ">
+            <Table className="rounded-sm border border-black  ">
                 <Thead >
-                    <Tr className="flex gap-x-10 rounded-t-md border-b border-b-richblack-800 px-6 py-2 text-black">
+                    <Tr className="flex gap-x-10 rounded-t-md border-b border-b-black  px-6 py-2 text-black">
                         <Th className="flex-1 text-left text-sm font-medium uppercase text-black">
                             created courses
                         </Th>
