@@ -3,6 +3,7 @@ import Course_Card from "./Coursecard";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import HomePag from "./Homesession";
 
 const categories = [
     { value: "all", label: "All Courses" },
@@ -74,7 +75,8 @@ export default function Home() {
     };
 
     return (
-        <>
+        <div className=" bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50">
+            <HomePag />
             <div className="w-11/12 mx-auto mt-6 mb-28">
                 <h2 className="text-3xl font-semibold text-left ml-20 mb-4"> Trending Courses</h2>
                 {isLoading ? (
@@ -130,6 +132,6 @@ export default function Home() {
                     )}
                 </div>
             )}
-        </>
+        </div>
     );
 }
