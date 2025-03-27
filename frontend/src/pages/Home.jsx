@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import HomePag from "./Homesession";
+import axios from "axios";
 
 const categories = [
     { value: "all", label: "All Courses" },
@@ -26,10 +27,10 @@ export default function Home() {
         const fetchCourses = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch("/api/courses/cou");
-                const data = await response.json();
-                setCourses(data);
-                setFilteredCourses(data);
+                const response = await axios.get("/api/courses/cou");
+                console.log("COURSE_DETAILS_API API RESPONSE............", response.data);
+                setCourses(response.data.data);
+                setFilteredCourses(response.data.data);
             } catch (error) {
                 console.error("Failed to fetch courses:", error);
             } finally {

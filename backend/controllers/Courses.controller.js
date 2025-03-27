@@ -346,13 +346,40 @@ export const deleteCourse=async (req, res,next) => {
   }
  
   export const getAll = async (req, res) => {
-	try {
-	  const courses = await Course.find().populate('instructor').exec();
-	  res.status(200).json(courses);
-	} catch (error) {
-	  console.error(error);
-	  res.status(500).json({ message: 'Failed to fetch courses' });
-	}
+	
+  try {
+const courseDetails=await Course.find({}).populate({path:"instructor",
+populate:{path:"additionalDetails"}})
+.populate("category")
+.populate({                    
+	path:"ratingAndReviews",
+	populate:{path:"user"
+	 ,select:"username role profilePic"}
+ })
+.populate({path:"courseContent",populate:{path:"SubSection"}})
+.exec();
+
+if(!courseDetails){
+	return res.status(404).json({
+		success:false,
+		message:"Course Not Found"
+	})
+}
+return res.status(200).json({
+	success:true,
+	message:"Course fetched successfully now",
+	data:courseDetails
+});
+	
+} catch (error) {
+	console.log(error);
+	return res.status(404).json({
+		success:false,
+		message:`Can't Fetch Course Data`,
+		error:error.message
+	})
+	
+}
   };
   
   export const getCourseDetails = async (req,res)=>{
