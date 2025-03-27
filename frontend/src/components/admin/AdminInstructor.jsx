@@ -1,4 +1,7 @@
+import { toNestErrors } from "@hookform/resolvers";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const InstructorList = () => {
     const [instructors, setInstructors] = useState([]);
@@ -21,14 +24,24 @@ const InstructorList = () => {
         };
         fetchInstructors();
     }, []);
-    console.log(instructors)
-    const handleInstructorDelete = async (instructorId) => {
+    const handleInstructorDelete = async (studentId) => {
         try {
             setLoading(true);
-            await fetch(`/api/admin/instructors/${instructorId}`, { method: "DELETE" });
-            setInstructors((prev) => prev.filter((instructor) => instructor._id !== instructorId));
+
+            const response = await axios.post("/api/profile/delete", {
+                studentId,
+            });
+
+            if (response.data.success) {
+                setInstructors((prev) => prev.filter((student) => student._id !== studentId));
+
+                toast.success("Instructor Deleted Successfully");
+            } else {
+                throw new Error(response.data.message || "Failed to delete student");
+            }
         } catch (error) {
-            console.error("Error deleting instructor:", error);
+            console.error("Error deleting student:", error);
+            alert(error.response?.data?.message || "An error occurred");
         } finally {
             setLoading(false);
         }

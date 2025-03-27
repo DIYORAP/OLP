@@ -37,6 +37,8 @@ const StudentList = () => {
 
             if (response.data.success) {
                 setStudents((prev) => prev.filter((student) => student._id !== studentId));
+                toast.success("student Deleted Successfully");
+
             } else {
                 throw new Error(response.data.message || "Failed to delete student");
             }
