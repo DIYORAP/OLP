@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const StudentList = () => {
@@ -12,7 +13,9 @@ const StudentList = () => {
                 const data = await response.json();
                 console.log(data)
                 if (data.success) {
-                    setStudents(data.data);
+                    setStudents(data.data); // Ensure correct access
+                } else {
+                    console.error("Failed to fetch students:", data.message);
                 }
             } catch (error) {
                 console.error("Error fetching students:", error);
@@ -20,26 +23,37 @@ const StudentList = () => {
                 setLoading(false);
             }
         };
+
         fetchStudents();
     }, []);
 
     const handleStudentDelete = async (studentId) => {
         try {
             setLoading(true);
-            await fetch(`/api/admin/students/${studentId}`, { method: "DELETE" });
-            setStudents((prev) => prev.filter((student) => student._id !== studentId));
+
+            const response = await axios.post("/api/profile/delete", {
+                studentId,
+            });
+
+            if (response.data.success) {
+                setStudents((prev) => prev.filter((student) => student._id !== studentId));
+            } else {
+                throw new Error(response.data.message || "Failed to delete student");
+            }
         } catch (error) {
             console.error("Error deleting student:", error);
+            alert(error.response?.data?.message || "An error occurred");
         } finally {
             setLoading(false);
         }
     };
-
     return (
         <div className="p-6 min-h-screen">
             <h2 className="text-xl font-bold text-black mb-6">All Students</h2>
 
-            {students.length === 0 ? (
+            {loading ? (
+                <p className="text-sm font-medium text-gray-400">Loading...</p>
+            ) : students.length === 0 ? (
                 <p className="text-sm font-medium text-gray-400">No students found</p>
             ) : (
                 <table className="w-full border-collapse">
@@ -70,7 +84,9 @@ const StudentList = () => {
                                                     />
                                                     <div>
                                                         <p className="text-sm font-medium text-black">{course.title}</p>
-                                                        <p className="text-xs text-gray-500">Instructor: {course.instructor?.username || "Unknown"}</p>
+                                                        <p className="text-xs text-gray-500">
+                                                            Instructor: {course.instructor?.username || "Unknown"}
+                                                        </p>
                                                         <p className="text-xs font-medium text-green-600">₹{course.price}</p>
                                                     </div>
                                                 </div>
@@ -87,7 +103,7 @@ const StudentList = () => {
                                         onClick={() => handleStudentDelete(student._id)}
                                         className="px-5 py-2 bg-black rounded-md hover:bg-red-600 text-white transition-all duration-200 hover:scale-110 hover:text-black"
                                     >
-                                        Delete
+                                        {loading ? "Deleting..." : "Delete"}
                                     </button>
                                 </td>
                             </tr>

@@ -28,14 +28,32 @@ const CourseList = () => {
     const handleCourseDelete = async (courseId) => {
         try {
             setLoading(true);
-            await fetch(`/api/courses/${courseId}`, { method: "DELETE" });
+
+            const response = await fetch("/api/profile/deletecourse", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ courseId }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || "Failed to delete course");
+            }
+
             setCourses((prev) => prev.filter((course) => course._id !== courseId));
+
+            alert("Course deleted successfully!");
         } catch (error) {
             console.error("Error deleting course:", error);
+            alert(error.message);
         } finally {
             setLoading(false);
         }
     };
+
 
     return (
         <div className="p-6 min-h-screen">
@@ -96,6 +114,7 @@ const CourseList = () => {
                                     <button
                                         disabled={loading}
                                         onClick={() => {
+                                            handleCourseDelete(course._id)
                                         }}
                                         className="px-5 py-2 bg-black rounded-md hover:bg-red-600 text-white transition-all duration-200 hover:scale-110 hover:text-black"
                                     >

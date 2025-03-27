@@ -3,6 +3,8 @@ import User from "../model/User.model.js"
 import Course from "../model/Course.model.js"
 import uploadImageToCloudinary from "../utils/cloudUploader.js"
 import moment from "moment";
+import Section from "../model/Section.model.js";
+import SubSection from "../model/SubSection.model.js";
 
 export const updateProfile = async (req, res, next) => {
     try {
@@ -334,3 +336,89 @@ export const adminShowAllStudents2 = async (req, res) => {
 };
 
 
+
+export const deleteCourse=async (req, res,next) => {
+    try {
+      const { courseId } = req.body
+      const course = await Course.findById(courseId)
+      if (!course) {
+        return res.status(404).json({ message: "Course not found" })
+      }
+  
+      const studentsEnrolled = course.studentsEnrolled
+      for (const studentId of studentsEnrolled) {
+        await User.findByIdAndUpdate(studentId, {
+          $pull: { courses: courseId },
+        })
+      }
+  
+      // Delete sections and sub-sections
+      const courseSections = course.courseContent
+      for (const sectionId of courseSections) {
+        const section = await Section.findById(sectionId)
+        if (section) {
+          const subSections = section.SubSection
+          for (const subSectionId of subSections) {
+            await SubSection.findByIdAndDelete(subSectionId);
+          }
+        }
+  
+        await Section.findByIdAndDelete(sectionId)
+      }
+  
+      await Course.findByIdAndDelete(courseId)
+
+    
+    await User.findByIdAndUpdate(course.instructor._id, {
+        $pull: { courses: courseId },
+         })
+  
+      return res.status(200).json({
+        success: true,
+        message: "Course deleted successfully",
+      })
+    } catch (error) {
+      console.error(error)
+      return res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      })
+    }
+  }
+
+  export const deleteStudent = async (req, res) => {
+    try {
+		const { studentId } = req.body;
+		console.log("Student ID:", studentId);
+
+
+        const student = await User.findById(studentId).populate("additionalDetails");
+        if (!student) {
+            return res.status(404).json({ success: false, message: "Student not found" });
+        }
+
+        await Course.updateMany(
+            { studentsEnrolled: studentId },
+            { $pull: { studentsEnrolled: studentId } }
+        );
+        if (student.additionalDetails) {
+            await Profile.findByIdAndDelete(student.additionalDetails._id);
+        }
+
+        // Delete student account
+        await User.findByIdAndDelete(studentId);
+
+        return res.status(200).json({
+            success: true,
+            message: "Student deleted successfully",
+        });
+    } catch (error) {
+        console.error("Error deleting student:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Server error",
+            error: error.message,
+        });
+    }
+};
