@@ -37,6 +37,7 @@
     "react-slick": "^0.30.3",
     "react-super-responsive-table": "^6.0.0",
     "react-top-loading-bar": "^3.0.2",
+    "recharts": "^2.15.1",
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",

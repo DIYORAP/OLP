@@ -220,14 +220,12 @@ const CourseDetails = () => {
         if (courseDetail && currentUser?._id) {
             console.log("CourseDetails -> courseDetail", courseDetail);
 
-            // Ensure studentsEnrolled is an array
             const enrolledStudentIds = Array.isArray(courseDetail?.studentsEnrolled)
                 ? courseDetail.studentsEnrolled.map(id => id.toString())
                 : [];
 
             console.log("CourseDetails -> Enrolled Student IDs", enrolledStudentIds);
 
-            // Check if user is enrolled
             const isEnrolled = enrolledStudentIds.includes(currentUser?._id.toString());
 
             console.log("CourseDetails -> Enrolled", isEnrolled);

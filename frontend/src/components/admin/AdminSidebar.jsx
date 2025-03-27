@@ -22,7 +22,7 @@ const Sidebar = () => {
     };
 
     const sidebarRoutes = [
-        { icon: <DollarSign />, label: "Revenue", path: "/admin/revenue" },
+        { icon: <DollarSign />, label: "Revenue", path: "/admin" },
 
         { icon: <MonitorPlay />, label: "Courses", path: "/admin/courses" },
         { icon: <Users />, label: "Students", path: "/admin/students" },

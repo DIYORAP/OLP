@@ -2,6 +2,7 @@ import Profile from "../model/Profile.model.js"
 import User from "../model/User.model.js"
 import Course from "../model/Course.model.js"
 import uploadImageToCloudinary from "../utils/cloudUploader.js"
+import moment from "moment";
 
 export const updateProfile = async (req, res, next) => {
     try {
@@ -176,7 +177,6 @@ export const instructorDashboard = async (req, res) => {
 
 export const adminShowAllStudents = async (req, res) => {
 	try {
-		// Fetch all students and their enrolled courses
 		const students = await User.aggregate([
 			{ $match: { role: "student" } },
 			{
@@ -197,7 +197,6 @@ export const adminShowAllStudents = async (req, res) => {
 			},
 		]);
 
-		// Fetch all courses to calculate total students and revenue
 		const courseData = await Course.find({});
 		const courseDetails = courseData.map((course) => {
 			let totalStudents = course?.studentsEnrolled?.length || 0;
@@ -212,7 +211,6 @@ export const adminShowAllStudents = async (req, res) => {
 			};
 		});
 
-		// Calculate total students and revenue across all courses
 		const totalStudents = courseDetails.reduce((acc, course) => acc + course.totalStudents, 0);
 		const totalRevenue = courseDetails.reduce((acc, course) => acc + course.totalRevenue, 0);
 
@@ -250,3 +248,89 @@ export const getadminCourses=async(req,res) => {
         });
     }
 }
+
+
+export const adminShowAllStudents2 = async (req, res) => {
+	try {
+		// Fetch all students and their enrolled courses
+		const students = await User.aggregate([
+			{ $match: { role: "student" } },
+			{
+				$lookup: {
+					from: "courses",
+					localField: "enrolledCourses",
+					foreignField: "_id",
+					as: "enrolledCourseDetails",
+				},
+			},
+			{
+				$project: {
+					_id: 1,
+					name: 1,
+					email: 1,
+					enrolledCourses: "$enrolledCourseDetails.title",
+				},
+			},
+		]);
+
+		const courseData = await Course.aggregate([
+			{
+				$unwind: "$studentsEnrolled", 
+			},
+			{
+				$lookup: {
+					from: "users",
+					localField: "studentsEnrolled",
+					foreignField: "_id",
+					as: "studentDetails",
+				},
+			},
+			{
+				$unwind: "$studentDetails",
+			},
+			{
+				$group: {
+					_id: {
+						month: { $month: "$studentDetails.createdAt" },
+						year: { $year: "$studentDetails.createdAt" },
+					},
+					totalStudents: { $sum: 1 },
+					totalRevenue: { $sum: "$price" },
+				},
+			},
+			{
+				$sort: { "_id.year": 1, "_id.month": 1 },
+			},
+		]);
+
+		const monthlyReport = courseData.map((entry) => ({
+			month: moment().month(entry._id.month - 1).format("MMMM"), 
+			year: entry._id.year,
+			totalStudents: entry.totalStudents,
+			totalRevenue: entry.totalRevenue,
+		}));
+
+		const totalStudents = monthlyReport.reduce((acc, entry) => acc + entry.totalStudents, 0);
+		const totalRevenue = monthlyReport.reduce((acc, entry) => acc + entry.totalRevenue, 0);
+
+		// Send response
+		res.status(200).json({
+			success: true,
+			message: "Month-wise student and revenue report generated",
+			data: {
+				students,
+				monthlyReport,
+				totalStudents,
+				totalRevenue,
+			},
+		});
+	} catch (error) {
+		console.error("Error generating report:", error);
+		return res.status(500).json({
+			success: false,
+			message: "Internal Server Error: " + error.message,
+		});
+	}
+};
+
+

@@ -128,7 +128,7 @@ function App() {
             <Route path='/admin/courses' element={<CourseList />} />
             <Route path='/admin/students' element={<StudentList />} />
             <Route path='/admin/instructors' element={<InstructorList />} />
-            <Route path='/admin/revenue' element={<Revenue />} />
+            <Route path='/admin' element={<Revenue />} />
 
 
 
