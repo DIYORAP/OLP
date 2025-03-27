@@ -390,7 +390,6 @@ export const deleteCourse=async (req, res,next) => {
   export const deleteStudent = async (req, res) => {
     try {
 		const { studentId } = req.body;
-		console.log("Student ID:", studentId);
 
 
         const student = await User.findById(studentId).populate("additionalDetails");
