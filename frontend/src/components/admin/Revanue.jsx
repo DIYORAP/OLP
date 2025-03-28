@@ -10,14 +10,12 @@ const Revenue = () => {
     const [details, setDetails] = useState(null);
     const [courses, setCourses] = useState([]);
     const [currentChart, setCurrentChart] = useState("revenue");
-    const { token, username } = useSelector((state) => state.user.currentUser);
+    //const { token, username } = useSelector((state) => state.user.currentUser);
 
     const fetchInstructorCourses = async () => {
         const toastId = toast.loading("Loading...");
         try {
-            const response = await axios.get("/api/profile/getadmincourse", {
-                headers: { Authorization: `Bearer ${token}` },
-            });
+            const response = await axios.get("/api/profile/getadmincourse");
             if (!response?.data?.success) throw new Error("Could Not Fetch Instructor Courses");
             setCourses(response.data.data.courseDetails);
         } catch (error) {
@@ -29,9 +27,7 @@ const Revenue = () => {
     const getInstructorDashboard = async () => {
         const toastId = toast.loading("Loading...");
         try {
-            const response = await axios.get("/api/profile/getadmin", {
-                headers: { Authorization: `Bearer ${token}` },
-            });
+            const response = await axios.get("/api/profile/getadmin");
 
             if (!response.data.success) throw new Error(response.data.message);
             setDetails(response.data.data); // Fix: Extract actual dashboard data

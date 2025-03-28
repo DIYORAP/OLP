@@ -7,7 +7,7 @@ router.put("/updateProfile",auth,updateProfile);
 router.put("/updateProfilePicture", auth,updateDisplayPicture);
 router.get("/getEnrolledCourses", auth, getEnrolledCourses)
 router.get("/getInstructorDashboardDetails",auth, instructorDashboard)
-router.get("/getadmincourse",auth,getadminCourses)
+router.get("/getadmincourse",getadminCourses)
 router.get("/getadmin",adminShowAllStudents)
 router.get("/getadmin2",adminShowAllStudents2)
 router.post("/deletecourse",deleteCourse);
