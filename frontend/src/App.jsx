@@ -37,6 +37,7 @@ import AdminSidebarLayout from './components/admin/SidebarLayout';
 import StudentList from './components/admin/AdminStudent';
 import InstructorList from './components/admin/AdminInstructor';
 import Revenue from './components/admin/Revanue';
+import Logina from './components/admin/Adminlogin';
 function App() {
   const user = useSelector((state) => state.user?.currentUser?.role);
   ;
@@ -124,16 +125,20 @@ function App() {
             </Route>
           )}
 
-          <Route element={<AdminSidebarLayout />}>
-            <Route path='/admin/courses' element={<CourseList />} />
-            <Route path='/admin/students' element={<StudentList />} />
-            <Route path='/admin/instructors' element={<InstructorList />} />
-            <Route path='/admin' element={<Revenue />} />
+          <Route path="/admin" element={<Logina />} />
+
+          <Route element={<PrivateRoute />}>
+            <Route element={<AdminSidebarLayout />}>
+
+              <Route path='/admin/courses' element={<CourseList />} />
+              <Route path='/admin/students' element={<StudentList />} />
+              <Route path='/admin/instructors' element={<InstructorList />} />
+              <Route path='/admin/dashboard' element={<Revenue />} />
 
 
 
+            </Route>
           </Route>
-
           <Route path="*" element={<Home />} />
 
         </Routes>

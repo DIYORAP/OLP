@@ -95,3 +95,37 @@ export const signin = async (req, res, next) => {
       console.log("signOut error",error);
     }
   };
+
+
+  export const signina = async (req, res, next) => {
+    const { email, password } = req.body;
+
+    try {
+        if (!email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please fill in all the required fields',
+            });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user || user.role !== 'Admin') {
+            return res.status(403).json({ success: false, message: 'Unauthorized access' });
+        }
+
+        const validPassword = await bcryptjs.compare(password, user.password);
+        if (!validPassword) {
+            return res.status(401).json({ success: false, message: 'Wrong credentials!' });
+        }
+
+        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '24h' });
+
+        res.cookie('token', token, { httpOnly: true })
+            .status(200)
+            .json({ message: 'Admin login successful', token });
+
+    } catch (error) {
+        console.log('SignIn error', error);
+        next(error);
+    }
+};
