@@ -118,11 +118,20 @@ export const signin = async (req, res, next) => {
             return res.status(401).json({ success: false, message: 'Wrong credentials!' });
         }
 
-        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '24h' });
+        //const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
-        res.cookie('token', token, { httpOnly: true })
-            .status(200)
-            .json({ message: 'Admin login successful', token });
+        // res.cookie('token', token, { httpOnly: true })
+        //     .status(200)
+        //     .json(user);
+        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET,{expiresIn:"24h"});
+        user.token = token;
+        user.password = undefined;
+        const { password: pass, ...rest } = user._doc;
+    
+        res 
+          .cookie('token', token, { httpOnly: true })
+          .status(200)
+          .json(rest);
 
     } catch (error) {
         console.log('SignIn error', error);

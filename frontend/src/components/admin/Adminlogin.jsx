@@ -28,7 +28,6 @@ function Logina() {
             });
 
             const data = await res.json();
-            console.log("API Response:", data);
 
             if (data.success === false) {
                 dispatch(signInFailure(data));
