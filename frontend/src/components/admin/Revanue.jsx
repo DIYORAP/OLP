@@ -87,11 +87,11 @@ const Revenue = () => {
                     <p className="text-lg font-bold text-richblack-5">Statistics</p>
                     <div className="mt-4 space-y-4">
                         <div>
-                            <p className="text-lg text-richblack-200">Total Courses</p>
+                            <p className="text-lg text-richblack-200">Total Courese</p>
                             <p className="text-3xl font-semibold text-richblack-50">{details.courseDetails?.length}</p>
                         </div>
                         <div>
-                            <p className="text-lg text-richblack-200">Total Students</p>
+                            <p className="text-lg text-richblack-200">Total Courses Enrolled</p>
                             <p className="text-3xl font-semibold text-richblack-50">{totalStudents}</p>
                         </div>
                         <div>

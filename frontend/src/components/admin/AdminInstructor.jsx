@@ -41,7 +41,6 @@ const InstructorList = () => {
             }
         } catch (error) {
             console.error("Error deleting student:", error);
-            alert(error.response?.data?.message || "An error occurred");
         } finally {
             setLoading(false);
         }

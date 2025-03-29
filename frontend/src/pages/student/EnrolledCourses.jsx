@@ -132,6 +132,7 @@ const EnrolledCourses = () => {
                                                                         completed={progress?.completedVideos?.length / totalNoOfLectures(course) * 100}
                                                                         total={progress?.total}
                                                                         height='8px'
+                                                                        bgColor='green'
                                                                         isLabelVisible={false}
                                                                     />
                                                                 </div>
