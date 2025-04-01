@@ -1,5 +1,5 @@
 import React from "react";
-import { BarChart4, MonitorPlay, Radio, Users, LogOut } from "lucide-react";
+import { BarChart4, MonitorPlay, Radio, Users, LogOut, Cog } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom"; // Using React Router
 import { useDispatch } from "react-redux";
 import { signOut } from "@/redux/Slice/userSlice";
@@ -25,8 +25,8 @@ const Sidebar = () => {
     const sidebarRoutes = [
         { icon: <MonitorPlay />, label: "Courses", path: "/dashboard/mycourses" },
         { icon: <BarChart4 />, label: "Performance", path: "/insructor/performance" },
-        { icon: <Users />, label: "Students", path: "#" },
         { icon: <Radio />, label: "CreateSession", path: "/insructor/session" },
+        { icon: <Cog />, label: "Settings", path: "/profile" },
         { icon: <LogOut />, label: "Logout", onClick: handleSignOut }
     ];
 
