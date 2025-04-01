@@ -166,7 +166,17 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         dispatch(signInStart());
-        console.log("Form Data Submitted:", formData);
+        if (!formData.email || !/^\S+@\S+\.\S+$/.test(formData.email)) {
+            toast.error("Please enter a valid email address");
+            dispatch(signInFailure({ message: "Invalid email format" }));
+            return;
+        }
+
+        // if (!formData.password || formData.password.length < 6) {
+        //     toast.error("Password must be at least 6 characters long");
+        //     dispatch(signInFailure({ message: "Password too short" }));
+        //     return;
+        // }
 
         try {
             const res = await fetch("/api/auth/signin", {
