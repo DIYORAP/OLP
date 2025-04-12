@@ -11,9 +11,9 @@ const StudentList = () => {
                 setLoading(true);
                 const response = await fetch("/api/admin/students");
                 const data = await response.json();
-                console.log(data)
+                console.log(data);
                 if (data.success) {
-                    setStudents(data.data); // Ensure correct access
+                    setStudents(data.data);
                 } else {
                     console.error("Failed to fetch students:", data.message);
                 }
@@ -30,15 +30,11 @@ const StudentList = () => {
     const handleStudentDelete = async (studentId) => {
         try {
             setLoading(true);
-
-            const response = await axios.post("/api/profile/delete", {
-                studentId,
-            });
+            const response = await axios.post("/api/profile/delete", { studentId });
 
             if (response.data.success) {
                 setStudents((prev) => prev.filter((student) => student._id !== studentId));
-                toast.success("student Deleted Successfully");
-
+                toast.success("Student deleted successfully");
             } else {
                 throw new Error(response.data.message || "Failed to delete student");
             }
@@ -49,9 +45,51 @@ const StudentList = () => {
             setLoading(false);
         }
     };
+
+    const handleDownloadCSV = () => {
+        if (!students || students.length === 0) {
+            alert("No student data to export");
+            return;
+        }
+
+        const headers = ["Username", "Email", "Courses", "Instructors", "Prices"];
+
+        const rows = students.map((student) => {
+            const courseTitles = student.courses.map((c) => c.title).join(" | ");
+            const instructors = student.courses.map((c) => c.instructor?.username || "Unknown").join(" | ");
+            const prices = student.courses.map((c) => `₹${c.price}`).join(" | ");
+
+            return [student.username, student.email, courseTitles, instructors, prices];
+        });
+
+        const csvContent = [headers, ...rows]
+            .map((row) => row.map((cell) => `"${cell}"`).join(","))
+            .join("\n");
+        const utf8Bom = "\uFEFF";
+        const csvWithBom = utf8Bom + csvContent;
+
+        const blob = new Blob([csvWithBom], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "students.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <div className="p-6 min-h-screen">
-            <h2 className="text-xl font-bold text-black mb-6">All Students</h2>
+            <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold text-black">All Students</h2>
+                <button
+                    onClick={handleDownloadCSV}
+                    className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                >
+                    Download CSV
+                </button>
+            </div>
 
             {loading ? (
                 <p className="text-sm font-medium text-gray-400">Loading...</p>
@@ -67,7 +105,7 @@ const StudentList = () => {
                                         <img
                                             src={student.profilePic || "/default-avatar.png"}
                                             alt="Profile"
-                                            className="h-12 w-12 rounded-full object-cover border border-gray-300 "
+                                            className="h-12 w-12 rounded-full object-cover border border-gray-300"
                                         />
                                     </div>
 

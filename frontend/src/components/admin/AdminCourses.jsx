@@ -54,10 +54,49 @@ const CourseList = () => {
         }
     };
 
+    const handleDownloadCSV = () => {
+        if (!courses || courses.length === 0) {
+            alert("No course data to export");
+            return;
+        }
 
+        const headers = ["Title", "Instructor Email", "Enrolled Students", "Price (₹)", "Created At"];
+
+        const rows = courses.map((course) => [
+            course.title,
+            course.instructor?.email || "Unknown",
+            course.studentsEnrolled?.length || 0,
+            `₹${course.price}`,
+            new Date(course.createdAt || course.updatedAt).toLocaleDateString(),
+        ]);
+
+        const csvContent = [headers, ...rows]
+            .map((row) => row.map((cell) => `"${cell}"`).join(","))
+            .join("\n");
+
+        const utf8Bom = "\uFEFF"; // Ensure ₹ renders correctly in Excel
+        const blob = new Blob([utf8Bom + csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "courses.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
     return (
         <div className="p-6 min-h-screen">
-            <h2 className="text-xl font-bold text-black mb-6">All Courses</h2>
+            <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold text-black">All Courses</h2>
+                <button
+                    onClick={handleDownloadCSV}
+                    className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-all duration-200"
+                >
+                    Download CSV
+                </button>
+            </div>
+
 
             {courses?.length === 0 ? (
                 <p className="text-sm font-medium text-gray-400">No courses available</p>

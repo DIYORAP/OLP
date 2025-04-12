@@ -1,7 +1,28 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer } from "recharts";
+import {
+    BarChart, Bar, LineChart, Line,
+    XAxis, YAxis, Tooltip, Legend,
+    CartesianGrid, ResponsiveContainer
+} from "recharts";
+
+const exportToCSV = (filename, headers, rows) => {
+    const csvContent =
+        "\uFEFF" +
+        [headers, ...rows]
+            .map(row => row.map(String).map(cell => `"${cell}"`).join(","))
+            .join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+};
 
 const MonthlyReport = () => {
     const [reportData, setReportData] = useState([]);
@@ -13,9 +34,7 @@ const MonthlyReport = () => {
                 headers: { Authorization: `Bearer YOUR_ACCESS_TOKEN` },
             });
 
-
             if (!response.data.success) throw new Error("Could not fetch report");
-
             setReportData(response.data.data.monthlyReport);
         } catch (error) {
             toast.error(error.message);
@@ -26,10 +45,26 @@ const MonthlyReport = () => {
     useEffect(() => {
         fetchMonthlyReport();
     }, []);
-    console.log(reportData);
+
     return (
-        <div className="max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">📊 Monthly Report</h2>
+        <div className="max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-bold text-gray-800">📊 Monthly Report</h2>
+                <button
+                    onClick={() => {
+                        const headers = ["Month", "Total Revenue (₹)", "Total Students"];
+                        const rows = reportData.map(item => [
+                            item.month,
+                            item.totalRevenue,
+                            item.totalStudents
+                        ]);
+                        exportToCSV("Monthly_Report.csv", headers, rows);
+                    }}
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
+                    Download Monthly Report
+                </button>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Revenue Chart */}
@@ -57,7 +92,13 @@ const MonthlyReport = () => {
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Line type="monotone" dataKey="totalStudents" stroke="#2196F3" strokeWidth={3} name="Total Students" />
+                            <Line
+                                type="monotone"
+                                dataKey="totalStudents"
+                                stroke="#2196F3"
+                                strokeWidth={3}
+                                name="Total Students"
+                            />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>

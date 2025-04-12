@@ -1,4 +1,3 @@
-import { toNestErrors } from "@hookform/resolvers";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -24,31 +23,72 @@ const InstructorList = () => {
         };
         fetchInstructors();
     }, []);
-    const handleInstructorDelete = async (studentId) => {
+
+    const handleInstructorDelete = async (instructorId) => {
         try {
             setLoading(true);
 
             const response = await axios.post("/api/profile/delete", {
-                studentId,
+                studentId: instructorId,
             });
 
             if (response.data.success) {
-                setInstructors((prev) => prev.filter((student) => student._id !== studentId));
-
+                setInstructors((prev) => prev.filter((ins) => ins._id !== instructorId));
                 toast.success("Instructor Deleted Successfully");
             } else {
-                throw new Error(response.data.message || "Failed to delete student");
+                throw new Error(response.data.message || "Failed to delete instructor");
             }
         } catch (error) {
-            console.error("Error deleting student:", error);
+            console.error("Error deleting instructor:", error);
         } finally {
             setLoading(false);
         }
     };
 
+    const handleDownloadCSV = () => {
+        if (!instructors || instructors.length === 0) {
+            alert("No instructor data to export");
+            return;
+        }
+
+        const headers = ["Username", "Email", "Courses", "Prices", "Total Students"];
+
+        const rows = instructors.map((instructor) => {
+            const courseTitles = instructor.courses.map((c) => c.title).join(" | ");
+            const coursePrices = instructor.courses.map((c) => `₹${c.price}`).join(" | ");
+            const totalStudents = instructor.courses
+                .map((c) => c.studentsEnrolled?.length || 0)
+                .reduce((a, b) => a + b, 0);
+
+            return [instructor.username, instructor.email, courseTitles, coursePrices, totalStudents];
+        });
+
+        const csvContent = [headers, ...rows]
+            .map((row) => row.map((cell) => `"${cell}"`).join(","))
+            .join("\n");
+
+        const utf8Bom = "\uFEFF";
+        const blob = new Blob([utf8Bom + csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "instructors.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
     return (
         <div className="p-6 min-h-screen">
-            <h2 className="text-xl font-bold text-black mb-6">All Instructors</h2>
+            <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold text-black">All Instructors</h2>
+                <button
+                    onClick={handleDownloadCSV}
+                    className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                >
+                    Download CSV
+                </button>
+            </div>
 
             {instructors.length === 0 ? (
                 <p className="text-sm font-medium text-gray-400">No instructors found</p>
