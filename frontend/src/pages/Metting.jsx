@@ -66,8 +66,8 @@ export default function VideoCall() {
             return;
         }
 
-        const appID = 946035114;
-        const serverSecret = "f5921bfcb9139493f5538d775e6dccff";
+        const appID = 1159146478;
+        const serverSecret = "12a8b4f3d7705c31ab290ce356736849";
         const userId = "user-" + Math.floor(Math.random() * 100000);
         const userName = `User-${userId}`;
 
