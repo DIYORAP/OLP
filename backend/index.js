@@ -54,7 +54,9 @@ cloudnairyconnect();
 app.listen(8000, () => {
     console.log(` is running at port : 8000`);
 })
-
+app.get('/', (req, res) => {
+    res.send('API is running...');
+});
 
 app.use('/api/auth', authRouter);
 app.use('/api/courses',courseRoute);
